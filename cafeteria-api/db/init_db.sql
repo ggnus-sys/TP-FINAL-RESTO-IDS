@@ -1,8 +1,21 @@
 CREATE DATABASE IF NOT EXISTS KAIFER_DB;
 USE KAIFER_DB;
 
-
+DROP TABLE IF EXISTS resenas;
+DROP TABLE IF EXISTS reservas;
+DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS usuarios;
+
+
+CREATE TABLE IF NOT EXISTS menu(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    plato VARCHAR(100) NOT NULL,
+    precio INT NOT NULL,
+    descripcion VARCHAR(150) NOT NULL,
+    restricciones_alimenticias SET ('vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten') NOT NULL  
+);
+
 
 CREATE TABLE IF NOT EXISTS usuarios (
 
@@ -15,9 +28,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 
 
-DROP TABLE IF EXISTS reseñas;
-
-CREATE TABLE IF NOT EXISTS reseñas(
+CREATE TABLE IF NOT EXISTS resenas(
     id INT AUTO_INCREMENT PRIMARY KEY,
     contenido VARCHAR(200) NOT NULL,
     estrellas INT CHECK (estrellas BETWEEN 1 AND 5) NOT NULL,
@@ -27,15 +38,12 @@ CREATE TABLE IF NOT EXISTS reseñas(
 );
 
 
-DROP TABLE IF EXISTS reservas;
-
 CREATE TABLE IF NOT EXISTS reservas (
-    id             INT          AUTO_INCREMENT PRIMARY KEY,
-    cliente        INT          NOT NULL,   
-    mesas          INT          NOT NULL NOT NULL CHECK (mesas BETWEEN 1 AND 30), -- maximo supuesto de 30 por el moemnto
-    created_at      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
-    fecha_reserva  DATE         NOT NULL,
-    calificacion   INT          NOT NULL CHECK (calificacion BETWEEN 1 AND 5),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente INT NOT NULL,   
+    mesas INT NOT NULL CHECK (mesas BETWEEN 1 AND 30), -- maximo supuesto de 30 por el moemnto
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_reserva DATE NOT NULL,
     estado_reserva ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL DEFAULT 'pendiente',
-    FOREIGN KEY (cliente)        REFERENCES usuarios(id)   ON DELETE CASCADE,
+    FOREIGN KEY (cliente) REFERENCES usuarios(id) ON DELETE CASCADE
 );
