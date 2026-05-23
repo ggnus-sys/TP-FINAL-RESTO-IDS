@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS KAIFER_DB;
+USE KAIFER_DB;
+
+
 DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -9,6 +13,19 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email VARCHAR(100) NOT NULL UNIQUE,
     rol ENUM('admin', 'cliente') NOT NULL DEFAULT 'cliente'
 );
+
+
+DROP TABLE IF EXISTS reseñas;
+
+CREATE TABLE IF NOT EXISTS reseñas(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contenido VARCHAR(200) NOT NULL,
+    estrellas INT CHECK (estrellas BETWEEN 1 AND 5) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
 
 DROP TABLE IF EXISTS reservas;
 
