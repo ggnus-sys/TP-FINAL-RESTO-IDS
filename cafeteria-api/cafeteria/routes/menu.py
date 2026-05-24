@@ -107,10 +107,10 @@ def agregar_platos_menu():
             }), codigo
 
 
-        plato = datos["plato"]
+        plato = datos["plato"].strip
         precio = datos["precio"]
-        descripcion = datos["descripcion"]
-        restriccion = datos["restriccion_alimenticia"]
+        descripcion = datos["descripcion"].strip
+        restriccion = datos["restriccion_alimenticia"].strip
 
         conn = get_connection()
         cursor = conn.cursor()
@@ -141,6 +141,121 @@ def agregar_platos_menu():
             }), 500
 
 
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+@app.route('/<int:id>', methods=['PATCH'])
+def modificar_platos_menu(id):
+
+    conn = None
+    cursor = None
+
+    try:
+        data = request.json
+
+        if data is None:
+            return jsonify({"errors": [{"code": "400", "message": "El body no cumple con el formato JSON"}]}), 400
+
+        tipos_datos_validos = {
+            "plato": str,
+            "precio": int,
+            "descripcion": str,
+            "restriccion_alimenticia": str
+        }
+
+        for campo, valor in data.items():
+
+            if campo not in tipos_datos_validos:
+                return jsonify({"errors": [{"code": "400", "level": "error", "description": f"El campo {campo} no es válido", "message": "Campo invalido"}]}), 400
+
+            if not isinstance(valor, tipos_datos_validos[campo]):
+                return jsonify({"errors": [{"code": "400", "level": "error", "description": f"El campo '{campo}' debe ser de tipo {tipos_datos_validos[campo].__name__}", "message": "Tipo de dato invalido"}]}), 400
+
+
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM menu WHERE id = %s", (id, ))
+        if not cursor.fetchone():
+
+            return jsonify({
+            "errors": [{ 
+                "code": "404",
+                "level": "error",
+                "message": "Plato a modificar no encontrado",
+                "description": f"El plato cuyo ID es: {id} no existe en la base de datos."
+            }]
+            }), 404
+        
+        campos = []
+        valores = []
+
+        for campo, valor in data.items():
+            campos.append(f"{campo} = %s")
+            valores.append(valor)
+        
+        valores.append(id)
+
+        if campos:
+            query = "UPDATE menu SET " + ", ".join(campos) + " WHERE id = %s"
+        
+        cursor.execute(query, valores)
+        conn.commit()
+
+        return '', 204
+    
+    except Exception as error_interno:
+        return jsonify({
+            "errors": [{
+                "code": "500",
+                "message": "Error interno del servidor",
+                "level": "error",
+                "description": str(error_interno)
+            }]
+        }), 500
+    
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+@app.route('/menu/<int:id>', methods=['DELETE'])
+def borrar_plato_menu(id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM menu WHERE id = %s", (id,))
+        if not cursor.fetchone():
+            return jsonify({
+                "errors": [{
+                    "code": "404",
+                    "message": "Plato no encontrado",
+                    "level": "error",
+                    "description": f"No existe un plato con id {id}"
+                }]
+            }), 404
+
+        cursor.execute("DELETE FROM menu WHERE id = %s", (id,))
+        conn.commit()
+        return "", 204
+
+    except Exception as error_interno:
+        return jsonify({
+            "errors": [{
+                "code": "500",
+                "message": "Error interno del servidor",
+                "level": "error",
+                "description": str(error_interno)
+            }]
+        }), 500
     finally:
         if cursor:
             cursor.close()
