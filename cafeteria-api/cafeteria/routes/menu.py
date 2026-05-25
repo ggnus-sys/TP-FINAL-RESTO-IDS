@@ -12,7 +12,7 @@ def validar_body_menu(cuerpo):
     plato = cuerpo.get("plato")
     precio = cuerpo.get("precio")
     descripcion = cuerpo.get("descripcion")
-    restriccion = cuerpo.get("restriccion_alimenticia")
+    restriccion = cuerpo.get("restricciones_alimenticias")
     
     if plato is None or precio is None or descripcion is None or restriccion is None:
         return "Faltan campos por asignar",400
@@ -25,10 +25,26 @@ def validar_body_menu(cuerpo):
 @menu_bp.route('/menu', methods=['GET'])
 def buscar_platos_menu():
 
-    RESTRICCIONES = ["vegano", "celiaco", "vegetariano"] 
+    RESTRICCIONES = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten'] 
 
-    nombre = request.args.get('nombre')
-    restriccion = request.args.get('restriccion')
+    id_plato = request.args.get('id', type=int) #me lo dan como string, lo convierto a integer 
+    nombre_plato = request.args.get('plato')
+    restriccion = request.args.get('restricciones_alimenticias')
+
+
+#verificaciones sin conexion a db
+
+    #ahora que id_plato es un integer
+    if id_plato is not None and id_plato <= 0:
+        return jsonify({
+            "errors": [{
+                "code": "400", 
+                "message": "Parámetro erróneo", 
+                "level": "error", 
+                "description": "El id debe ser un entero positivo."
+            }]
+        }), 400
+
 
     if (restriccion) and (restriccion not in RESTRICCIONES):
 
@@ -36,7 +52,7 @@ def buscar_platos_menu():
 
             "errors": [{
                 "code": "400",
-                "message": "Parámetro desconocido",
+                "message": "Parámetro erróneo",
                 "level" : "error",
                 "description": f"La restricción alimenticia '{restriccion}' no es válida para busqueda."
             }]
@@ -47,9 +63,13 @@ def buscar_platos_menu():
     filtros = []
     params = []
 
-    if nombre:
+    if id_plato:
+        filtros.append("id = %s")
+        params.append(id_plato)
+
+    if nombre_plato:
         filtros.append("plato LIKE %s")
-        params.append(f"%{nombre}%")      # %pizza% → contiene "pizza" sintaxis SQL
+        params.append(f"%{nombre_plato}%")      # %pizza% → contiene "pizza" sintaxis SQL
 
     if restriccion:
         filtros.append("restricciones_alimenticias = %s")
@@ -61,24 +81,43 @@ def buscar_platos_menu():
 
     conn = None
     cursor = None
+
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute(query, params)
         resultado = cursor.fetchall()
-        if (not resultado) and (nombre): 
+
+        if (not resultado) and (id_plato or nombre_plato or restriccion): 
+
+            descripcion = []
+            if nombre_plato:
+                descripcion.append(f"plato '{nombre_plato}'")
+            if restriccion:
+                descripcion.append(f"restricción '{restriccion}'")
+            if id_plato:
+                descripcion.append(f"id '{id_plato}'")
+
             return jsonify({
                 "errors": [{
-                    "code": "404", 
-                    "message": "Plato no encontrado", 
-                    "level" : "error",
-                    "description": f"No hay registros del menu para el plato '{nombre}'."
+                    "code": "404",
+                    "message": "Plato no encontrado",
+                    "level": "error",
+                    "description": f"No hay registros del menu para: {', '.join(descripcion)}." #error personalizado segun que filtros se usaron
                 }]
             }), 404
 
         return jsonify(resultado), 200 
+    
     except Exception as error_interno:
-        return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(error_interno)}]}), 500
+        return jsonify({
+            "errors": [{
+                "code": "500", 
+                "message": "Error interno del servidor", 
+                "level": "error", 
+                "description": str(error_interno)
+            }]
+        }), 500
 
     finally:
         if cursor:
@@ -107,10 +146,10 @@ def agregar_platos_menu():
             }), codigo
 
 
-        plato = datos["plato"].strip
+        plato = datos["plato"].strip()
         precio = datos["precio"]
-        descripcion = datos["descripcion"].strip
-        restriccion = datos["restriccion_alimenticia"].strip
+        descripcion = datos["descripcion"].strip()
+        restriccion = datos["restricciones_alimenticias"].strip()
 
         conn = get_connection()
         cursor = conn.cursor()
@@ -157,22 +196,41 @@ def modificar_platos_menu(id):
         data = request.json
 
         if data is None:
-            return jsonify({"errors": [{"code": "400", "message": "El body no cumple con el formato JSON"}]}), 400
+            return jsonify({
+                "errors": [{
+                    "code": "400", 
+                    "message": "El body no cumple con el formato JSON"
+                }]
+            }), 400
 
         tipos_datos_validos = {
             "plato": str,
             "precio": int,
             "descripcion": str,
-            "restriccion_alimenticia": str
+            "restricciones_alimenticias": str
         }
 
-        for campo, valor in data.items():
+        for campo, valor in data.items(): #verifico que se respete tanto el campo (su nombre) como el tipo de dato (su valor)
 
             if campo not in tipos_datos_validos:
-                return jsonify({"errors": [{"code": "400", "level": "error", "description": f"El campo {campo} no es válido", "message": "Campo invalido"}]}), 400
+                return jsonify({
+                    "errors": [{
+                        "code": "400", 
+                        "level": "error", 
+                        "description": f"El campo {campo} no es válido", 
+                        "message": "Campo invalido"
+                    }]
+                }), 400
 
             if not isinstance(valor, tipos_datos_validos[campo]):
-                return jsonify({"errors": [{"code": "400", "level": "error", "description": f"El campo '{campo}' debe ser de tipo {tipos_datos_validos[campo].__name__}", "message": "Tipo de dato invalido"}]}), 400
+                return jsonify({
+                    "errors": [{
+                        "code": "400", 
+                        "level": "error", 
+                        "description": f"El campo '{campo}' debe ser de tipo {tipos_datos_validos[campo].__name__}", 
+                        "message": "Tipo de dato invalido"
+                    }]
+                }), 400
 
 
         conn = get_connection()
