@@ -1,8 +1,10 @@
-from flask import Flask, request, jsonify
-from db import get_connection
+from flask import Blueprint, Flask, request, jsonify
+from ..db import get_connection
 
 
-@app.route('/resenas', methods=['GET'] )
+reviews_bp = Blueprint('reviews_bp', __name__)
+
+@reviews_bp.route('/resenas', methods=['GET'] )
 def listar_resenas():
     try:
         conn = get_connection()
@@ -27,7 +29,7 @@ def listar_resenas():
         if conn:
             conn.close()
 
-@app.route('/resenas/<int:id>', methods=['GET'])
+@reviews_bp.route('/resenas/<int:id>', methods=['GET'])
 def filtrar_resenas(id):
     try:
         conn = get_connection()
@@ -49,7 +51,7 @@ def filtrar_resenas(id):
 
 
 
-@app.route('/resenas', methods=['POST'])
+@reviews_bp.route('/resenas', methods=['POST'])
 def crear_resena():
     try:
         datos = request.get_json()
@@ -82,7 +84,7 @@ def crear_resena():
 
 
 
-@app.route('/resenas/<int:id_resena>', methods=['DELETE'])
+@reviews_bp.route('/resenas/<int:id_resena>', methods=['DELETE'])
 def eliminar_resena(id_resena):
     try:
         conn = get_connection()
@@ -105,7 +107,7 @@ def eliminar_resena(id_resena):
             conn.close()
 
 
-@app.route('/resenas/<int:id_resena>',methods=['PATCH'])
+@reviews_bp.route('/resenas/<int:id_resena>',methods=['PATCH'])
 def actualizar_resena(id_resena):
     try:
         datos = request.get_json()

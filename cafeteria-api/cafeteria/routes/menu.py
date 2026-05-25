@@ -1,8 +1,8 @@
 
-from flask import Flask,jsonify,request
-from db import get_connection
+from flask import Flask,jsonify,request, Blueprint
+from ..db import get_connection
 
-
+menu_bp = Blueprint('menu_bp', __name__)
 
 def validar_body_menu(cuerpo):
 
@@ -22,7 +22,7 @@ def validar_body_menu(cuerpo):
 
     return None, None
 
-@app.route('/menu', methods=['GET'])
+@menu_bp.route('/menu', methods=['GET'])
 def buscar_platos_menu():
 
     RESTRICCIONES = ["vegano", "celiaco", "vegetariano"] 
@@ -86,7 +86,7 @@ def buscar_platos_menu():
         if conn:
             conn.close()
 
-@app.route('/menu', methods=['POST'])
+@menu_bp.route('/menu', methods=['POST'])
 def agregar_platos_menu():
     
     conn = None
@@ -147,7 +147,7 @@ def agregar_platos_menu():
         if conn:
             conn.close()
 
-@app.route('/<int:id>', methods=['PATCH'])
+@menu_bp.route('/<int:id>', methods=['PATCH'])
 def modificar_platos_menu(id):
 
     conn = None
@@ -223,7 +223,7 @@ def modificar_platos_menu(id):
         if conn:
             conn.close()
 
-@app.route('/menu/<int:id>', methods=['DELETE'])
+@menu_bp.route('/menu/<int:id>', methods=['DELETE'])
 def borrar_plato_menu(id):
     conn = None
     cursor = None
