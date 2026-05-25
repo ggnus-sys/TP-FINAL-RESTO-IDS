@@ -1,0 +1,41 @@
+services:
+
+  backend:
+    build: .
+    container_name: cafeteria-api-container
+    environment:
+      DB_HOST: mysql
+      DB_PORT: ${DB_PORT:-3306}
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-kaifer_db}
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    image: mysql:8
+    container_name: cafeteria_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_NAME:-kaifer_db}
+    expose:
+      - 3306
+      - 33060
+    healthcheck:  
+      test: ["CMD-SHELL", "mysql -h localhost -u root -p$$MYSQL_ROOT_PASSWORD -e 'SELECT 1 FROM information_schema.SCHEMATA WHERE SCHEMA_NAME=\"kaifer_db\"'"]  
+      interval: 5s        # Check every 5 seconds  
+      timeout: 5s         # Fail if command takes >5s  
+      retries: 5          # Mark as unhealthy after 5 failures  
+      start_period: 10s   # Wait 10s before first check (MySQL needs time to start)  
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+      - ./db/my.cnf:/etc/mysql/my.cnf
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
