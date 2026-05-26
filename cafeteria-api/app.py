@@ -5,6 +5,7 @@ from cafeteria.constants import BASE_URL
 from cafeteria.routes.bookings import bookings_bp
 from cafeteria.routes.menu import menu_bp
 from cafeteria.routes.reviews import reviews_bp
+from cafeteria.routes.usuarios import usuarios_bp
 
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(name)s - %(message)s')
 
@@ -17,6 +18,7 @@ CORS(app)
 app.register_blueprint(bookings_bp, url_prefix=BASE_URL)
 app.register_blueprint(menu_bp, url_prefix=BASE_URL)
 app.register_blueprint(reviews_bp, url_prefix=BASE_URL)
+app.register_blueprint(usuarios_bp, url_prefix=BASE_URL)
 
 if __name__ == '__main__':
     app.run(debug=True, host = "0.0.0.0", port=5000)
