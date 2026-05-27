@@ -1,6 +1,6 @@
 from flask import Blueprint, Flask, request, jsonify
 from ..db import get_connection
-
+from ..validators.reviews import validar_body_resena_post, validar_body_resena_patch
 
 reviews_bp = Blueprint('reviews_bp', __name__)
 
@@ -55,22 +55,18 @@ def filtrar_resenas(id):
 def crear_resena():
     try:
         datos = request.get_json()
-        if datos is None:
-            return jsonify({"errors": [{"code": "400", "message": "Datos inválidos"}]}), 400
+        error, codigo = validar_body_resena_post(datos)
+        if error:
+            return jsonify({"errors": [{"message": error}]}), codigo
         contenido = datos.get("contenido")
         estrellas = datos.get("estrellas")
         id_usuario = datos.get("id_usuario")
-        if not contenido or not estrellas or not id_usuario:
-            return jsonify({"errors":[{"code": 400, "message":"Datos insuficientes", "level": "error", "description": "Faltan datos"}]})
-        if estrellas not in range (1,6):
-            return jsonify({"errors": [{"code": "400", "message": "Las estrellas deben ser entre 1 y 5"}]}), 400
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM usuarios WHERE id = %s", (id_usuario,))
         usuario = cursor.fetchone()
         if usuario is None:
             return jsonify({"errors": [{"code": "404", "message": "El usuario no existe"}]}), 404
-        
         cursor.execute("INSERT INTO resenas (contenido, estrellas, id_usuario) VALUES (%s,%s,%s)",(contenido, estrellas, id_usuario))
         conn.commit()
         return "",201
@@ -111,8 +107,9 @@ def eliminar_resena(id_resena):
 def actualizar_resena(id_resena):
     try:
         datos = request.get_json()
-        if datos is None:
-            return jsonify({"error": "Datos inválidos"}), 400
+        error, codigo = validar_body_resena_patch(datos)
+        if error:
+            return jsonify({"errors": [{"message": error}]}), codigo
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM resenas WHERE id = %s", (id_resena,))
