@@ -1,4 +1,4 @@
-from constants import EMAIL_REGEX, ROLES_VALIDOS
+from ..constants import EMAIL_REGEX, ROLES_VALIDOS
 
 #validación del tp anterior, devuelve (None, None) si anda todo bien. Si no, (mensaje, error)
 def validar_body_usuario(body):
