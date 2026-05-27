@@ -1,4 +1,4 @@
-import os
+import os, re
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,6 +8,12 @@ BASE_URL = '/kaifer-api'
 
 # Formato de fecha esperado por la API
 FORMATO_FECHA = '%Y-%m-%d'
+
+#Validación mail
+EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
+
+#Roles de usuario
+ROLES_VALIDOS = ("admin","cliente")
 
 # Reglas de dominio
 MIN_CALIFICACION = 1

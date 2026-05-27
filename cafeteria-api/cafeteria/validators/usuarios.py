@@ -1,10 +1,4 @@
-import re
-
-#esto tal vez debería estar en constants
-ROLES_VALIDOS = ("admin","cliente")
-#del prode, validacion mail
-EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
-
+from constants import EMAIL_REGEX, ROLES_VALIDOS
 
 #validación del tp anterior, devuelve (None, None) si anda todo bien. Si no, (mensaje, error)
 def validar_body_usuario(body):
