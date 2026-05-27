@@ -1,63 +1,50 @@
 
 from flask import Flask,jsonify,request, Blueprint
 from ..db import get_connection
+from ..validators.menu import validar_body_menu
 
 menu_bp = Blueprint('menu_bp', __name__)
 
-def validar_body_menu(cuerpo):
-
-    if cuerpo is None:
-        return "El body no cumple con el formato JSON", 400
-
-    plato = cuerpo.get("plato")
-    precio = cuerpo.get("precio")
-    descripcion = cuerpo.get("descripcion")
-    restriccion = cuerpo.get("restricciones_alimenticias")
-    
-    if plato is None or precio is None or descripcion is None or restriccion is None:
-        return "Faltan campos por asignar",400
-
-    if (not isinstance(plato,str)) or (not isinstance(precio,int)) or (precio <= 0) or (not isinstance(descripcion,str)) or (not isinstance(restriccion,str)):
-        return "El nombre del plato, su descripción y la restricción alimenticia (si abarca alguna) deben ser de tipo string. El precio debe ser de tipo integer y mayor a 0",400
-
-    return None, None
-
-@menu_bp.route('/menu', methods=['GET'])
+@menu_bp.route('/', methods=['GET'])
 def buscar_platos_menu():
 
-    RESTRICCIONES = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten'] 
+    RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
 
-    id_plato = request.args.get('id', type=int) #me lo dan como string, lo convierto a integer 
+    id_plato_base = request.args.get('id') #me lo dan como string, lo convierto a integer 
+    id_plato = None 
     nombre_plato = request.args.get('plato')
-    restriccion = request.args.get('restricciones_alimenticias')
-
+    restricciones = request.args.getlist('restricciones_alimenticias')
+    
 
 #verificaciones sin conexion a db
 
-    #ahora que id_plato es un integer
-    if id_plato is not None and id_plato <= 0:
-        return jsonify({
-            "errors": [{
-                "code": "400", 
-                "message": "Parámetro erróneo", 
-                "level": "error", 
-                "description": "El id debe ser un entero positivo."
-            }]
-        }), 400
+    if id_plato_base is not None:
+        try:
+            id_plato = int(id_plato_base)
+        except ValueError:
+            return jsonify({
+                "errors": [{
+                    "code": "400", 
+                    "message": "Parámetro erróneo", 
+                    "level": "error", 
+                    "description": "El id debe ser un entero."
+                }]
+            }), 400
 
+        if id_plato <= 0:
+            return jsonify({
+                "errors": [{
+                    "code": "400", 
+                    "message": "Parámetro erróneo", 
+                    "level": "error", 
+                    "description": "El id debe ser un entero positivo."
+                }]
+            }), 400
 
-    if (restriccion) and (restriccion not in RESTRICCIONES):
-
-        return jsonify({
-
-            "errors": [{
-                "code": "400",
-                "message": "Parámetro erróneo",
-                "level" : "error",
-                "description": f"La restricción alimenticia '{restriccion}' no es válida para busqueda."
-            }]
-        }), 400
-
+    if restricciones: 
+        for restriccion in restricciones:
+            if restriccion not in RESTRICCIONES_VALIDAS:
+                return jsonify({"errors": [{"code": "400", "message": "Parámetro erróneo", "level": "error", "description": f"La restricción '{restriccion}' no es válida."}]}), 400
 
     query = "SELECT * FROM menu"
     filtros = []
@@ -71,9 +58,9 @@ def buscar_platos_menu():
         filtros.append("plato LIKE %s")
         params.append(f"%{nombre_plato}%")      # %pizza% → contiene "pizza" sintaxis SQL
 
-    if restriccion:
-        filtros.append("restricciones_alimenticias = %s")
-        params.append(restriccion)         
+    for restriccion in restricciones:
+        filtros.append("FIND_IN_SET(%s, restricciones_alimenticias)")
+        params.append(restriccion)
 
     if filtros:
         query += " WHERE " + " AND ".join(filtros) 
@@ -85,31 +72,48 @@ def buscar_platos_menu():
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
+        print(query, params)
         cursor.execute(query, params)
         resultado = cursor.fetchall()
+        
+        resultado_formateado = []
 
-        if (not resultado) and (id_plato or nombre_plato or restriccion): 
+        for fila in resultado:
+            if isinstance(fila.get('restricciones_alimenticias'), set): #como restricciones_alimenticias es tipo dato set, lo convertimos a un string con elemntos unidos por "," para que pueda se le pueda aplicar jsonify
+                fila['restricciones_alimenticias'] = ",".join(fila['restricciones_alimenticias'])
 
-            descripcion = []
+            resultado_formateado.append({
+                "id": fila["id"],
+                "plato": fila["plato"],
+                "precio": fila["precio"],
+                "descripcion": fila["descripcion"],
+                "restricciones_alimenticias": fila["restricciones_alimenticias"]
+            })
+
+        if (not resultado) and (id_plato or nombre_plato or restricciones): 
+
+            descripcion_error = []
             if nombre_plato:
-                descripcion.append(f"plato '{nombre_plato}'")
-            if restriccion:
-                descripcion.append(f"restricción '{restriccion}'")
+                descripcion_error.append(f"plato '{nombre_plato}'")
+            if restricciones:
+                descripcion_error.append(f"restricciones '{','.join(restricciones)}'")
             if id_plato:
-                descripcion.append(f"id '{id_plato}'")
+                descripcion_error.append(f"id '{id_plato}'")
 
             return jsonify({
                 "errors": [{
                     "code": "404",
                     "message": "Plato no encontrado",
                     "level": "error",
-                    "description": f"No hay registros del menu para: {', '.join(descripcion)}." #error personalizado segun que filtros se usaron
+                    "description": f"No hay registros del menu para: {', '.join(descripcion_error)}." #error personalizado segun que filtros se usaron
                 }]
             }), 404
-
-        return jsonify(resultado), 200 
+        
+        print(type(resultado), resultado)
+        return jsonify(resultado_formateado), 200 
     
     except Exception as error_interno:
+        print(type(error_interno), str(error_interno))
         return jsonify({
             "errors": [{
                 "code": "500", 
@@ -125,13 +129,16 @@ def buscar_platos_menu():
         if conn:
             conn.close()
 
-@menu_bp.route('/menu', methods=['POST'])
+@menu_bp.route('/', methods=['POST'])
 def agregar_platos_menu():
     
+    RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
+
     conn = None
     cursor = None
+
     try:
-        datos = request.json
+        datos = (request.json)
 
         error, codigo = validar_body_menu(datos)
 
@@ -149,10 +156,22 @@ def agregar_platos_menu():
         plato = datos["plato"].strip()
         precio = datos["precio"]
         descripcion = datos["descripcion"].strip()
-        restriccion = datos["restricciones_alimenticias"].strip()
+        restriccion = datos["restricciones_alimenticias"].replace(" ", "") #deja el set como estaba, solo elimina los espacios que haya entre las comas y los elementos
+        restricciones_ingresadas = restriccion.split(",") #crea una lista separando los elementos del set mediante ","
+
+        for r in restricciones_ingresadas:
+            if r not in RESTRICCIONES_VALIDAS:
+                return jsonify({
+                    "errors": [{
+                        "code": "400",
+                        "level": "error",
+                        "message": "Restricción inválida",
+                        "description": f"La restricción '{r}' no es válida."
+                    }]
+                }), 400
 
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary = True)
         
         cursor.execute("SELECT id FROM menu WHERE plato = %s", (plato,))
 
@@ -165,11 +184,12 @@ def agregar_platos_menu():
                 "description": f"Ya existe un plato con el nombre {plato}"}]
             }),409
         
-        cursor.execute("INSERT INTO menu (plato, precio, descripcion, restriccion) VALUES (%s,%s,%s,%s)", (plato, precio, descripcion, restriccion))
+        cursor.execute("INSERT INTO menu (plato, precio, descripcion, restricciones_alimenticias) VALUES (%s,%s,%s,%s)", (plato, precio, descripcion, restriccion))
         conn.commit()
         return "",201
 
     except Exception as error_interno:
+            print(type(error_interno), error_interno)
             return jsonify({
                 "errors": [{
                     "code": "500",
@@ -189,13 +209,16 @@ def agregar_platos_menu():
 @menu_bp.route('/<int:id>', methods=['PATCH'])
 def modificar_platos_menu(id):
 
+    RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
+
     conn = None
     cursor = None
 
-    try:
-        data = request.json
 
-        if data is None:
+    try:
+        datos = request.get_json(silent=True) #si no se puede convertir a json, devuelve None 
+
+        if datos is None:
             return jsonify({
                 "errors": [{
                     "code": "400", 
@@ -210,7 +233,7 @@ def modificar_platos_menu(id):
             "restricciones_alimenticias": str
         }
 
-        for campo, valor in data.items(): #verifico que se respete tanto el campo (su nombre) como el tipo de dato (su valor)
+        for campo, valor in datos.items(): #verifico que se respete tanto el campo (su nombre) como el tipo de dato (su valor)
 
             if campo not in tipos_datos_validos:
                 return jsonify({
@@ -231,10 +254,19 @@ def modificar_platos_menu(id):
                         "message": "Tipo de dato invalido"
                     }]
                 }), 400
-
+            
+            if campo == "precio" and valor <= 0:
+                return jsonify({
+                    "errors": [{
+                        "code": "400",
+                        "level": "error",
+                        "message": "Precio inválido",
+                        "description": "El precio debe ser mayor a 0."
+                    }]
+                }), 400
 
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary = True)
 
         cursor.execute("SELECT id FROM menu WHERE id = %s", (id, ))
         if not cursor.fetchone():
@@ -251,15 +283,32 @@ def modificar_platos_menu(id):
         campos = []
         valores = []
 
-        for campo, valor in data.items():
+        for campo, valor in datos.items():
+
+            if campo == "restricciones_alimenticias":
+                valor = valor.replace(" ", "")
+                restricciones_ingresadas = valor.split(",")#guarda en una lista los elementos (separados por ",") del set restricciones_alimenticias
+                for r in restricciones_ingresadas:
+                    if r not in RESTRICCIONES_VALIDAS:
+                        return jsonify({
+                            "errors": [{
+                                "code": "400",
+                                "level": "error",
+                                "message": "Restricción inválida",
+                                "description": f"La restricción '{r}' no es válida."
+                            }]
+                        }), 400
+                    
             campos.append(f"{campo} = %s")
             valores.append(valor)
-        
+            
         valores.append(id)
+                        
 
         if campos:
-            query = "UPDATE menu SET " + ", ".join(campos) + " WHERE id = %s"
+            query = "UPDATE menu SET " + ",".join(campos) + " WHERE id = %s"
         
+        print(query, valores)
         cursor.execute(query, valores)
         conn.commit()
 
@@ -281,14 +330,24 @@ def modificar_platos_menu(id):
         if conn:
             conn.close()
 
-@menu_bp.route('/menu/<int:id>', methods=['DELETE'])
+@menu_bp.route('/<int:id>', methods=['DELETE'])
 def borrar_plato_menu(id):
     conn = None
     cursor = None
 
+    if id == 0:
+        return jsonify({
+            "errors": [{
+                "code": "400",
+                "message": "Parámetro erróneo o faltante",
+                "level": "error",
+                "description": "El id ingresado debe ser mayor estricto a 0"
+            }]
+        }), 400
+
     try:
         conn = get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary = True)
 
         cursor.execute("SELECT id FROM menu WHERE id = %s", (id,))
         if not cursor.fetchone():
@@ -314,6 +373,7 @@ def borrar_plato_menu(id):
                 "description": str(error_interno)
             }]
         }), 500
+    
     finally:
         if cursor:
             cursor.close()
