@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, text
-from .constants import DB_URL
+from .constants import DB_URL, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 import mysql.connector
 # Motor de conexion compartido por toda la aplicacion.
 # El pool de conexiones lo maneja SQLAlchemy automaticamente.
@@ -9,10 +9,11 @@ motor = create_engine(DB_URL, pool_pre_ping=True)
 
 def get_connection():
     return mysql.connector.connect(
-        host="mysql",
-        user="root",
-        password="root",
-        database="kaifer_db"
+        host=DB_HOST,
+        port=DB_PORT,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME
     )
 
 # ---------------------------------------------------------------
