@@ -33,10 +33,10 @@ CREATE TABLE resenas(
 
 CREATE TABLE reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente INT NOT NULL,   
+    id_usuario INT NOT NULL,   
     mesas INT NOT NULL CHECK (mesas BETWEEN 1 AND 30), -- maximo supuesto de 30 por el moemnto
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_reserva DATE NOT NULL,
     estado_reserva ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL DEFAULT 'pendiente',
-    FOREIGN KEY (cliente) REFERENCES usuarios(id) ON DELETE CASCADE
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );

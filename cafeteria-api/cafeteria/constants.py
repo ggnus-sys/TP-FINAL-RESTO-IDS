@@ -15,6 +15,9 @@ EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
 #Roles de usuario
 ROLES_VALIDOS = ("admin","cliente")
 
+#Estados de reserva
+ESTADOS_VALIDOS = {'pendiente','confirmada','cancelada'}
+
 # Reglas de dominio
 MIN_CALIFICACION = 1
 MAX_CALIFICACION = 5
