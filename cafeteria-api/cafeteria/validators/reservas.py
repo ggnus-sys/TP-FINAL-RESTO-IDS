@@ -3,15 +3,15 @@ from ..constants import FORMATO_FECHA, ESTADOS_VALIDOS
 
 def validar_body_reserva(body):
     if body is None:
-        return "El body debe ser un JSON válido", 404
+        return "El body debe ser un JSON válido", 400
     
     id_usuario = body.get("id_usuario")
     mesas = body.get("mesas")
     fecha_reserva = body.get("fecha_reserva")
-    estado_reserva = body.get("estado_reserva", "pendiente")
+    estado_reserva = body.get("estado_reserva", "pendiente").strip()
 
 
-    if not id_usuario or not mesas or not fecha_reserva or not estado_reserva:
+    if id_usuario is None or mesas is None or fecha_reserva is None or estado_reserva is None:
         return "Hacen falta campos obligatorios", 400
 
     try:
@@ -22,7 +22,7 @@ def validar_body_reserva(body):
     
 
     if not isinstance(id_usuario, int) or not isinstance(mesas, int) or not isinstance(fecha_reserva, date) or not isinstance(estado_reserva, str):
-        return f"El id del usuario y la cantidad de meses deben ser numeros enteros, la fecha de reserva una fecha con formato YYYY-MM-DD y el estado de la reserva un string", 400
+        return f"El id del usuario y la cantidad de mesas deben ser numeros enteros, la fecha de reserva una fecha con formato YYYY-MM-DD y el estado de la reserva un string", 400
         
     if mesas < 1 or mesas > 30:
         return "La cantidad de mesas es invalida",400

@@ -1,6 +1,6 @@
 from ..db import get_connection
 
-def construir_reserva(reserva):
+def mensaje_reserva(reserva):
     return {
         'id':   reserva['id'],
         'id_usuario':   reserva['id_usuario'],
@@ -20,7 +20,7 @@ def listar_reservas():
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM reservas")
         reservas = cursor.fetchall()
-        return [construir_reserva(reserva) for reserva in reservas]
+        return [mensaje_reserva(reserva) for reserva in reservas]
     
     finally:
         if cursor:
@@ -55,4 +55,28 @@ def crear_reserva(datos):
         if cursor:
             cursor.close()
         if conn:
+            conn.close()
+
+
+
+def quitar_reserva(id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT id FROM reservas WHERE id = %s", (id,))
+
+        if not cursor.fetchone():
+            raise ValueError(f"No existe una reserva con id {id}", 404)
+
+        cursor.execute("DELETE FROM reservas WHERE id = %s", (id,))
+        conn.commit()
+
+    finally:
+        if cursor: 
+            cursor.close()
+        if conn: 
             conn.close()
