@@ -71,7 +71,6 @@ def buscar_platos_menu():
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
-        print(query, params)
         cursor.execute(query, params)
         resultado = cursor.fetchall()
         
@@ -108,11 +107,9 @@ def buscar_platos_menu():
                 }]
             }), 404
         
-        print(type(resultado), resultado)
         return jsonify(resultado_formateado), 200 
     
     except Exception as error_interno:
-        print(type(error_interno), str(error_interno))
         return jsonify({
             "errors": [{
                 "code": "500", 
@@ -188,7 +185,6 @@ def agregar_platos_menu():
         return "",201
 
     except Exception as error_interno:
-            print(type(error_interno), error_interno)
             return jsonify({
                 "errors": [{
                     "code": "500",
@@ -307,7 +303,6 @@ def modificar_platos_menu(id):
         if campos:
             query = "UPDATE menu SET " + ",".join(campos) + " WHERE id = %s"
         
-        print(query, valores)
         cursor.execute(query, valores)
         conn.commit()
 
