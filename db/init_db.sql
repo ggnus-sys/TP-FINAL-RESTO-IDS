@@ -40,3 +40,6 @@ CREATE TABLE reservas (
     estado_reserva ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL DEFAULT 'pendiente',
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+
+INSERT INTO usuarios (nombre, apellido, contrasena, email, rol) VALUES
+('Gonzalo', 'Pereyra', '123', 'gg@gmail.com', 'cliente');

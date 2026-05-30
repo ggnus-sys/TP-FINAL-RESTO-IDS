@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from ..utils import validar_entero, validar_fecha_futura, validar_formato_fecha, validar_maximo, validar_minimo, validar_set, validar_string_no_vacio
 from ..constants import FORMATO_FECHA, ESTADOS_VALIDOS
 
 def validar_body_reserva(body):
@@ -10,25 +11,24 @@ def validar_body_reserva(body):
     fecha_reserva = body.get("fecha_reserva")
     estado_reserva = body.get("estado_reserva", "pendiente").strip()
 
-
-    if id_usuario is None or mesas is None or fecha_reserva is None or estado_reserva is None:
-        return "Hacen falta campos obligatorios", 400
-
     try:
-        fecha_reserva = datetime.strptime(fecha_reserva,FORMATO_FECHA).date()
+        validar_string_no_vacio(estado_reserva, "estado_reserva")
+        validar_string_no_vacio(mesas, "mesas")
+        validar_string_no_vacio(fecha_reserva, "fecha_reserva")
 
-    except ValueError:
-        return "Formato de fecha inválido (ejemplo de fecha correcta: '2026-08-18')", 400
-    
+        fecha_reserva = validar_formato_fecha(fecha_reserva, FORMATO_FECHA, "fecha_reserva")
+        validar_fecha_futura(fecha_reserva, datetime.now())
 
-    if not isinstance(id_usuario, int) or not isinstance(mesas, int) or not isinstance(fecha_reserva, date) or not isinstance(estado_reserva, str):
-        return f"El id del usuario y la cantidad de mesas deben ser numeros enteros, la fecha de reserva una fecha con formato YYYY-MM-DD y el estado de la reserva un string", 400
+        #solo compruebo los tipos de id_usuario y mesas, el tipo de fecha salta al validar formato y el estado_reserva se comprueba su tipo al validar que el string no este vacio
         
-    if mesas < 1 or mesas > 30:
-        return "La cantidad de mesas es invalida",400
+        validar_entero(id_usuario, "id_usuario")
+        validar_entero(mesas, "mesas")
 
-    if estado_reserva not in ESTADOS_VALIDOS:
-        return "Estado de reserva inválido",400
+        validar_minimo(mesas, 1, "mesas")    
+        validar_maximo(mesas, 30, "mesas")
 
+        validar_set(estado_reserva, ESTADOS_VALIDOS, "estado_reserva")
+    except ValueError as e:
+        return str(e), 400
 
     return None, None
