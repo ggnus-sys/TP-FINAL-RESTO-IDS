@@ -1,12 +1,12 @@
 FROM python:3.11.9
 
-WORKDIR /app
+WORKDIR /api
 
-COPY cafeteria-api/requirements.txt .
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY cafeteria-api/. .
+COPY . .
 
 ENV PORT=5000
 

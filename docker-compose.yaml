@@ -1,7 +1,13 @@
 services:
 
+  frontend:
+    build: ./cafeteria-web
+    container_name: cafeteria-web-container
+    ports:
+      - "5001:5001"
+
   backend:
-    build: .
+    build: ./cafeteria-api
     container_name: cafeteria-api-container
     environment:
       DB_HOST: mysql
