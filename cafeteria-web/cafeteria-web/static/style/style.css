@@ -16,11 +16,11 @@ body {
   font-size: 18px;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.3);
-  background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+  background: #0D0D0D url(../images/broken_noise.png) repeat;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   body {
-    background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+    background: #0D0D0D url(../images/broken_noise.png) repeat;
   }
 }
 
@@ -109,12 +109,12 @@ h1, h2, h3, h4, h5, h6, figure {
   }
 }
 .fh5co-nav.scrolled {
-  background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+  background: #0D0D0D url(../images/broken_noise.png) repeat;
   top: -82px;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .fh5co-nav.scrolled {
-    background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+    background: #0D0D0D url(../images/broken_noise.png) repeat;
   }
 }
 @media screen and (max-width: 480px) {
@@ -462,29 +462,10 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #fh5co-about .img-wrap img {
   margin-bottom: 30px;
-  max-width: 70%;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: 30px;
 }
 @media screen and (max-width: 992px) {
   #fh5co-about .img-wrap img {
     max-width: 100%;
-    margin: 0 auto;
-  }
-}
-
-/* Align the about image to the right and center it vertically within its column */
-#fh5co-about .img-wrap {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-@media screen and (max-width: 992px) {
-  #fh5co-about .img-wrap {
-    justify-content: center;
   }
 }
 
@@ -499,16 +480,6 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-featured-menu .fh5co-heading h2, #fh5co-gallery .fh5co-heading h2, #fh5co-reservation-form .fh5co-heading h2 {
   color: #fff;
   font-family: "Satisfy", cursive;
-}
-#fh5co-reservation-form .fh5co-heading h2 {
-  font-size: 42px;
-  line-height: 1.1;
-  margin-bottom: 15px;
-}
-#fh5co-reservation-form .fh5co-heading p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 30px;
-  margin-top: 10px;
 }
 #fh5co-featured-menu .fh5co-item-wrap, #fh5co-gallery .fh5co-item-wrap, #fh5co-reservation-form .fh5co-item-wrap {
   padding-left: 20px;
@@ -567,25 +538,10 @@ h1, h2, h3, h4, h5, h6, figure {
 
 #form-wrap {
   border: 4px solid rgba(255, 255, 255, 0.04);
-  padding: 40px;
-  max-width: 760px;
-  margin: 0 auto;
+  padding: 30px;
 }
 #form-wrap .form-group:last-child {
   margin-bottom: 0 !important;
-}
-#form-wrap label,
-#form-wrap .form-control,
-#form-wrap .custom_select,
-#form-wrap .btn {
-  font-size: 16px;
-}
-#form-wrap .form-control,
-#form-wrap .custom_select {
-  padding: 14px 15px;
-}
-#form-wrap .btn {
-  padding: 14px 26px;
 }
 
 #fh5co-featured-testimony {
@@ -605,16 +561,10 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-featured-testimony .img-to-responsive img {
   margin-bottom: 20px;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin-right: 30px;
 }
 @media screen and (max-width: 768px) {
   #fh5co-featured-testimony .img-to-responsive img {
     max-width: 100%;
-    margin: 0 auto 20px auto;
-    margin-right: 0;
   }
 }
 #fh5co-featured-testimony blockquote {
@@ -1365,7 +1315,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: absolute;
   z-index: 1901;
   width: 270px;
-  background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+  background: #0D0D0D url(../images/broken_noise.png) repeat;
   top: 0;
   right: 0;
   top: 0;
@@ -1384,7 +1334,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #fh5co-offcanvas {
-    background: #0D0D0D url(../images/broken_noise.jpg) repeat;
+    background: #0D0D0D url(../images/broken_noise.png) repeat;
   }
 }
 @media screen and (max-width: 768px) {
