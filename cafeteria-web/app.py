@@ -20,9 +20,9 @@ app.register_blueprint(reviews_bp)
 #app.register_blueprint(usuarios_bp)
 #app.register_blueprint(auth_bp) Si queremos hacer auth como en su ejemplo, tendremos que regisrar el blueprint
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+#@app.errorhandler(404)
+#def page_not_found(e):
+#    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True, host = "0.0.0.0", port=5001)

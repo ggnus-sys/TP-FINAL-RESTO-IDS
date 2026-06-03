@@ -43,3 +43,9 @@ CREATE TABLE reservas (
 
 INSERT INTO usuarios (nombre, apellido, contrasena, email, rol) VALUES
 ('Gonzalo', 'Pereyra', '123', 'gg@gmail.com', 'cliente');
+
+INSERT INTO menu (plato, precio, descripcion, restricciones_alimenticias) VALUES
+('Milanesa con papas fritas', 500, 'Milanesa de carne vacuna acompañada de papas fritas crujientes.', 'vegetariano'),
+('Ensalada César', 400, 'Ensalada fresca con lechuga, pollo a la parrilla, croutons y aderezo César.', 'sin_lactosa'),
+('Pizza Margherita', 450, 'Pizza clásica con salsa de tomate, mozzarella y albahaca fresca.', 'vegano'),
+('Hamburguesa Vegana', 550, 'Hamburguesa hecha con ingredientes vegetales, acompañada de papas al horno.', 'vegano,sin_lactosa');
