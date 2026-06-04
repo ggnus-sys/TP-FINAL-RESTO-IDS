@@ -22,3 +22,29 @@ def obtener_menu() -> list[dict]:
         logger.error(f"Error al obtener menú: {e}")
 
     return menu
+
+def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str) -> dict:
+    """Agrega un nuevo plato al menú a través del endpoint del backend."""
+    try:
+        payload = {
+            "plato": plato,
+            "precio": precio,
+            "descripcion": descripcion,
+            "restricciones_alimenticias": restricciones
+        }
+        response = requests.post(f'{API_BASE_URL}/menu', json=payload)
+        return {
+            "ok": response.status_code == 201,
+        }
+
+    except requests.exceptions.ConnectionError:
+        logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+        return {
+            "errores": ["No se pudo conectar con la API."]
+        }
+
+    except Exception as e:
+        logger.error(f"Error al agregar plato: {e}")
+        return {
+            "errores": [f"Error al agregar plato: {e}"]
+        }

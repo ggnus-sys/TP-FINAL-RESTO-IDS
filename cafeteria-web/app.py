@@ -20,6 +20,8 @@ app.register_blueprint(reviews_bp)
 #app.register_blueprint(usuarios_bp)
 #app.register_blueprint(auth_bp) Si queremos hacer auth como en su ejemplo, tendremos que regisrar el blueprint
 
+app.secret_key = os.urandom(24)  # Clave secreta para sesiones y flash messages
+
 #@app.errorhandler(404)
 #def page_not_found(e):
 #    return render_template('404.html'), 404
