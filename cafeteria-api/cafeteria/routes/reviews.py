@@ -1,139 +1,64 @@
-from flask import Blueprint, Flask, request, jsonify
-from ..db import get_connection
+from flask import Blueprint, request, jsonify
+from ..services.reviews import listar_resenas, filtrar_resena, crear_resena, eliminar_resena, actualizar_resena
 from ..validators.reviews import validar_body_resena_post, validar_body_resena_patch
 
 reviews_bp = Blueprint('reviews_bp', __name__)
 
-@reviews_bp.route('/resenas', methods=['GET'] )
-def listar_resenas():
+@reviews_bp.route('/resenas', methods=['GET'])
+def listar():
     try:
-        conn = get_connection()
-        cursor = conn.cursor(dictionary= True)
-
-        #agarra todas las reseñas de la base de datos
-        cursor.execute("SELECT * FROM resenas")
-        resultado= cursor.fetchall()
-        
-        #si no existe ninguna reseñas devuelve error
-        if not resultado:
-            return jsonify ({"errors":[{"code" : "404", "Message":"No hay reseñas", "level": "Error","Description":"reseñas no encontradas" }]}),404
-        #esto devuelve en manera de diccionario segun esta escrito en la base de datos
-        return jsonify(resultado),200  
-    #a cualquier error no esperado le suelta este mensaje   
-    #str(e) devuelve en formato json el mensaje de error propio de la pagina 
-    except Exception as e:
+        resultado = listar_resenas()
+        if not resultado: #si no existe ninguna reseña devuelve error
+            return jsonify({"errors": [{"code": "404", "Message": "No hay reseñas", "level": "Error", "Description": "reseñas no encontradas"}]}), 404
+        return jsonify(resultado), 200
+      
+    except Exception as e:   #a cualquier error no esperado le suelta este mensaje  
         return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
 
 @reviews_bp.route('/resenas/<int:id>', methods=['GET'])
-def filtrar_resenas(id):
+def filtrar(id):
     try:
-        conn = get_connection()
-        cursor= conn.cursor(dictionary=True)
-
-        cursor.execute("SELECT * FROM resenas WHERE id = %s",(id,))
-        resultado= cursor.fetchone()
-
-        if resultado is None:
-            return jsonify ({"errors":[{"code" : "404", "Message": "No existe esa reseña", "level": "Error", "Description": "ID no encontrado"}]}), 404
-        return jsonify(resultado),200
+        resultado = filtrar_resena(id)
+        if resultado is None:  #si no existe la reseña devuelve error
+            return jsonify({"errors": [{"code": "404", "Message": "No existe esa reseña", "level": "Error", "Description": "ID no encontrado"}]}), 404
+        return jsonify(resultado), 200
     except Exception as e:
-        return jsonify ({"errors":[{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-
+        return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
 
 @reviews_bp.route('/resenas', methods=['POST'])
-def crear_resena():
+def crear():
     try:
         datos = request.get_json()
         error, codigo = validar_body_resena_post(datos)
         if error:
             return jsonify({"errors": [{"message": error}]}), codigo
-        contenido = datos.get("contenido")
-        estrellas = datos.get("estrellas")
-        id_usuario = datos.get("id_usuario")
-        conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM usuarios WHERE id = %s", (id_usuario,))
-        usuario = cursor.fetchone()
-        if usuario is None:
-            return jsonify({"errors": [{"code": "404", "message": "El usuario no existe"}]}), 404
-        cursor.execute("INSERT INTO resenas (contenido, estrellas, id_usuario) VALUES (%s,%s,%s)",(contenido, estrellas, id_usuario))
-        conn.commit()
-        return "",201
+        resultado, mensaje = crear_resena(datos)
+        if resultado is None:
+            return jsonify({"errors": [{"code": "404", "message": mensaje}]}), 404
+        return "", 201
     except Exception as e:
-        return jsonify ({"errors":[{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-
+        return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
 
 @reviews_bp.route('/resenas/<int:id_resena>', methods=['DELETE'])
-def eliminar_resena(id_resena):
+def eliminar(id_resena):
     try:
-        conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * from resenas WHERE id= %s",(id_resena,))
-        resultado = cursor.fetchone()
+        resultado = eliminar_resena(id_resena)
         if resultado is None:
-            return jsonify ({"errors":[{"code" : "404", "Message": "No existe esa reseña", "level": "Error", "Description": "ID no encontrado"}]}), 404
-        cursor.execute("DELETE from resenas WHERE id = %s",(id_resena,))
-        conn.commit()
+            return jsonify({"errors": [{"code": "404", "Message": "No existe esa reseña", "level": "Error", "Description": "ID no encontrado"}]}), 404
         return "", 204
-    
     except Exception as e:
-        return jsonify ({"errors":[{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
-    
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
+        return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
 
-
-@reviews_bp.route('/resenas/<int:id_resena>',methods=['PATCH'])
-def actualizar_resena(id_resena):
+@reviews_bp.route('/resenas/<int:id_resena>', methods=['PATCH'])
+def actualizar(id_resena):
     try:
         datos = request.get_json()
         error, codigo = validar_body_resena_patch(datos)
         if error:
             return jsonify({"errors": [{"message": error}]}), codigo
-        conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM resenas WHERE id = %s", (id_resena,))
-        resultado = cursor.fetchone()
+        resultado = actualizar_resena(id_resena, datos)
         if resultado is None:
             return jsonify({"errors": [{"code": "404", "message": "Reseña no encontrada"}]}), 404
-        campos = []
-        valores = []
-        if "contenido" in datos:
-            campos.append("contenido = %s")
-            valores.append(datos["contenido"])
-        if "estrellas" in datos:
-            campos.append("estrellas = %s")
-            valores.append(datos["estrellas"])
-        if not campos:
-            return jsonify({"errors": [{"code": "400", "message": "No se enviaron campos para actualizar"}]}), 400
-        valores.append(id_resena)
-        cursor.execute(f"UPDATE resenas SET {', '.join(campos)} WHERE id = %s", valores)
-        conn.commit()
         return "", 204
     except Exception as e:
         return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "description": str(e)}]}), 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
