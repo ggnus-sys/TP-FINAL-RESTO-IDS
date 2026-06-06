@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chequeo reseñas provisorio</title>
+</head>
+<body>
+
+    <h1>reseñas</h1>
+
+    <form action="{{ url_for('reviews_bp.get_resenas') }}" method="post" enctype="multipart/form-data">
+        <p><input type="text" name="contenido" placeholder="opinion">
+        <p><input type="number" name="estrellas" placeholder="estrellas" min="1" max="5">
+        <p><input type="text" name="id_usuario" placeholder="id del usuario">
+        <p><button type="submit">enviar reseña</button>
+    </form>
+
+    <ol id="item-list">
+    {% for resena in resenas %}
+        <li>{{ resena.contenido }} - ${{ resena.estrellas }} </li>
+    {% endfor %}
+    </ol>
+
+</body>
+</html>
