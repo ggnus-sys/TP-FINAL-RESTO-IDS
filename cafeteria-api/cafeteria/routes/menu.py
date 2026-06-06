@@ -75,7 +75,7 @@ def agregar_platos_menu():
                 "description": error
             }]
         }), codigo
-
+    
     try:
         crear_plato(datos)
         return "",201
@@ -93,6 +93,32 @@ def agregar_platos_menu():
                     "description": str(error_interno)
                 }]
             }), 500
+
+@menu_bp.route('/menu/<int:id>', methods=['GET'])
+def obtener_plato_menu(id):
+    try:
+        resultado = listar_platos(id_plato=id, nombre_plato=None, restricciones=[]) #como quiero buscar por id, los otros filtros los dejo vacios para que no afecten la consulta
+        if not resultado:
+            return jsonify({
+                "errors": [{
+                    "code": "404",
+                    "message": "Plato no encontrado",
+                    "level": "error",
+                    "description": f"No hay registros del menu para el id '{id}'."
+                }]
+            }), 404
+
+        return jsonify(resultado[0]), 200 
+
+    except Exception as error_interno:
+        return jsonify({
+            "errors": [{
+                "code": "500", 
+                "message": "Error interno del servidor", 
+                "level": "error", 
+                "description": str(error_interno)
+            }]
+        }), 500
 
 
 @menu_bp.route('/menu/<int:id>', methods=['PATCH'])

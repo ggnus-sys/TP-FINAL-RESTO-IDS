@@ -15,9 +15,27 @@
         <p><button type="submit">Agregar Plato</button>
     </form>
 </body>
-<ol id="item-list">
+<table id="menu-table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Restricciones Alimenticias</th>
+        </tr>
+    <tbody  class="list">
     {% for plato in menu %}
-        <li>{{ plato.nombre }} - ${{ plato.precio }} - {{ plato.descripcion }} - {{ plato.restricciones_alimenticias }}</li>
+        <tr>
+            <td>{{ plato.plato }}</td>
+            <td>${{ plato.precio }}</td>
+            <td>{{ plato.descripcion }}</td>
+            <td>{{ plato.restricciones_alimenticias }}</td>
+            <td>
+                <a href="{{ url_for('menu.delete_menu_item', plato_id=plato.id) }}" class="delete-button">Eliminar</a>
+                <a href="{{ url_for('menu.editar_plato', plato_id=plato.id) }}" class="edit-button">Editar</a>
+            </td>
+        </tr>
     {% endfor %}
-</ol>
+    </tbody>
+</table>
 </html>
