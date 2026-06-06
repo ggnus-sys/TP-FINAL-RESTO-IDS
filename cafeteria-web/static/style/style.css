@@ -361,7 +361,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
   color: #fff;
   position: relative;
 }
@@ -517,7 +517,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-featured-menu .fh5co-item, #fh5co-gallery .fh5co-item, #fh5co-reservation-form .fh5co-item {
   float: left;
   width: 100%;
-  backround: #fff;
+  background: #fff;
 }
 #fh5co-featured-menu .fh5co-item.margin_top, #fh5co-gallery .fh5co-item.margin_top, #fh5co-reservation-form .fh5co-item.margin_top {
   margin-top: 150px;
@@ -795,13 +795,13 @@ h1, h2, h3, h4, h5, h6, figure {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 .fh5co-social-icons li a {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
   color: #C8922A;
   padding-left: 10px;
   padding-right: 10px;
@@ -1426,8 +1426,8 @@ h1, h2, h3, h4, h5, h6, figure {
   position: absolute;
   right: 0px;
   font-family: 'icomoon';
-  speak: none;
   font-style: normal;
+  speak-as: none;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
