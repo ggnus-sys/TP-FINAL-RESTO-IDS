@@ -1,0 +1,10 @@
+cambiar el template del 404 error
+corregir los jinja de los template(ver la funcionalidad)
+cambiar el template del admin
+ver como hacer interactiva la parte del admin
+modificar el form del template del contacto 
+agregar en la galerry la funcionalidad del popup
+ver el mail de la reservacion
+ver el qr como es
+ver reservacion
+modificar en 

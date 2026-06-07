@@ -22,6 +22,9 @@
 
 {% block content %}
 
+
+<!-- sirve para mostrar al usuario el feedback de lo que esta haciendo, con mensajes de flask temporales, por ejempll cuando agregamos un plato en el admun
+ ademas se renderiza solo si hay un mensaje, sino no se renderiza. -->
 {% with messages = get_flashed_messages(with_categories=true) %}
 	{% if messages %}
 		<div class="container" style="margin-top:15px;">

@@ -12,15 +12,28 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(name)s - %(me
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.json.sort_keys = False
 
-# Habilitar CORS para que el frontend pueda consumir la API
-
 app.register_blueprint(reservas_bp)
 app.register_blueprint(menu_bp)
 app.register_blueprint(reviews_bp)
 #app.register_blueprint(usuarios_bp)
-#app.register_blueprint(auth_bp) Si queremos hacer auth como en su ejemplo, tendremos que regisrar el blueprint
-
 app.secret_key = os.urandom(24)  # Clave secreta para sesiones y flash messages
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/gallery')
+def gallery():
+    return render_template('gallery.html')
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    return render_template('contact.html')
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -30,5 +43,4 @@ def page_not_found(error):
     ), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, host = "0.0.0.0", port=5001)
-
+    app.run(debug=True, host="0.0.0.0", port=5001)
