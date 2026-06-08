@@ -1,4 +1,7 @@
 from ..db import get_connection
+from..constants import FORMATO_FECHA
+from datetime import datetime
+
 
 def mensaje_reserva(reserva):
     return {
@@ -35,6 +38,9 @@ def crear_reserva(datos):
     fecha_reserva = datos['fecha_reserva'].strip()
     estado_reserva = datos.get('estado_reserva','pendiente')
 
+    dat = datetime.strptime(fecha_reserva,FORMATO_FECHA)
+
+    fecha_mysql = dat.strftime("%Y-%m-%d %H:%M:%S")
 
     conn = None
     cursor = None
@@ -48,7 +54,7 @@ def crear_reserva(datos):
             raise ValueError("No existe ningun usuario con ese id",400)
         
         cursor.execute("INSERT INTO reservas (id_usuario, mesas, fecha_reserva, estado_reserva) VALUES (%s, %s, %s, %s)",
-                       (id_usuario, mesas, fecha_reserva, estado_reserva))
+                       (id_usuario, mesas, fecha_mysql, estado_reserva))
         conn.commit()
         
     finally:

@@ -20,7 +20,7 @@ def obtener_reservas():
     
 
 @reservas_bp.route('/reservas', methods=['POST'])
-def anadir_reserva():
+def anadir_reserva(): 
 
     datos = request.get_json()
     error, codigo = validar_body_reserva(datos) 

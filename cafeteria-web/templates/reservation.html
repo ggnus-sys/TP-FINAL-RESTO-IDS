@@ -60,18 +60,19 @@
 				<form action="{{ url_for('reservas_bp.reservas') }}" method="POST" id="form-wrap">
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="name">Nombre</label>
-							<input type="text" class="form-control" id="name" name="nombre">
+							<label for="name">Id usuario</label>
+							<input type="number" class="form-control" id="name" name="id_usuario">
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="many">¿Cuántas personas?</label>
-							<select name="personas" id="many" class="form-control custom_select">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4 o más</option>
+							<label for="many">¿Cuántas mesas?</label>
+							<select name="mesas" id="many" class="form-control custom_select">
+								<option value=1>1</option>
+								<option value=2>2</option>
+								<option value=3>3</option>
+								<option value=4>4</option>
+								<option value=5>5</option>
 							</select>
 						</div>
 					</div>

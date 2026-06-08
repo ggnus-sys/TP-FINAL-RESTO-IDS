@@ -2,6 +2,7 @@ from calendar import weekday
 from datetime import datetime
 from re import sub
 import logging
+import bcrypt
 from .constants import (
     ERROR_CODE_INVALID_MIN_VALUE,
     ERROR_CODE_INVALID_MAX_VALUE,
