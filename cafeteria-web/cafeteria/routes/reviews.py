@@ -40,21 +40,18 @@ def get_resenas():
 
 
     resenas = obtener_resenas()  # funcion para obtener las reseñas desde la base de datos
-
-    if not resenas:
-        abort(404, description="No se encontró ninguna reseña")
     
     return render_template('reviews.html', resenas=resenas)
 
 
     
-    @reviews_bp.route('/resenas/<int:id>', methods=['DELETE'])
-    def delete_resena(id):
-        resultado = eliminar_resena(id)
+@reviews_bp.route('/resenas/<int:id>', methods=['DELETE'])
+def delete_resena(id):
+    resultado = eliminar_resena(id)
 
-        if resultado:
-            flash("Reseña eliminada con exito.", 'success')
-        else:
-            flash('Error al eliminar reseña.' , 'error')
+    if resultado:
+        flash("Reseña eliminada con exito.", 'success')
+    else:
+        flash('Error al eliminar reseña.' , 'error')
         
-        return redirect(url_for('reviews_bp.get_resenas'))
+    return redirect(url_for('reviews_bp.get_resenas'))
