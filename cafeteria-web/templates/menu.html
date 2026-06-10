@@ -50,7 +50,7 @@
 			{% for plato in menu %}
 			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
 				<div class="fh5co-item animate-box">
-					<img src="{{ url_for('static', filename='images/cafe_1_1_1.jpeg') }}" class="img-responsive" alt="{{ plato.plato }}">
+					<img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" class="img-responsive" alt="No se pudo cargar imagen">
 					<h3>{{ plato.plato }}</h3>
 					<span class="fh5co-price">${{ plato.precio }}</span>
 					<p>{{ plato.descripcion }}</p>

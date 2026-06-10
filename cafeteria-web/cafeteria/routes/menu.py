@@ -19,6 +19,8 @@ def admin_menu():
         precio = int(request.form.get('precio'))
         descripcion = request.form.get('descripcion')
         restricciones = request.form.get('restricciones_alimenticias')
+        plate_image = request.files['plate_image']
+        plate_image.save(f'static/images/platos/plate_image_{plato}')
 
         errores = []
         if not plato:

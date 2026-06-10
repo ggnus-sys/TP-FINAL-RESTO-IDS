@@ -41,7 +41,7 @@
 				<h2>Agregar Plato</h2>
 			</div>
 			<div class="col-md-8">
-				<form action="{{ url_for('menu.admin_menu') }}" method="post">
+				<form action="{{ url_for('menu.admin_menu') }}" method="post" enctype="multipart/form-data">
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Nombre del plato</label>
@@ -68,9 +68,16 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
+							<label>Imagen de representación(png o jpeg)</label>
+							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" />
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
 							<button type="submit" class="btn btn-primary btn-outline btn-lg">Agregar Plato</button>
 						</div>
 					</div>
+					
 				</form>
 			</div>
 		</div>
@@ -83,6 +90,7 @@
 				<table class="table table-striped" id="menu-table">
 					<thead>
 						<tr>
+							<th>Imagen</th>
 							<th>Nombre</th>
 							<th>Precio</th>
 							<th>Descripción</th>
@@ -93,6 +101,7 @@
 					<tbody class="list">
 					{% for plato in menu %}
 						<tr>
+							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
 							<td>{{ plato.plato }}</td>
 							<td>${{ plato.precio }}</td>
 							<td>{{ plato.descripcion }}</td>
