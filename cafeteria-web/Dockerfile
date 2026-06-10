@@ -12,4 +12,6 @@ ENV PORT=5001
 
 EXPOSE 5001
 
+EXPOSE 8000
+
 CMD ["python", "app.py"]

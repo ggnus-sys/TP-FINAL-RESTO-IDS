@@ -29,9 +29,11 @@ def anadir_reserva():
         return jsonify({"errors": [{"code": str(codigo), "message": "Datos inválidos", "level": "error", "description": error}]}), codigo
 
     try:
-        crear_reserva(datos)
-        return '', 201
-    
+        id_reserva = crear_reserva(datos)
+        return jsonify({
+            "id": id_reserva}
+            ), 201
+
     except ValueError as e:
         mensaje, status = e.args[0], e.args[1]
         return jsonify({"errors": [{"code": str(status), "message": "Conflicto", "level": "error", "description": mensaje}]}), status

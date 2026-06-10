@@ -56,7 +56,11 @@ def crear_reserva(datos):
         cursor.execute("INSERT INTO reservas (id_usuario, mesas, fecha_reserva, estado_reserva) VALUES (%s, %s, %s, %s)",
                        (id_usuario, mesas, fecha_mysql, estado_reserva))
         conn.commit()
-        
+
+        cursor.execute("SELECT LAST_INSERT_ID() AS id")
+        id_reserva = cursor.fetchone()['id']
+        return id_reserva
+
     finally:
         if cursor:
             cursor.close()

@@ -8,15 +8,13 @@ def crear_reserva(reserva):
     try:
         response = requests.post(f'{API_BASE_URL}/reservas', json=reserva)
         if response.status_code == 201:
-            return True
-        
+            return response.json().get("id")
+    
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
-        return False
 
     except Exception as e:
         logger.error(f"Error al reservar mesas: {e}")
-        return False
     
     return False
 
@@ -36,3 +34,17 @@ def obtener_reservas():
         logger.error(f"Error al obtener reservas: {e}")
 
     return reservas
+
+def cancelar_reserva(id_reserva):
+    try:
+        response = requests.patch(f'{API_BASE_URL}/reservas/{id_reserva}')#no funciona
+        if response.status_code == 200:
+            return True
+
+    except requests.exceptions.ConnectionError:
+        logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+
+    except Exception as e:
+        logger.error(f"Error al cancelar reserva: {e}")
+
+    return False

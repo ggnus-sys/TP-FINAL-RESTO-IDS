@@ -19,8 +19,10 @@ services:
       DB_NAME: ${DB_NAME:-kaifer_db}
     ports:
       - "5000:5000"
+      - "8000:587"
     expose:
       - 5000
+      - 587
     depends_on:
       mysql:
         condition: service_healthy
