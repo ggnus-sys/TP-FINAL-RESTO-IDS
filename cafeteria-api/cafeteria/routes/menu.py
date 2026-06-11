@@ -1,8 +1,10 @@
 from flask import Flask,jsonify,request, Blueprint
 from ..services.menu import formato_mensaje_get, listar_platos ,modificar_plato ,crear_plato, eliminar_plato
 from ..validators.menu import validar_params_get_menu, validar_body_post_menu, validar_body_patch_menu
+from ..utils import requiere_auth
 
 menu_bp = Blueprint('menu_bp', __name__)
+
 
 @menu_bp.route('/menu', methods=['GET'])
 def buscar_platos_menu():
@@ -60,7 +62,9 @@ def buscar_platos_menu():
             }]
         }), 500
 
+#TODO: chequeo de rol admin
 @menu_bp.route('/menu', methods=['POST'])
+@requiere_auth()
 def agregar_platos_menu():
 
     datos = (request.json)
@@ -94,6 +98,7 @@ def agregar_platos_menu():
                 }]
             }), 500
 
+
 @menu_bp.route('/menu/<int:id>', methods=['GET'])
 def obtener_plato_menu(id):
     try:
@@ -121,7 +126,9 @@ def obtener_plato_menu(id):
         }), 500
 
 
+#TODO: chequeo de rol admin
 @menu_bp.route('/menu/<int:id>', methods=['PATCH'])
+@requiere_auth()
 def modificar_platos_menu(id):
 
     RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
@@ -160,8 +167,10 @@ def modificar_platos_menu(id):
                 "description": str(error_interno)
             }]
         }), 500
-    
+
+#TODO: chequeo admin
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
+@requiere_auth()
 def borrar_plato_menu(id):
 
     if id == 0:

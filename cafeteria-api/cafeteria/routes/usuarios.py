@@ -1,12 +1,17 @@
 from flask import Blueprint, jsonify, request
 from ..services.usuarios import listar_usuarios, crear_usuario, eliminar_usuario
 from ..validators.usuarios import validar_body_usuario
+from ..utils import requiere_auth
+
+
 
 usuarios_bp = Blueprint('usuarios_bp', __name__)
 
 #asi queda todo bastante más limpito, salvo por los mensajes de error
 
+#TODO: chequeo de admin
 @usuarios_bp.route('/usuarios', methods=['GET'])
+@requiere_auth()
 def get_usuarios():
 
     try:
@@ -44,7 +49,9 @@ def post_usuario():
         return jsonify({"errors": [{"code": "500", "message": "Error interno", "level": "error", "description": str(e)}]}), 500
 
 
+#TODO: chequeo de admin
 @usuarios_bp.route('/usuarios/<int:id>', methods=['DELETE'])
+@requiere_auth()
 def delete_usuario(id):
 
     if id <= 0:

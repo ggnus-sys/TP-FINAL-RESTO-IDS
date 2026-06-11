@@ -1,10 +1,14 @@
 from flask import Blueprint, jsonify, request
 from ..services.reservas import listar_reservas, crear_reserva, quitar_reserva
 from ..validators.reservas import validar_body_reserva
+from ..utils import requiere_auth
+
 
 reservas_bp = Blueprint('reservas_bp', __name__)
 
+#TODO: Chequeo rol admin
 @reservas_bp.route('/reservas', methods=['GET'])
+@requiere_auth()
 def obtener_reservas():
 
     try:
@@ -20,6 +24,7 @@ def obtener_reservas():
     
 
 @reservas_bp.route('/reservas', methods=['POST'])
+@requiere_auth()
 def anadir_reserva(): 
 
     datos = request.get_json()
@@ -44,6 +49,7 @@ def anadir_reserva():
 
 
 @reservas_bp.route('/reservas/<int:id>', methods=['DELETE'])
+@requiere_auth()
 def eliminar_reserva(id):
 
     if id <= 0:
