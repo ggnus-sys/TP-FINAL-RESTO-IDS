@@ -6,9 +6,7 @@ menu_bp = Blueprint('menu', __name__)
 
 @menu_bp.route('/menu', methods=['GET'])
 def detalle_menu():
-    menu = obtener_menu()
-    if not menu:
-        abort(404, description=f'No se encontro el menu.')
+    menu = obtener_menu() or []
     
     return render_template('menu.html', menu=menu)
 

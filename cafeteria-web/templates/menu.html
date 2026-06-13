@@ -1,81 +1,207 @@
 {% extends 'base.html' %}
 
-{% block title %}Kaiser &mdash; Menú{% endblock %}
+{% block title %}Kaifer &mdash; Menú{% endblock %}
 
 {% block header_banner %}
-<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_3.jpeg') }});" data-stellar-background-ratio="0.5">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<div class="display-t js-fullheight">
-					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-						<h1>See <em>Our</em> Menu</h1>
-						<h2>Sabores auténticos, café recién preparado</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="fh5co-header" class="fh5co-cover js-fullheight" 
+     style="background-image: url('{{ url_for('static', filename='images/cafe_portada_3.jpeg') }}');" 
+     data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="display-t js-fullheight">
+          <div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+            <h1>See <em>Our</em> Menu</h1>
+            <h2>Sabores auténticos, café recién preparado</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block content %}
 
-<!-- sirve para mostrar al usuario el feedback de lo que esta haciendo, con mensajes de flask temporales, por ejempll cuando agregamos un plato en el admun
- ademas se renderiza solo si hay un mensaje, sino no se renderiza. -->
-{# Mostrar mensajes flash si los hay #}
+{# Mensajes flash #}
 {% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-		<div class="container" style="margin-top:15px;">
-			{% for category, message in messages %}
-				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
-			{% endfor %}
-		</div>
-	{% endif %}
+  {% if messages %}
+    <div class="container" style="margin-top:15px;">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
 {% endwith %}
 
+
 <div id="fh5co-featured-menu" class="fh5co-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 fh5co-heading animate-box">
-				<h2>Our Delicious Menu</h2>
-				<div class="row">
-					<div class="col-md-6">
-						<p>Sabores auténticos, café recién preparado y una selección artesanal creada para compartir, relajarse y disfrutar.</p>
-					</div>
-				</div>
-			</div>
+  <div class="container">
+    <div class="row">
 
-			{% for plato in menu %}
-			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
-				<div class="fh5co-item animate-box">
-					<img src="{{ url_for('static', filename='images/cafe_1_1_1.jpeg') }}" class="img-responsive" alt="{{ plato.plato }}">
-					<h3>{{ plato.plato }}</h3>
-					<span class="fh5co-price">${{ plato.precio }}</span>
-					<p>{{ plato.descripcion }}</p>
-					{% if plato.restricciones_alimenticias %}
-					<p><small><strong>Restricciones:</strong> {{ plato.restricciones_alimenticias }}</small></p>
-					{% endif %}
-				</div>
-			</div>
-			{% endfor %}
+      <div class="col-md-12 fh5co-heading animate-box">
+        <h2>Nuestro Delicioso Menú</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Sabores auténticos, café recién preparado y una selección artesanal creada para compartir, relajarse y disfrutar.</p>
+          </div>
+        </div>
+      </div>
 
-		</div>
-	</div>
+      <div class="col-md-12 animate-box" style="text-align:center; margin-bottom: 40px;">
+        <p style="color:#C8922A; letter-spacing:4px; font-size:13px; margin:0;"></p>
+      </div>
+
+      {% for plato in menu %}
+      <div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
+        <div class="fh5co-item animate-box">
+
+          <img src="{{ url_for('static', filename='images/cafe_1_1_1.jpeg') }}"
+               class="img-responsive" alt="{{ plato.plato }}">
+
+          <h3>{{ plato.plato }}</h3>
+
+          <span class="fh5co-price">${{ plato.precio }}</span>
+
+          {% if plato.descripcion %}
+            <p>{{ plato.descripcion }}</p>
+          {% endif %}
+
+          {% if plato.restricciones_alimenticias %}
+            <p><small><strong>Restricciones:</strong> {{ plato.restricciones_alimenticias }}</small></p>
+          {% endif %}
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
 </div>
 
-<div id="fh5co-started" class="fh5co-section animate-box" style="background-image: url({{ url_for('static', filename='images/fondo_reserva.jpg') }});" data-stellar-background-ratio="0.5">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="row animate-box">
-			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-				<h2>Book a Table</h2>
-				<p>¿Querés reservar una mesa? Hacelo de manera rápida y sencilla.</p>
-				<p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">Book Now</a></p>
-			</div>
-		</div>
-	</div>
+
+<div class="fh5co-section" style="background: #0d0d0d;">
+  <div class="container">
+
+    <div class="col-md-12 animate-box" style="text-align:center; margin-bottom: 40px;">
+      <p style="color:#C8922A; letter-spacing:4px; font-size:13px; margin:0;"></p>
+    </div>
+
+    <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
+      <div class="col-md-4">
+        <img src="{{ url_for('static', filename='images/cafe_tab_1.jpeg') }}" 
+             class="img-responsive" 
+             style="max-height:300px; width:100%; object-fit:cover;">
+      </div>
+      <div class="col-md-8">
+        <h3 style="color:#fff;">Café</h3>
+        <table class="table" style="color:#fff;">
+          <thead>
+            <tr><th></th><th style="color:#C8922A;">Chico</th><th style="color:#C8922A;">Mediano</th><th style="color:#C8922A;">Grande</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Latte</td><td></td><td>$4000</td><td>$6000</td></tr>
+            <tr><td>Café Helado</td><td></td><td>$4000</td><td>$6000</td></tr>
+            <tr><td>Espresso</td><td>$3000</td><td></td><td></td></tr>
+            <tr><td>Americano</td><td></td><td>$4000</td><td>$6000</td></tr>
+            <tr><td>Cappuccino</td><td></td><td>$5000</td><td>$6000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-12 animate-box" style="text-align:center; margin: 20px 0 40px;">
+      <p style="color:#C8922A; letter-spacing:4px; font-size:13px; margin:0;"></p>
+    </div>
+
+    <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
+      <div class="col-md-4">
+        <img src="{{ url_for('static', filename='images/com_tab_1.jpeg') }}" 
+             class="img-responsive" 
+             style="max-height:300px; width:100%; object-fit:cover;">
+      </div>
+      <div class="col-md-8">
+        <h3 style="color:#fff;">Desayunos</h3>
+        <table class="table" style="color:#fff;">
+          <tbody>
+            <tr><td>Yogurt con Granola y Avena</td><td style="color:#C8922A;">$7000</td></tr>
+            <tr><td>Panqueques con Crema y Fruta</td><td style="color:#C8922A;">$7500</td></tr>
+            <tr><td>Avocado Toast</td><td style="color:#C8922A;">$6000</td></tr>
+            <tr><td>Tostadas con Queso Crema y Dulce</td><td style="color:#C8922A;">$5500</td></tr>
+            <tr><td>Medialunas con Queso</td><td style="color:#C8922A;">$3500</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-12 animate-box" style="text-align:center; margin: 20px 0 40px;">
+      <p style="color:#C8922A; letter-spacing:4px; font-size:13px; margin:0;"></p>
+    </div>
+
+    <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
+      <div class="col-md-4">
+        <img src="{{ url_for('static', filename='images/com_tab_2.jpeg') }}" 
+             class="img-responsive" 
+             style="max-height:300px; width:100%; object-fit:cover;">
+      </div>
+      <div class="col-md-8">
+        <h3 style="color:#fff;">Almuerzo</h3>
+        <table class="table" style="color:#fff;">
+          <tbody>
+            <tr><td>Pollo con champiñones al vino</td><td style="color:#C8922A;">$10000</td></tr>
+            <tr><td>Risotto</td><td style="color:#C8922A;">$9500</td></tr>
+            <tr><td>Pizza a la piedra</td><td style="color:#C8922A;">$8500</td></tr>
+            <tr><td>Burritos</td><td style="color:#C8922A;">$10000</td></tr>
+            <tr><td>Ensalada Cesar</td><td style="color:#C8922A;">$12000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="fh5co-featured-testimony" class="fh5co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 fh5co-heading animate-box">
+        <h2>Nuestra Filosofía</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Creemos que cada taza cuenta una historia. Seleccionamos granos de calidad, ingredientes frescos y dedicamos tiempo a cada preparación para que cada visita sea un momento para disfrutar, conversar y desconectar de la rutina.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 animate-box img-to-responsive">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" 
+             style="max-height:400px; width:100%;">
+      </div>
+      <div class="col-md-7 animate-box">
+        <blockquote>
+          <p>&ldquo;Cada taza cuenta una historia, cada visita crea un recuerdo.&rdquo;</p>
+          <p class="author"><cite>&mdash; Kaiser Café</cite></p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="fh5co-started" class="fh5co-section animate-box" 
+     style="background-image: url('{{ url_for('static', filename='images/fondo_reserva.jpg') }}');" 
+     data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row animate-box">
+      <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+        <h2>☕ Te Esperamos</h2>
+        <p>Disfruta de café de especialidad, desayunos preparados al momento y un ambiente pensado para compartir, trabajar o simplemente relajarte.</p>
+        <p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">VISÍTANOS</a></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
