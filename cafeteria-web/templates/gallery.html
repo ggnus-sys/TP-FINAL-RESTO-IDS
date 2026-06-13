@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kaiser &mdash; Gallery{% endblock %}
+{% block title %}Kaifer &mdash; Galería{% endblock %}
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/zoomerang.js') }}"></script>
@@ -14,7 +14,7 @@
 			<div class="col-md-12 text-center">
 				<div class="display-t js-fullheight">
 					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-						<h1>See <em>Our</em> Gallery</h1>
+						<h1>Mirá  <em>Nuestra</em> Galería </h1>
 						<h2>Fotos de nuestra cafetería</h2>
 					</div>
 				</div>
@@ -30,10 +30,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 fh5co-heading animate-box">
-				<h2>Our Gallery</h2>
+				<h2>Nuestra Galería</h2>
 				<div class="row">
 					<div class="col-md-6">
-						<p>Conocé los rincones de Kaiser, nuestros platos y momentos especiales.</p>
+						<p>Conocé los rincones de Kaifer, nuestros platos y momentos especiales.</p>
 					</div>
 				</div>
 			</div>
@@ -64,5 +64,37 @@
 		</div>
 	</div>
 </div>
+<style>
+    /* Opción 1: Apunta a cualquier clase de overlay que use la librería */
+    .zoomerang-overlay, 
+    .zoom-overlay, 
+    .zoomerang-backdrop {
+        background-color: rgba(0, 0, 0, 0.85) !important;
+    }
+
+    /* Opción 2: El truco definitivo. Si la librería mete el fondo blanco 
+       directamente en el cuerpo de la página al activarse, esto lo pisa */
+    [class*="zoom"] {
+        background-color: rgba(0, 0, 0, 0.85) !important;
+    }
+    
+    /* Aseguramos que la imagen en sí no se ponga negra */
+    .fh5co-bg-img {
+        background-color: transparent !important;
+    }
+</style>
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/zoomerang.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Zoomerang !== 'undefined') {
+            Zoomerang.listen('.fh5co-bg-img');
+        }
+    });
+</script>
 
 {% endblock %}
