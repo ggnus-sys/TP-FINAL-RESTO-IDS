@@ -28,7 +28,6 @@ app.config['MAIL_DEFAULT_SENDER'] = 'kaifernoreply@gmail.com'
 app.config['MAIL_SUPPRESS_SEND'] = False
 
 mail = Mail(app)
-
 app.register_blueprint(reservas_bp)
 app.register_blueprint(menu_bp)
 app.register_blueprint(reviews_bp)
