@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kaifer &mdash; Menú{% endblock %}
+{% block title %}Kaiser &mdash; Menú{% endblock %}
 
 {% block header_banner %}
 <div id="fh5co-header" class="fh5co-cover js-fullheight" 
@@ -56,22 +56,13 @@
       {% for plato in menu %}
       <div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
         <div class="fh5co-item animate-box">
-
-          <img src="{{ url_for('static', filename='images/cafe_1_1_1.jpeg') }}"
-               class="img-responsive" alt="{{ plato.plato }}">
-
+          <img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" class="img-responsive" alt="No se pudo cargar imagen">
           <h3>{{ plato.plato }}</h3>
-
           <span class="fh5co-price">${{ plato.precio }}</span>
-
-          {% if plato.descripcion %}
-            <p>{{ plato.descripcion }}</p>
-          {% endif %}
-
+          <p>{{ plato.descripcion }}</p>
           {% if plato.restricciones_alimenticias %}
-            <p><small><strong>Restricciones:</strong> {{ plato.restricciones_alimenticias }}</small></p>
+          <p><small><strong>Restricciones:</strong> {{ plato.restricciones_alimenticias }}</small></p>
           {% endif %}
-
         </div>
       </div>
       {% endfor %}
@@ -90,9 +81,47 @@
 
     <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename='images/cafe_tab_1.jpeg') }}" 
-             class="img-responsive" 
-             style="max-height:300px; width:100%; object-fit:cover;">
+        <div id="carouselCafe" class="carousel slide" data-ride="carousel" style="max-height:300px; overflow:hidden;">
+
+          <ol class="carousel-indicators">
+            <li data-target="#carouselCafe" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselCafe" data-slide-to="1"></li>
+            <li data-target="#carouselCafe" data-slide-to="2"></li>
+            <li data-target="#carouselCafe" data-slide-to="3"></li>
+            <li data-target="#carouselCafe" data-slide-to="4"></li>
+          </ol>
+
+          <div class="carousel-inner" role="listbox" style="height:300px;">
+            <div class="item active">
+              <img src="{{ url_for('static', filename='images/cafe_tab_1.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Moka">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/cafe_tab_2.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Café Helado">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/cafe_tab_3.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Cappuccino">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/cafe_tab_4.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Ristretto">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/cafe_tab_5.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Latte">
+            </div>
+          </div>
+
+          <a class="left carousel-control" href="#carouselCafe" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </a>
+          <a class="right carousel-control" href="#carouselCafe" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </a>
+
+        </div>
       </div>
       <div class="col-md-8">
         <h3 style="color:#fff;">Café</h3>
@@ -101,11 +130,11 @@
             <tr><th></th><th style="color:#C8922A;">Chico</th><th style="color:#C8922A;">Mediano</th><th style="color:#C8922A;">Grande</th></tr>
           </thead>
           <tbody>
-            <tr><td>Latte</td><td></td><td>$4000</td><td>$6000</td></tr>
+            <tr><td>Moka</td><td></td><td>$4000</td><td>$6000</td></tr>
             <tr><td>Café Helado</td><td></td><td>$4000</td><td>$6000</td></tr>
-            <tr><td>Espresso</td><td>$3000</td><td></td><td></td></tr>
-            <tr><td>Americano</td><td></td><td>$4000</td><td>$6000</td></tr>
-            <tr><td>Cappuccino</td><td></td><td>$5000</td><td>$6000</td></tr>
+            <tr><td>Cappuccino</td><td>$3000</td><td></td><td></td></tr>
+            <tr><td>Ristretto</td><td></td><td>$4000</td><td>$6000</td></tr>
+            <tr><td>Latte</td><td></td><td>$5000</td><td>$6000</td></tr>
           </tbody>
         </table>
       </div>
@@ -117,19 +146,57 @@
 
     <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename='images/com_tab_1.jpeg') }}" 
-             class="img-responsive" 
-             style="max-height:300px; width:100%; object-fit:cover;">
+        <div id="carouselDesayunos" class="carousel slide" data-ride="carousel" style="max-height:300px; overflow:hidden;">
+
+          <ol class="carousel-indicators">
+            <li data-target="#carouselDesayunos" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselDesayunos" data-slide-to="1"></li>
+            <li data-target="#carouselDesayunos" data-slide-to="2"></li>
+            <li data-target="#carouselDesayunos" data-slide-to="3"></li>
+            <li data-target="#carouselDesayunos" data-slide-to="4"></li>
+          </ol>
+
+          <div class="carousel-inner" role="listbox" style="height:300px;">
+            <div class="item active">
+              <img src="{{ url_for('static', filename='images/com_tab_1.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Tostadas Francesas">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_tab_2.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Yogurt con Granola">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_tab_3.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Medialunas con JyQ">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_tab_4.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Avocado Toast">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_tab_5.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Panqueques con Crema y Dulce">
+            </div>
+          </div>
+
+          <a class="left carousel-control" href="#carouselDesayunos" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </a>
+          <a class="right carousel-control" href="#carouselDesayunos" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </a>
+
+        </div>
       </div>
       <div class="col-md-8">
         <h3 style="color:#fff;">Desayunos</h3>
         <table class="table" style="color:#fff;">
           <tbody>
-            <tr><td>Yogurt con Granola y Avena</td><td style="color:#C8922A;">$7000</td></tr>
-            <tr><td>Panqueques con Crema y Fruta</td><td style="color:#C8922A;">$7500</td></tr>
-            <tr><td>Avocado Toast</td><td style="color:#C8922A;">$6000</td></tr>
-            <tr><td>Tostadas con Queso Crema y Dulce</td><td style="color:#C8922A;">$5500</td></tr>
-            <tr><td>Medialunas con Queso</td><td style="color:#C8922A;">$3500</td></tr>
+            <tr><td>Tostadas Francesas</td><td style="color:#C8922A;">$7000</td></tr>
+            <tr><td>Yogurt con Granola</td><td style="color:#C8922A;">$7500</td></tr>
+            <tr><td>Medialunas con JyQ</td><td style="color:#C8922A;">$6000</td></tr>
+            <tr><td>Avocado Toast</td><td style="color:#C8922A;">$5500</td></tr>
+            <tr><td>Panqueques con Crema y Dulce</td><td style="color:#C8922A;">$3500</td></tr>
           </tbody>
         </table>
       </div>
@@ -141,9 +208,47 @@
 
     <div class="row fh5co-item animate-box" style="margin-bottom: 40px;">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename='images/com_tab_2.jpeg') }}" 
-             class="img-responsive" 
-             style="max-height:300px; width:100%; object-fit:cover;">
+        <div id="carouselAlmuerzo" class="carousel slide" data-ride="carousel" style="max-height:300px; overflow:hidden;">
+
+          <ol class="carousel-indicators">
+            <li data-target="#carouselAlmuerzo" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselAlmuerzo" data-slide-to="1"></li>
+            <li data-target="#carouselAlmuerzo" data-slide-to="2"></li>
+            <li data-target="#carouselAlmuerzo" data-slide-to="3"></li>
+            <li data-target="#carouselAlmuerzo" data-slide-to="4"></li>
+          </ol>
+
+          <div class="carousel-inner" role="listbox" style="height:300px;">
+            <div class="item active">
+              <img src="{{ url_for('static', filename='images/com_1.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Risotto">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_2.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Pizza a la piedra">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_3.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Pizza a la piedra">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_4.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Pizza a la piedra">
+            </div>
+            <div class="item">
+              <img src="{{ url_for('static', filename='images/com_5.jpeg') }}" 
+                   style="width:100%; height:300px; object-fit:cover;" alt="Pizza a la piedra">
+            </div>
+          </div>
+
+          <a class="left carousel-control" href="#carouselAlmuerzo" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </a>
+          <a class="right carousel-control" href="#carouselAlmuerzo" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          </a>
+
+        </div>
       </div>
       <div class="col-md-8">
         <h3 style="color:#fff;">Almuerzo</h3>
@@ -205,3 +310,4 @@
 </div>
 
 {% endblock %}
+

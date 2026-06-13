@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from ..services.menu import modificar_plato, obtener_menu, agregar_plato, borrar_plato, obtener_plato
 from ..constants import CALIF_MIN, CALIF_MAX
+from ..utils import requiere_login, usuario_actual
 
 menu_bp = Blueprint('menu', __name__)
 
@@ -11,12 +12,15 @@ def detalle_menu():
     return render_template('menu.html', menu=menu)
 
 @menu_bp.route('/adm', methods=['GET', 'POST'])
+@requiere_login(rol='admin')
 def admin_menu():
     if request.method == 'POST':
         plato = request.form.get('plato')
         precio = int(request.form.get('precio'))
         descripcion = request.form.get('descripcion')
         restricciones = request.form.get('restricciones_alimenticias')
+        plate_image = request.files['plate_image']
+        plate_image.save(f'static/images/platos/plate_image_{plato}')
 
         errores = []
         if not plato:
@@ -45,6 +49,7 @@ def admin_menu():
     return render_template('admin.html', menu=menu)
 
 @menu_bp.route('/menu/delete/<int:plato_id>', methods=['GET'])
+@requiere_login(rol='admin')
 def delete_menu_item(plato_id):
     resultado = borrar_plato(plato_id)
     if resultado.get('ok'):
@@ -56,6 +61,7 @@ def delete_menu_item(plato_id):
     return redirect(url_for('menu.admin_menu'))
 
 @menu_bp.route('/menu/edit/<int:plato_id>', methods=['GET', 'POST'])
+@requiere_login(rol='admin')
 def editar_plato(plato_id):
     if request.method == 'GET':
         plato = obtener_plato(plato_id)

@@ -1,5 +1,5 @@
 from calendar import weekday
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from re import sub
 import logging
 import bcrypt
@@ -7,7 +7,10 @@ from .constants import (
     ERROR_CODE_INVALID_MIN_VALUE,
     ERROR_CODE_INVALID_MAX_VALUE,
 )
-
+import jwt
+from functools import wraps
+from flask import request, jsonify
+from .constants import JWT_SECRET, JWT_ALGORITHM, JWT_EXP_HORAS
 
 
 logger = logging.getLogger(__name__)
@@ -122,3 +125,73 @@ def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
             description=f"El valor '{valor}' no es válido para '{nombre}'. Valores permitidos: {conjunto_validos}"
         ))
     return valor
+
+
+
+
+
+# ---------------------CONFIGURACION JWT -------------
+
+#esta funcion se encarga de generar un token especifico JWT en el momento de loguear un usuario
+def generar_jwt(usuario_id: int, rol: str):
+    """Genera un JWT firmado con id de usuario, rol y expira tras 24h"""
+    ahora = datetime.now(timezone.utc)
+    payload = {
+        'sub': str(usuario_id),
+        'rol': rol,
+        'iat': ahora,
+        'exp': ahora + timedelta(hours=JWT_EXP_HORAS)
+    }
+
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+#esta funcion se encarga de decodificar un token y verificar que sea valido (mantenga su firma) o haya expirado
+def decodificar_jwt(token: str):
+    """decodifica un token y devuelve el payload en caso de ser valido, sino lanza excepcion"""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise ValueError(construir_error_api(
+            code='auth.token.expired',
+            message='Token expirado',
+            description='El token de autenticacion expiro. Volve a iniciar sesion.'), 401)
+    except jwt.InvalidTokenError:
+        raise ValueError(construir_error_api(
+            code='auth.token.invalid',
+            message='Token invalido',
+            description='El token de autenticacion no es valido.'
+        ), 401)
+    
+
+#esto va para los decoradores, todo aquel que le contenga asegura que, si no sos usuario, te tire un 401(no autenticado)
+def requiere_auth():
+    """
+    Decorador que valida el JWT del header Authorization e inyecta
+    el payload en request.usuario_actual.
+    """
+    def decorador(funcion):
+        @wraps(funcion)
+        def wrapper(*args, **kwargs):
+            #podría ser función
+            header = request.headers.get('Authorization', '')
+            
+            if not header.startswith('Bearer '):
+                return jsonify(construir_error_api(
+                code='auth.token.missing',
+                message='Token de autenticacion faltante',
+                description='Debe enviarse el header Authorization con el formato "Bearer <token>"'), 401)
+            
+
+            token = header[len('Bearer '):].strip()
+            
+            try:
+                payload = decodificar_jwt(token)
+            
+            except ValueError as e:
+                return jsonify(e.args[0]), e.args[1] if len(e.args) > 1 else 401
+            
+            request.usuario_actual = payload
+            return funcion(*args, **kwargs)
+        return wrapper
+    return decorador
