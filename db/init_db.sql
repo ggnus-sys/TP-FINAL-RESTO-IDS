@@ -9,6 +9,13 @@ CREATE TABLE menu(
     restricciones_alimenticias SET ('vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten') NOT NULL  
 );
 
+CREATE TABLE servicios_extra(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_servicio VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(150) NOT NULL
+);
+
 
 CREATE TABLE usuarios (
 

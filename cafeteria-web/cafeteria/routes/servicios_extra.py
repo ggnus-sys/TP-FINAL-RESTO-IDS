@@ -1,0 +1,89 @@
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
+from ..services.servicios_extra import modificar_servicio_extra, obtener_servicios_extra, agregar_servicio_extra, borrar_servicio_extra, obtener_servicio_extra
+from ..constants import CALIF_MIN, CALIF_MAX
+from ..utils import requiere_login
+
+servicios_extra_bp = Blueprint('servicios-extra', __name__)
+
+@servicios_extra_bp.route('/servicios-extra', methods=['GET'])
+def detalle_servicios_extra():
+    servicios_extra = obtener_servicios_extra()
+    if not servicios_extra:
+        abort(404, description=f'No se encontro el servicios_extra.')
+    
+    return render_template('servicios-extra.html', servicios_extra=servicios_extra)
+
+@servicios_extra_bp.route('/servicios-extra/agregar-servicio', methods=['GET', 'POST'])
+@requiere_login(rol='admin')
+def admin_servicios_extra():
+    if request.method == 'POST':
+        servicio_extra = request.form.get('servicio_extra')
+        descripcion = request.form.get('descripcion')
+        plate_image = request.files['service_image']
+        plate_image.save(f'static/images/servicios-extra/service_image_{servicio_extra}')
+
+        errores = []
+        if not servicio_extra:
+            errores.append("El nombre del servicio extra es obligatorio.")
+        
+        if errores:
+            for error in errores:
+                flash(error, 'error')
+            return redirect(url_for('servicios-extra.admin_servicios_extra'))
+
+        resultado = agregar_servicio_extra(servicio_extra, descripcion)
+        
+        if resultado.get('ok'):
+            flash('servicio extra agregado con exito.', 'success')
+        else:
+            for e in resultado.get('errores', ['Error al agregar el servicio_extra.']):
+                flash(e, 'error')
+
+        return redirect(url_for('servicios-extra.admin_servicios_extra'))
+
+    
+
+    return redirect(url_for('admin'))
+
+@servicios_extra_bp.route('/servicios-extra/delete/<int:servicio_extra_id>', methods=['GET'])
+def delete_servicio_extra(servicio_extra_id):
+    resultado = borrar_servicio_extra(servicio_extra_id)
+    if resultado.get('ok'):
+        flash('servicio extra eliminado con éxito.', 'success')
+    else:
+        for e in resultado.get('errores', ['Error al eliminar el servicio extra.']):
+                flash(e, 'error')
+
+    return redirect(url_for('servicios-extra.admin_servicios_extra'))
+
+@servicios_extra_bp.route('/servicios-extra/edit/<int:servicio_extra_id>', methods=['GET', 'POST'])
+def editar_servicio_extra(servicio_extra_id):
+    if request.method == 'GET':
+        servicio_extra = obtener_servicio_extra(servicio_extra_id)
+        if not servicio_extra:
+            abort(404, description=f'No se encontro el servicio extra con ID {servicio_extra_id}.')
+        return render_template('editForm.html', servicio_extra=servicio_extra)
+
+    if request.method == 'POST':
+        servicio_extra_nombre = request.form.get('servicio_extra')
+        descripcion = request.form.get('descripcion')
+
+        errores = []
+        if not servicio_extra_nombre:
+            errores.append("El nombre del servicio extra es obligatorio.")
+        
+        if errores:
+            for error in errores:
+                flash(error, 'error')
+            return redirect(url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio_extra_id))
+
+        resultado = modificar_servicio_extra(servicio_extra_id, servicio_extra_nombre, descripcion)
+
+        if resultado.get('ok'):
+            flash('servicio extra editado con exito.', 'success')
+        else:
+            for e in resultado.get('errores', ['Error al editar el servicio extra.']):
+                flash(e, 'error')
+
+    return redirect(url_for('servicios-extra.admin_servicios_extra'))
+    
