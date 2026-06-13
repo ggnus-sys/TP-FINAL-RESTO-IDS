@@ -23,13 +23,14 @@
         originalStyles
 
     // options
+    // options - MODIFICADO PARA EL POP-UP DE LA CAFETERÍA
     var options = {
         transitionDuration: '.4s',
         transitionTimingFunction: 'cubic-bezier(.4,0,0,1)',
-        bgColor: '#fff',
+        bgColor: 'rgba(0, 0, 0, 0.85)', 
         bgOpacity: 1,
-        maxWidth: 300,
-        maxHeight: 300,
+        maxWidth: 600,                  
+        maxHeight: 800,                  
         onOpen: null,
         onClose: null,
         onBeforeClose: null,
@@ -201,7 +202,7 @@
                 whiteSpace: 'nowrap',
                 marginTop: -p.height / 2 + 'px',
                 marginLeft: -p.width / 2 + 'px',
-                cursor: prefix + 'zoom-out',
+                cursor: 'pointer',
                 transform: 'translate(' + dx + 'px, ' + dy + 'px)',
                 transition: ''
             }, true)
@@ -297,7 +298,7 @@
             }
 
             setStyle(el, {
-                cursor: prefix + 'zoom-in'
+                cursor: 'pointer'
             })
 
             el.addEventListener('click', function (e) {

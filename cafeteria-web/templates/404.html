@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Página no encontrada - Kaiser{% endblock %}
+{% block title %}Página no encontrada - Kaifer{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='style/404.css') }}">
-{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='style/404.css') }}"> {% endblock %}
 
 {% block content %}
 <section class="error-page">
-	<span class="error-page__icon">&#128269;</span>
 	<h1 class="error-page__code">404</h1>
 	<h2 class="error-page__title">Página no encontrada</h2>
 	<p class="error-page__message">
