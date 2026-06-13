@@ -64,25 +64,6 @@
 		</div>
 	</div>
 </div>
-<style>
-    /* Opción 1: Apunta a cualquier clase de overlay que use la librería */
-    .zoomerang-overlay, 
-    .zoom-overlay, 
-    .zoomerang-backdrop {
-        background-color: rgba(0, 0, 0, 0.85) !important;
-    }
-
-    /* Opción 2: El truco definitivo. Si la librería mete el fondo blanco 
-       directamente en el cuerpo de la página al activarse, esto lo pisa */
-    [class*="zoom"] {
-        background-color: rgba(0, 0, 0, 0.85) !important;
-    }
-    
-    /* Aseguramos que la imagen en sí no se ponga negra */
-    .fh5co-bg-img {
-        background-color: transparent !important;
-    }
-</style>
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/zoomerang.js') }}"></script>
