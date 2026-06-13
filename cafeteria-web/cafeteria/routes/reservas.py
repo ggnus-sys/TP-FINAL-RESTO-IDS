@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from ..services.reservas import crear_reserva, obtener_reservas
 from ..services.mailer import enviar_qr_confirmacion_reserva
 from ..constants import API_BASE_URL_HOST_MACHINE
+from ..utils import requiere_login, usuario_actual
 import segno
 reservas_bp = Blueprint('reservas_bp', __name__)
 
@@ -9,9 +10,10 @@ acc_username : str = 'Gonzalo'
 acc_mail : str = 'gonzalo.gnus@gmail.com'
 
 @reservas_bp.route('/reservas', methods=['GET','POST'])
+@requiere_login()
 def reservas():
     if request.method == 'POST':
-        id_usuario = int(request.form.get("id_usuario"))
+        id_usuario = usuario_actual()['id']
         mesas = int(request.form.get("mesas"))
         fecha = request.form.get("fecha")
 

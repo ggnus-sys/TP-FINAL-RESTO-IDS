@@ -127,6 +127,9 @@ def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
     return valor
 
 
+
+
+
 # ---------------------CONFIGURACION JWT -------------
 
 #esta funcion se encarga de generar un token especifico JWT en el momento de loguear un usuario

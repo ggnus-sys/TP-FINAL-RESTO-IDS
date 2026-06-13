@@ -2,7 +2,7 @@
 # TODO: despueés borrar este mensaje, es para explicar la idea nomas
 from ..db import obtener_usuario_por_email
 from ..validators.usuarios import validar_body_usuario, validar_body_login
-from ..utils import verificar_password, construir_error_api
+from ..utils import generar_jwt, verificar_password, construir_error_api
 from .usuarios import construir_usuario_dto, crear_usuario
 
 
@@ -41,4 +41,7 @@ def login_usuario(body: dict):
             description='El email o la contraseña son incorrectos'
         ), 401)
     
-    #TODO generar token
+    return {
+        'usuario' : construir_usuario_dto(usuario),
+        'token' : generar_jwt(usuario['id'], usuario['rol'])
+    }
