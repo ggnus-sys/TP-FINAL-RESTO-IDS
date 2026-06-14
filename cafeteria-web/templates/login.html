@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Iniciar sesión{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_1.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Bienvenido <em>de nuevo</em></h1>
+						<h2>Iniciá sesión para continuar</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+				<div class="fh5co-heading text-center">
+					<h2>Log In</h2>
+				</div>
+				<form action="{{ url_for('auth.login') }}" method="POST">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="password">Contraseña</label>
+							<input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary btn-outline btn-lg btn-block">Iniciar sesión</button>
+						</div>
+					</div>
+					<p class="text-center" style="margin-top:15px;">
+						¿No tenés cuenta? <a href="{{ url_for('auth.register') }}">Registrate</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from cafeteria.routes.menu import menu_bp
 from cafeteria.routes.reviews import reviews_bp
 from cafeteria.routes.auth import auth_bp
 from cafeteria.services.mailer import enviar_qr_confirmacion_reserva
+from cafeteria.utils import usuario_actual
 from flask_mail import Mail
 import segno
 
@@ -37,14 +38,19 @@ app.secret_key = os.getenv('SECRET_KEY', 'clave-kaifer') #cambié la clave anter
 #aunque la buena práctica sería que no esté hardcodeada acá xd
 
 
+@app.context_processor
+def inject_usuario():
+    return dict(usuario_sesion=usuario_actual())
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/gallery')
 def gallery():

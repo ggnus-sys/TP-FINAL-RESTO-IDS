@@ -39,20 +39,23 @@ def register():
         apellido = request.form.get('apellido')
         email = request.form.get('email')
         password = request.form.get('password')
+        confirmar_password = request.form.get('confirmar_password')
+
 
         errores = []
+        if not nombre:
+            errores.append('El nombre es obligatorio.')
 
+        if not apellido:
+            errores.append('El apellido es obligatorio.')
         if not email:
             errores.append('El email es obligatorio.')
 
         if not password:
             errores.append('La contraseña es obligatoria.')
 
-        if not nombre:
-            errores.append('El nombre es obligatorio.')
-
-        if not apellido:
-            errores.append('El apellido es obligatorio.')
+        if password and confirmar_password and password != confirmar_password:
+            errores.append('Las contraseñas no coinciden.')
 
         if errores:
             for error in errores:

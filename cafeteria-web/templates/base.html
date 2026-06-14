@@ -73,6 +73,21 @@
 							<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservation</a></li>
 							<li><a href="{{ url_for('about') }}">About</a></li>
 							<li><a href="{{ url_for('contact') }}">Contact</a></li>
+						{% if usuario_sesion %}
+							<li class="has-dropdown">
+								<a href="#">{{ usuario_sesion.nombre }}</a>
+								<ul class="dropdown">
+									<li>
+										<form action="{{ url_for('auth.logout') }}" method="POST" style="margin:0;">
+											<button type="submit" style="background:none;border:none;cursor:pointer;padding:8px 15px;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;">Cerrar sesión</button>
+										</form>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+							<li><a href="{{ url_for('auth.register') }}">Register</a></li>
+						{% endif %}
 						</ul>
 					</div>
 				</div>

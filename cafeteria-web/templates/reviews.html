@@ -22,19 +22,6 @@
 
 {% block content %}
 
-
-<!-- sirve para mostrar al usuario el feedback de lo que esta haciendo, con mensajes de flask temporales, por ejempll cuando agregamos un plato en el admun
- ademas se renderiza solo si hay un mensaje, sino no se renderiza. -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-		<div class="container" style="margin-top:15px;">
-			{% for category, message in messages %}
-				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
-			{% endfor %}
-		</div>
-	{% endif %}
-{% endwith %}
-
 <div id="fh5co-featured-testimony" class="fh5co-section">
 	<div class="container">
 		<div class="row">
@@ -91,34 +78,3 @@
 
 {% endblock %}
 
-
-
-
-<!-- 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chequeo reseñas provisorio</title>
-</head>
-<body>
-
-    <h1>reseñas</h1>
-
-    <form action="{{ url_for('reviews_bp.get_resenas') }}" method="post" enctype="multipart/form-data">
-        <p><input type="text" name="contenido" placeholder="opinion">
-        <p><input type="number" name="estrellas" placeholder="estrellas" min="1" max="5">
-        <p><input type="text" name="id_usuario" placeholder="id del usuario">
-        <p><button type="submit">enviar reseña</button>
-    </form>
-
-    <ol id="item-list">
-    {% for resena in resenas %}
-        <li>{{ resena.contenido }} - ${{ resena.estrellas }} </li>
-    {% endfor %}
-    </ol>
-
-</body>
-</html> -->
