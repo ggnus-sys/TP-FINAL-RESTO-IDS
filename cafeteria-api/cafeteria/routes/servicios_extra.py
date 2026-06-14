@@ -1,6 +1,7 @@
 from flask import Flask,jsonify,request, Blueprint
 from ..services.servicios_extra import crear_servicio_extra, eliminar_servicio_extra, formato_mensaje_get, listar_servicios_extra, modificar_servicio_extra
 from ..validators.servicios_extra import validar_body_patch_servicios_extra, validar_body_post_servicios_extra, validar_id_get_servicios_extra
+from ..utils import requiere_auth
 
 servicios_extra_bp = Blueprint('servicios_extra_bp', __name__)
 
@@ -55,7 +56,10 @@ def buscar_servicios_extra():
             }]
         }), 500
 
+    
+#TODO: chequeo de rol admin
 @servicios_extra_bp.route('/servicios_extra', methods=['POST'])
+@requiere_auth()
 def agregar_servicios_extra():
 
     datos = (request.json)

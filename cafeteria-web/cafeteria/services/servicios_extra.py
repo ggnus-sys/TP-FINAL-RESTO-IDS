@@ -18,7 +18,7 @@ def obtener_servicios_extra() -> list[dict]:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
 
     except Exception as e:
-        logger.error(f"Error al obtener menú: {e}")
+        logger.error(f"Error al obtener servicios: {e}")
 
     return servicios_extra
 
