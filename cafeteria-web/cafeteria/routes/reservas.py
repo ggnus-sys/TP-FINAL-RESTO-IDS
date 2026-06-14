@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
-from ..services.reservas import crear_reserva, obtener_reservas
+from ..services.reservas import crear_reserva, obtener_reservas, confirmar_reserva, cancelar_reserva
 from ..services.mailer import enviar_qr_confirmacion_reserva
 from ..constants import API_BASE_URL_HOST_MACHINE
 from ..utils import requiere_login, usuario_actual
@@ -55,20 +55,36 @@ def reservas():
     return render_template('reservation.html')
 
 
-@reservas_bp.route('/reservas/cancelar/<int:id_reserva>', methods=['GET','POST'])#no funciona aun
-def cancelar_reserva(id_reserva):
+
+@reservas_bp.route('/confirmar-reserva', methods=['GET'])
+@requiere_login()
+def confirmacion_reserva():
+    id_reserva = request.args.get('reserva_id', type=int)
+    if not id_reserva:
+        flash('Reserva inválida', 'error')
+        return redirect(url_for('reservas_bp.reservas'))
+
+    if confirmar_reserva(id_reserva):
+        flash('Reserva confirmada con éxito', 'success')
+    else:
+        flash('Error al confirmar la reserva', 'error')
+
+    return redirect(url_for('reservas_bp.reservas'))
+
+
+@reservas_bp.route('/cancelar-reserva', methods=['GET', 'POST'])
+@requiere_login()
+def cancelacion_reserva():
+    id_reserva = request.args.get('reserva_id', type=int)
+    if not id_reserva:
+        flash('Reserva inválida', 'error')
+        return redirect(url_for('reservas_bp.reservas'))
 
     if request.method == 'POST':
-
-        resultado = cancelar_reserva(id_reserva)
-
-        if resultado:
-
-            flash(f'Reserva {id_reserva} cancelada con éxito.', 'success')
-
+        if cancelar_reserva(id_reserva):
+            flash('Reserva cancelada con éxito', 'success')
         else:
-            flash(f'Error al cancelar la reserva {id_reserva}.', 'error')
-        
+            flash('Error al cancelar la reserva', 'error')
         return redirect(url_for('reservas_bp.reservas'))
 
     return render_template('cancel_reservation.html', id_reserva=id_reserva)

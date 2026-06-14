@@ -35,15 +35,32 @@ def obtener_reservas():
 
     return reservas
 
-def cancelar_reserva(id_reserva):
+def confirmar_reserva(id_reserva):
     try:
-        response = requests.patch(f'{API_BASE_URL}/reservas/{id_reserva}')#no funciona
-        if response.status_code == 200:
-            return True
+        response = requests.patch(
+            f'{API_BASE_URL}/reservas/{id_reserva}',
+            json={"estado": "confirmada"}
+        )
+        return response.status_code == 204
 
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+    except Exception as e:
+        logger.error(f"Error al confirmar reserva: {e}")
+    
+    return False
 
+
+def cancelar_reserva(id_reserva):
+    try:
+        response = requests.patch(
+            f'{API_BASE_URL}/reservas/{id_reserva}',
+            json={"estado": "cancelada"}
+        )
+        return response.status_code == 204
+
+    except requests.exceptions.ConnectionError:
+        logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
     except Exception as e:
         logger.error(f"Error al cancelar reserva: {e}")
 
