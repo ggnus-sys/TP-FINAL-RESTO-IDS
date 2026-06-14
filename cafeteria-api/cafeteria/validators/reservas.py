@@ -32,3 +32,14 @@ def validar_body_reserva(body):
         return str(e), 400
 
     return None, None
+
+def validar_body_estado(body):
+    if body is None:
+        return "El body debe ser un JSON valido", 400
+    estado = body.get("estado")
+    try:
+        validar_string_no_vacio(estado, "estado")
+        validar_set(estado, ESTADOS_VALIDOS, "estado")
+    except ValueError as e:
+        return str(e), 400
+    return None, None

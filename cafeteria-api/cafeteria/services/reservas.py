@@ -90,3 +90,23 @@ def quitar_reserva(id):
             cursor.close()
         if conn: 
             conn.close()
+
+
+def cambiar_estado_reserva(id,estado):
+    conn = None
+    cursor = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM reservas WHERE id = %s", (id,))
+        resultado = cursor.fetchone()
+        if resultado is None:
+            return None, "La reserva no existe"
+        cursor.execute("UPDATE reservas SET estado = %s WHERE id = %s",(estado, id,))
+        conn.commit()
+        return True,None
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()

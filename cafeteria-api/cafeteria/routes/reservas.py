@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from ..services.reservas import listar_reservas, crear_reserva, quitar_reserva
-from ..validators.reservas import validar_body_reserva
+from ..services.reservas import listar_reservas, crear_reserva, quitar_reserva, cambiar_estado_reserva
+from ..validators.reservas import validar_body_reserva, validar_body_estado
 from ..utils import requiere_auth
 
 
@@ -67,3 +67,17 @@ def eliminar_reserva(id):
         return jsonify({"errors": [{"code": "500", "message": "Error interno", "level": "error", "description": str(e)}]}), 500
 
 
+@reservas_bp.route('/reservas/<int:id>', methods=['PATCH'])
+def modificar_reserva(id):
+    try:
+        datos = request.get_json()
+        error, codigo = validar_body_estado(datos)
+        if error:
+            return jsonify({"errors": [{"message": error}]}), codigo
+        estado = datos.get("estado")
+        resultado, mensaje = cambiar_estado_reserva(id,estado)
+        if resultado is None:
+            return jsonify({"errors": [{"code": "404", "message": mensaje}]}), 404
+        return "", 204
+    except Exception as e:
+        return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500

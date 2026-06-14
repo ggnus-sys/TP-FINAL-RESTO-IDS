@@ -9,6 +9,13 @@ CREATE TABLE menu(
     restricciones_alimenticias SET ('vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten') NOT NULL  
 );
 
+CREATE TABLE servicios_extra(
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_servicio VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(150) NOT NULL
+);
+
 
 CREATE TABLE usuarios (
 
@@ -49,3 +56,6 @@ INSERT INTO menu (plato, precio, descripcion, restricciones_alimenticias) VALUES
 ('Ensalada César', 400, 'Ensalada fresca con lechuga, pollo a la parrilla, croutons y aderezo César.', 'sin_lactosa'),
 ('Pizza Margherita', 450, 'Pizza clásica con salsa de tomate, mozzarella y albahaca fresca.', 'vegano'),
 ('Hamburguesa Vegana', 550, 'Hamburguesa hecha con ingredientes vegetales, acompañada de papas al horno.', 'vegano,sin_lactosa');
+
+INSERT INTO servicios_extra (nombre_servicio, descripcion) VALUES
+('Rampa', 'Para subir y bajar');

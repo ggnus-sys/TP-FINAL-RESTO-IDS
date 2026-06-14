@@ -7,13 +7,11 @@ menu_bp = Blueprint('menu', __name__)
 
 @menu_bp.route('/menu', methods=['GET'])
 def detalle_menu():
-    menu = obtener_menu()
-    if not menu:
-        abort(404, description=f'No se encontro el menu.')
+    menu = obtener_menu() or []
     
     return render_template('menu.html', menu=menu)
 
-@menu_bp.route('/adm', methods=['GET', 'POST'])
+@menu_bp.route('/menu/agregar-plato', methods=['GET','POST'])
 @requiere_login(rol='admin')
 def admin_menu():
     if request.method == 'POST':
@@ -44,11 +42,7 @@ def admin_menu():
 
         return redirect(url_for('menu.admin_menu'))
 
-    menu = obtener_menu()
-    if not menu:
-        abort(404, description=f'No se encontro el menu.')
-
-    return render_template('admin.html', menu=menu)
+    return redirect(url_for('admin'))
 
 @menu_bp.route('/menu/delete/<int:plato_id>', methods=['GET'])
 @requiere_login(rol='admin')

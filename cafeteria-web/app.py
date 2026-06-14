@@ -1,14 +1,16 @@
 import os
 import logging
-from flask import Flask, render_template, send_file, request
+from flask import Flask, render_template, send_file, request, abort
 from cafeteria.routes.reservas import reservas_bp
 from cafeteria.routes.menu import menu_bp
 from cafeteria.routes.reviews import reviews_bp
 from cafeteria.routes.auth import auth_bp
 from cafeteria.services.mailer import enviar_qr_confirmacion_reserva
-from cafeteria.utils import usuario_actual
+from cafeteria.routes.servicios_extra import servicios_extra_bp
+from cafeteria.services.servicios_extra import obtener_servicios_extra
+from cafeteria.services.menu import obtener_menu
+from cafeteria.utils import requiere_login, usuario_actual
 from flask_mail import Mail
-import segno
 
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(name)s - %(message)s')
 
@@ -26,11 +28,11 @@ app.config['MAIL_DEFAULT_SENDER'] = 'kaifernoreply@gmail.com'
 app.config['MAIL_SUPPRESS_SEND'] = False
 
 mail = Mail(app)
-
 app.register_blueprint(reservas_bp)
 app.register_blueprint(menu_bp)
 app.register_blueprint(reviews_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(servicios_extra_bp)
 #app.register_blueprint(usuarios_bp)
 app.secret_key = os.getenv('SECRET_KEY', 'clave-kaifer') #cambié la clave anterior por una fija para que no se deslogueen los usuarios ya hechos cada vez que reiniciemos
 #tengo entendido que tanto acá como JWT_SECRET (en la api), lo ideal es que la clave se obtenga del env
@@ -66,6 +68,18 @@ def page_not_found(error):
         "404.html",
         mensaje=error.description
     ), 404
+
+@app.route('/admin', methods=['GET'])
+@requiere_login(rol='admin')
+def admin():
+    servicios_extra = obtener_servicios_extra()
+    menu = obtener_menu()
+    if not servicios_extra or not menu:
+        abort(404, description=f'No se encontro el servicios_extra.')
+
+    
+    return render_template('admin.html', menu=menu, servicios_extra=servicios_extra)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5001)
