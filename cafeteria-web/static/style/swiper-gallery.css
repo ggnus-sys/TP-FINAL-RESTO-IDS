@@ -1,0 +1,40 @@
+/* 
+ CARRUSEL  
+*/
+
+/* Contenedor principal*/
+.swiper {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 60px; /* Espacio abajo  */
+    padding-left: 50px;   /* Espacio izquierdo  */
+    padding-right: 50px;  /* Espacio derecho  */
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Fuerza el alineamiento horizontal */
+.swiper-wrapper {
+    display: flex !important;
+    flex-direction: row !important; 
+}
+
+/* Configuración carrusel */
+.swiper-slide {
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.carousel-img {
+    height: 380px !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.carousel-img:hover {
+    transform: scale(1.02);
+}
+
