@@ -7,10 +7,15 @@ load_dotenv()
 BASE_URL = '/kaifer-api'
 
 # Formato de fecha esperado por la API
-FORMATO_FECHA = '%Y-%m-%d'
+FORMATO_FECHA = '%m/%d/%Y %I:%M %p'
 
 #Validación mail
 EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
+
+#Configuración JWT
+JWT_SECRET = os.getenv('JWT_SECRET', 'secretito-kaifer')
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_HORAS = 24 
 
 #Roles de usuario
 ROLES_VALIDOS = ("admin","cliente")

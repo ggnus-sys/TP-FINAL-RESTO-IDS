@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <menut name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Codes</title>
+  </head>
+  <body>
+    <h1>QR de confirmación de tu reserva</h1>
+    <p>Hola {{ usuario.nombre }}!</p>
+    <p>Tu reserva ha sido confirmada. Para acceder a tu reserva, escanea el siguiente código QR:</p>
+    <div style="text-align: center;">
+        <img src="cid:image1" alt="QR Code" />
+    </div>
+    <form action="{{ url_for('reservas_bp.cancelar_reserva', id_reserva=id_reserva) }}" method="post">
+      <button name="cancelar" value="cancel">Upvote</button>
+    </form>
+    <p>Este código QR es válido hasta {{ expira_en }}.</p>
+  </body>
+</html>

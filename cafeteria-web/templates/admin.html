@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Admin Menú{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='style/admin.css') }}"> {% endblock %}
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_3.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Administración <em>del</em> Menú</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<script>
+        function togglePopup(id) {
+            const overlay = document.getElementById('popupOverlay' + id);
+            overlay.classList.toggle('show');
+        }
+</script>
+
+<div class="fh5co-section">
+	<button class="btn-open-popup" onclick="togglePopup(1)">
+      Open Popup Form
+	</button>
+	<div class="container">
+		<div class="row">
+			<div class="overlay-container" id="popupOverlay1">
+				<div class = "blocker">
+					<form class = "form-container" action="{{ url_for('menu.admin_menu') }}" method="post" enctype="multipart/form-data">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Nombre del plato</label>
+							<input type="text" name="plato" class="form-control" placeholder="Nombre del plato">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Precio</label>
+							<input type="number" name="precio" class="form-control" placeholder="Precio" min="0" step="0.01">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Descripción</label>
+							<input type="text" name="descripcion" class="form-control" placeholder="Descripción">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Restricciones alimenticias</label>
+							<input type="text" name="restricciones_alimenticias" class="form-control" placeholder="Restricciones alimenticias">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Imagen de representación(png o jpeg)</label>
+							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" />
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary btn-outline btn-lg">Agregar Plato</button>
+						</div>
+					</div>
+					
+					</form>
+					<button class="btn-close-popup" 
+                	onclick="togglePopup(1)">
+              		Close
+              		</button>
+				</div>
+				
+				
+			</div>
+			
+		</div>
+		<div class="row" style="margin-top: 40px;">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Menú actual</h2>
+			</div>
+			<div class="col-md-12">
+				<table class="table table-striped" id="menu-table">
+					<thead>
+						<tr>
+							<th>Imagen</th>
+							<th>Nombre</th>
+							<th>Precio</th>
+							<th>Descripción</th>
+							<th>Restricciones</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody class="list list-font-color">
+					{% for plato in menu %}
+						<tr class="list-font-color">
+							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							<td>{{ plato.plato }}</td>
+							<td>${{ plato.precio }}</td>
+							<td>{{ plato.descripcion }}</td>
+							<td>{{ plato.restricciones_alimenticias }}</td>
+							<td>
+								<a href="{{ url_for('menu.delete_menu_item', plato_id=plato.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+								<a href="{{ url_for('menu.editar_plato', plato_id=plato.id) }}" class="btn btn-warning btn-sm">Editar</a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<div class="fh5co-section">
+	<button class="btn-open-popup" onclick="togglePopup(2)">
+      Open Popup Form
+	</button>
+	<div class="container">
+		<div class="row">
+			<div class="overlay-container" id="popupOverlay2">
+				<div class = "blocker">
+					<form action="{{ url_for('servicios-extra.admin_servicios_extra') }}" method="post" enctype="multipart/form-data" class="form-container">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Nombre del servicio</label>
+							<input type="text" name="servicio_extra" class="form-control" placeholder="Nombre del servicio">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Descripción</label>
+							<input type="text" name="descripcion" class="form-control" placeholder="Descripción">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Imagen de representación(png o jpeg)</label>
+							<input type="file" name="service_image" class="form-control" accept="image/png, image/jpeg" />
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary btn-outline btn-lg">Agregar Servicio</button>
+						</div>
+					</div>
+					
+				</form>
+				<button class="btn-close-popup" 
+				onclick="togglePopup(2)">
+				Close
+				</button>
+				</div>
+				
+			</div>
+			
+		</div>
+
+		<div class="row" style="margin-top: 40px;">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Servicios extra</h2>
+			</div>
+			<div class="col-md-12">
+				<table class="table table-striped" id="menu-table">
+					<thead>
+						<tr>
+							<th>Imagen</th>
+							<th>Nombre</th>
+							<th>Descripción</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody class="list">
+					{% for servicio in servicios_extra %}
+						<tr>
+							<td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.servicio_extra) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							<td>{{ servicio.servicio_extra }}</td>
+							<td>{{ servicio.descripcion }}</td>
+							<td>
+								<a href="{{ url_for('servicios-extra.delete_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+								<a href="{{ url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-warning btn-sm">Editar</a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

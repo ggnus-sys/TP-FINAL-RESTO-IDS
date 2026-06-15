@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaiser &mdash; Editar Plato{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_3.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Editar <em>Plato</em></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Editar Plato</h2>
+			</div>
+			<div class="col-md-8">
+				<form action="{{ url_for('menu.editar_plato', plato_id=plato.id) }}" method="post">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Nombre del plato</label>
+							<input type="text" name="plato" class="form-control" value="{{ plato.plato }}">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Precio</label>
+							<input type="number" name="precio" class="form-control" min="0" step="0.01" value="{{ plato.precio }}">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Descripción</label>
+							<input type="text" name="descripcion" class="form-control" value="{{ plato.descripcion }}">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label>Restricciones alimenticias</label>
+							<input type="text" name="restricciones_alimenticias" class="form-control" value="{{ plato.restricciones_alimenticias }}">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary btn-outline btn-lg">Guardar Cambios</button>
+							<a href="{{ url_for('menu.admin_menu') }}" class="btn btn-default btn-lg">Cancelar</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

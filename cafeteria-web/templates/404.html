@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Página no encontrada - Kaifer{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='style/404.css') }}"> {% endblock %}
+
+{% block content %}
+<section class="error-page">
+	<h1 class="error-page__code">404</h1>
+	<h2 class="error-page__title">Página no encontrada</h2>
+	<p class="error-page__message">
+		{% if mensaje %}
+			{{ mensaje }}
+		{% else %}
+			Lo sentimos, la página que estás buscando no existe o fue movida.
+		{% endif %}
+	</p>
+	<div class="error-page__actions">
+		<a href="{{ url_for('index') }}" class="error-page__link">Volver al inicio</a>
+		<a href="javascript:history.back()" class="error-page__link error-page__link--secondary">Volver atrás</a>
+	</div>
+</section>
+{% endblock %}
+
+

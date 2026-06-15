@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Galería{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/zoomerang.js') }}"></script>
+{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_2.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Mirá  <em>Nuestra</em> Galería </h1>
+						<h2>Fotos de nuestra cafetería</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/swiper-gallery.css') }}" />
+
+<div id="fh5co-gallery" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box text-center">
+				<h2>Nuestra Galería</h2>
+				<p>Conocé los rincones de Kaifer, nuestros platos y momentos especiales.</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="swiper kaifer-swiper">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/cafe_5_1.jpeg') }});"></div></div>
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/cafe_7.jpeg') }});"></div></div>
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/acerca_2.jpg') }});"></div></div>
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/cafe_portada_1.jpeg') }});"></div></div>
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/cafe_portada_2.jpeg') }});"></div></div>
+						<div class="swiper-slide"><div class="carousel-img" style="background-image: url({{ url_for('static', filename='images/cafe_acerca_1.jpg') }});"></div></div>
+					</div>
+					
+					<div class="swiper-pagination"></div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/swiper-gallery.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/zoomerang.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Zoomerang !== 'undefined') {
+            Zoomerang.listen('.fh5co-bg-img');
+        }
+    });
+</script>
+
+{% endblock %}

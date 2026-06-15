@@ -1,6 +1,8 @@
 from ..db import get_connection
 from ..utils import hashear_password
 
+
+#data transfer object
 def construir_usuario_dto(usuario: dict) -> dict:
     """DTO publico de un usuario (sin password_hash)."""
     return {

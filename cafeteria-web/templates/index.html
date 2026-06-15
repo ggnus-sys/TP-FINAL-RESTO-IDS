@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaiser &mdash; Home{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_1.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>El mejor café <em> y </em> Restaurante <em>en</em> CABA</h1>
+						<h2>Bienvenidos a Kaiser Cafetería</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fh5co-about" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-pull-4 img-wrap animate-box" data-animate-effect="fadeInLeft">
+				<img src="{{ url_for('static', filename='images/cafe_acerca_1.jpg') }}" alt="Kaiser Cafetería">
+			</div>
+			<div class="col-md-5 col-md-push-1 animate-box">
+				<div class="section-heading">
+					<h2>El Restaurante</h2>
+					<p>
+						Kaifer nació en el corazón de Palermo como un refugio para los verdaderos amantes del buen vivir. 
+						Lo que comenzó como la simple búsqueda de la taza de café perfecta, pronto se transformó en un proyecto 
+						apasionado que fusiona el arte del barismo de especialidad con una cocina honesta, creativa y artesanal.
+					</p>
+					<p>
+						Creemos que los mejores momentos ocurren alrededor de una mesa. Por eso, cada rincón de nuestro espacio 
+						está diseñado para ofrecerte una pausa en la rutina, donde los aromas tostados, la frescura de los 
+						ingredientes seleccionados y la calidez de nuestro servicio se unen para crear una experiencia inolvidable.
+					</p>
+					<p><a href="{{ url_for('about') }}" class="btn btn-primary btn-outline">Nuestra Historia</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-featured-menu" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Tus favoritos de siempre, como nunca antes</h2>
+				<div class="row">
+					<div class="col-md-6">
+						<p>Desde la intensidad de un espresso puro hasta la suavidad de un latte perfectamente balanceado. Descubre nuestra selección diaria, creada con pasión por baristas para transformar tu rutina en un auténtico deleite.</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+				<div class="fh5co-item">
+					<img src="{{ url_for('static', filename='images/cafe_1.jpeg') }}" class="img-responsive" alt="Plato Kaiser">
+					<h3>Iced Latte con Crema</h3>
+					<span class="fh5co-price">$20<sup>.50</sup></span>
+					<p>Una base de café espresso intensamente oscuro vertido sobre leche helada, coronado con un hilo suave de crema fresca. Es el balance ideal entre la fuerza del grano y una frescura irresistible, diseñado para refrescar tus sentidos con elegancia.</p>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+				<div class="fh5co-item margin_top">
+					<img src="{{ url_for('static', filename='images/cafe_3.jpeg') }}" class="img-responsive" alt="Plato Kaiser">
+					<h3>Latte Macchiato en Capas</h3>
+					<span class="fh5co-price">$19<sup>.00</sup></span>
+					<p>Una combinación perfecta de espresso, leche caliente y crema batida, presentada en capas visibles que resaltan la complejidad del sabor.</p>
+				</div>
+			</div>
+			<div class="clearfix visible-sm-block visible-xs-block"></div>
+			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+				<div class="fh5co-item">
+					<img src="{{ url_for('static', filename='images/cafe_5.jpeg') }}" class="img-responsive" alt="Plato Kaiser">
+					<h3>Capuccino Premium</h3>
+					<span class="fh5co-price">$17<sup>.99</sup></span>
+					<p>Un delicado diseño de latte art que demuestra que el buen café no solo se saborea, también se admira. Textura de crema pura de principio a fin.</p>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+				<div class="fh5co-item margin_top">
+					<img src="{{ url_for('static', filename='images/cafe_7.jpeg') }}" class="img-responsive" alt="Plato Kaiser">
+					<h3>Espresso Lungo</h3>
+					<span class="fh5co-price">$22<sup>.50</sup></span>
+					<p>Un espresso largo y robusto, perfecto para aquellos que disfrutan de un sabor más intenso y equilibrado.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-featured-testimony" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Nuestra filosofía</h2>
+				<div class="row">
+					<div class="col-md-6">
+						<p></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5 animate-box img-to-responsive" data-animate-effect="fadeInLeft">
+				<img src="{{ url_for('static', filename='images/acerca_2.jpg') }}" alt="">
+			</div>
+			<div class="col-md-7 animate-box" data-animate-effect="fadeInRight">
+				<blockquote>
+					<p>&ldquo;El café cae en el estómago y de inmediato hay una conmoción general. Las ideas empiezan a moverse como batallones de un gran ejército en el campo de batalla... los pensamientos brillan.&rdquo;</p>
+					<p class="author"><cite>&mdash; Honoré de Balzac</cite></p>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-slider" class="fh5co-section animate-box">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 animate-box">
+				<div class="fh5co-heading">
+					<h2>Nuestro mejor <em>&amp;</em> más exclusivo menú</h2>
+					<p>
+					 Una experiencia diseñada para sorprenderte. Descubrí nuestra selección de platos exclusivos, donde la alta cocina y
+					 la frescura de los ingredientes se fusionan para ofrecerte lo mejor de Palermo en cada bocado.
+					</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-md-push-1 animate-box">
+				<aside id="fh5co-slider-wrwap">
+				<div class="flexslider">
+					<ul class="slides">
+						<li style="background-image: url({{ url_for('static', filename='images/com_tab_1.jpeg') }});">
+							<div class="overlay-gradient"></div>
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-md-12 col-md-offset-0 col-md-pull-10 slider-text slider-text-bg">
+										<div class="slider-text-inner">
+											<div class="desc">
+												<h2>Tostadas <em></em> Francesas</h2>
+												<p>La definición del brunch perfecto: Pan brioche artesanal caramelizado, perfumado con canela y servido con frutas frescas. Suavidad pura en cada bocado.</p>
+												<p><a href="{{ url_for('menu.detalle_menu') }}" class="btn btn-primary btn-outline">Ver Menú</a></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li style="background-image: url({{ url_for('static', filename='images/com_1.jpeg') }});">
+							<div class="overlay-gradient"></div>
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-md-12 col-md-offset-0 col-md-pull-10 slider-text slider-text-bg">
+										<div class="slider-text-inner">
+											<div class="desc">
+												<h2>Pollo con Champiñones al vino </h2>
+												<p>Un plato lleno de carácter: Jugoso pollo braseado con champiñones salteados y una irresistible reducción de vino. El maridaje perfecto para tu almuerzo.</p>
+												<p><a href="{{ url_for('menu.detalle_menu') }}" class="btn btn-primary btn-outline">Ver Menú</a></p>
+											</div>
+										</div>|
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				</aside>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-started" class="fh5co-section animate-box" style="background-image: url({{ url_for('static', filename='images/fondo_reserva.jpg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row animate-box">
+			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				<h2>Reserva tu mesa</h2>
+				<p>Tu mesa ideal en Palermo te está esperando. Reservá hoy mismo y asegúrate un momento único de tranquilidad, aroma y el mejor café de especialidad de la zona.</p>
+				<p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">Reservar Ahora</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- RESEÑAS -->
+<div class="row text-center fh5co-heading row-pb-md animate-box">
+    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+        <h2>Lo que dicen nuestros clientes</h2>
+        <p class="reviews-subtitle">
+			Más que un café, una experiencia.
+		</p>
+    </div>
+</div>
+
+<!-- SLIDER -->
+<div class="reviews-slider" id="reviewsContainer">
+</div> 
+
+<!-- BOTÓN ABAJO -->
+<div class="review-button-container">
+    <button id="openReviewModal" class="btn btn-primary btn-outline">
+        Agregar reseña
+    </button>
+</div>
+			<!-- MODAL RESEÑA -->
+<div id="reviewModal" class="review-modal">
+    <div class="review-modal-content">
+        <span class="close-modal">&times;</span>
+        <h2> Dejar una reseña </h2>
+
+        <!-- CARTEL ERROR -->
+        <div id="reviewError" class="review-error">
+            Completá todos los campos y seleccioná una cantidad de estrellas.
+        </div>
+        <input type="text" id="reviewName" placeholder="Tu nombre">
+        <textarea id="reviewText" placeholder="Escribí tu experiencia..."></textarea>
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <button id="submitReview" class="btn btn-primary">
+            Enviar reseña
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+

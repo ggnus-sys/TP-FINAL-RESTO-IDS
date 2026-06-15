@@ -1,7 +1,15 @@
 services:
 
+  frontend:
+    build: ./cafeteria-web
+    container_name: cafeteria-web-container
+    ports:
+      - "5001:5001"
+    expose:
+      - 5001
+
   backend:
-    build: .
+    build: ./cafeteria-api
     container_name: cafeteria-api-container
     environment:
       DB_HOST: mysql
@@ -11,9 +19,14 @@ services:
       DB_NAME: ${DB_NAME:-kaifer_db}
     ports:
       - "5000:5000"
+      - "8000:587"
+    expose:
+      - 5000
+      - 587
     depends_on:
       mysql:
         condition: service_healthy
+
   mysql:
     image: mysql:8
     container_name: cafeteria_mysql
