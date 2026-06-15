@@ -334,3 +334,126 @@
 
 
 }());
+
+// ============================
+// MODAL RESEÑAS
+// ============================
+
+const reviewModal = document.getElementById("reviewModal");
+
+const openReviewBtn = document.getElementById("openReviewModal");
+
+const closeReviewBtn = document.querySelector(".close-modal");
+
+
+// ABRIR MODAL
+openReviewBtn.addEventListener("click", () => {
+    reviewModal.style.display = "block";
+});
+
+
+// CERRAR MODAL
+closeReviewBtn.addEventListener("click", () => {
+    reviewModal.style.display = "none";
+});
+
+
+// CERRAR HACIENDO CLICK AFUERA
+window.addEventListener("click", (e) => {
+    if (e.target === reviewModal) {
+        reviewModal.style.display = "none";
+    }
+});
+
+// ============================
+// ESTRELLAS RESEÑA
+// ============================
+
+const stars = document.querySelectorAll(".star");
+
+let selectedRating = 0;
+
+stars.forEach((star) => {
+
+    star.addEventListener("click", () => {
+
+        selectedRating = star.dataset.value;
+
+        stars.forEach((s) => {
+            s.style.color = "#666";
+        });
+
+        for (let i = 0; i < selectedRating; i++) {
+            stars[i].style.color = "#c59d5f";
+        }
+
+    });
+
+});
+
+// ============================
+// CREAR RESEÑA
+// ============================
+
+const submitReviewBtn = document.getElementById("submitReview");
+document.getElementById("submitReview").addEventListener("click", function () {
+
+    const reviewError = document.getElementById("reviewError");
+
+    const name = document.getElementById("reviewName").value.trim();
+    const text = document.getElementById("reviewText").value.trim();
+
+    // cambiar si tu variable de estrellas tiene otro nombre
+    if (!name || !text || selectedRating === 0) {
+
+        reviewError.style.display = "block";
+		// desaparecer después de 3 segundos
+			setTimeout(() => {
+				reviewError.style.display = "none";
+			}, 5000);
+			return;
+    }
+
+    // ocultar cartel si está todo bien
+    reviewError.style.display = "none";
+
+    // CREAR RESEÑA
+    const reviewHTML = `
+        <div class="review-slide">
+            <div class="review-card">
+
+                <div class="review-stars">
+                    ${"★".repeat(selectedRating)}
+                </div>
+
+                <p>"${text}"</p>
+
+                <div class="review-user">
+                    <img src="/static/images/perfil_usuario.jpg" alt="cliente">
+
+                    <div>
+                        <h4>${name}</h4>
+                        <span>Cliente</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    document
+        .getElementById("reviewsContainer")
+        .insertAdjacentHTML("beforeend", reviewHTML);
+
+    // limpiar inputs
+    document.getElementById("reviewName").value = "";
+    document.getElementById("reviewText").value = "";
+
+    selectedRating = 0;
+	document.querySelectorAll(".star").forEach(star => {
+		star.style.color = "#666";
+	});
+
+    // cerrar modal
+    document.getElementById("reviewModal").style.display = "none";
+});

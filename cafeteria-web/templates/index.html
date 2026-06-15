@@ -190,4 +190,51 @@
 	</div>
 </div>
 
+<!-- RESEÑAS -->
+<div class="row text-center fh5co-heading row-pb-md animate-box">
+    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+        <h2>Lo que dicen nuestros clientes</h2>
+        <p class="reviews-subtitle">
+			Más que un café, una experiencia.
+		</p>
+    </div>
+</div>
+
+<!-- SLIDER -->
+<div class="reviews-slider" id="reviewsContainer">
+</div> 
+
+<!-- BOTÓN ABAJO -->
+<div class="review-button-container">
+    <button id="openReviewModal" class="btn btn-primary btn-outline">
+        Agregar reseña
+    </button>
+</div>
+			<!-- MODAL RESEÑA -->
+<div id="reviewModal" class="review-modal">
+    <div class="review-modal-content">
+        <span class="close-modal">&times;</span>
+        <h2> Dejar una reseña </h2>
+
+        <!-- CARTEL ERROR -->
+        <div id="reviewError" class="review-error">
+            Completá todos los campos y seleccioná una cantidad de estrellas.
+        </div>
+        <input type="text" id="reviewName" placeholder="Tu nombre">
+        <textarea id="reviewText" placeholder="Escribí tu experiencia..."></textarea>
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <button id="submitReview" class="btn btn-primary">
+            Enviar reseña
+        </button>
+    </div>
+</div>
+
 {% endblock %}
+
+

@@ -1840,6 +1840,7 @@ textarea {
 
 /*# sourceMappingURL=style.css.map */
 
+<<<<<<< Updated upstream
 /* 
   AJUSTES PERSONALIZADOS
 */
@@ -2037,3 +2038,223 @@ textarea {
 .fh5co-heading {
     margin-bottom: 30px !important;
 }
+=======
+/* =====================
+   RESEÑAS
+===================== */
+
+#fh5co-reviews {
+    background: #1a1a1a;
+    padding: 7em 0;
+}
+
+.fh5co-heading h2,
+#fh5co-gallery .fh5co-heading h2,
+#fh5co-reservation-form .fh5co-heading h2,
+#fh5co-reviews .fh5co-heading h2 {
+  color: #ffffff;
+  font-family: "Satisfy", cursive;
+}
+
+.reviews-subtitle {
+    color: #ffffff;
+}
+
+.review-card {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 16px;
+    transition: 0.3s ease;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.review-card:hover {
+    transform: translateY(-8px);
+}
+
+.review-stars {
+    color: #c59d5f;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.review-card p {
+    color: #d6d6d6;
+    line-height: 1.8;
+    min-height: 120px;
+}
+
+#openReviewModal {
+    margin-top: 30px;
+}
+
+.review-user {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.review-user img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.review-user h4 {
+    margin: 0;
+    color: white;
+}
+
+.review-user span {
+    color: #999;
+    font-size: 14px;
+}
+
+/* =========================
+   MODAL RESEÑAS
+========================= */
+
+.review-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.review-modal-content {
+    background: #1c1c1c;
+    width: 90%;
+    max-width: 500px;
+    margin: 8% auto;
+    padding: 40px;
+    border-radius: 20px;
+    position: relative;
+    animation: modalFade 0.3s ease;
+}
+
+.review-modal-content h2 {
+    color: white;
+    margin-bottom: 25px;
+    font-family: "Satisfy", cursive;
+    text-align: center;
+}
+
+.review-modal input,
+.review-modal textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #2b2b2b;
+    color: white;
+}
+
+.review-modal textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star-rating {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.star {
+    font-size: 35px;
+    color: #666;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.star:hover {
+    color: #c59d5f;
+}
+
+@keyframes modalFade {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   SLIDER RESEÑAS
+========================= */
+
+.reviews-slider {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+}
+
+.reviews-slider::-webkit-scrollbar {
+    height: 10px;
+}
+
+.reviews-slider::-webkit-scrollbar-thumb {
+    background: #c59d5f;
+    border-radius: 20px;
+}
+
+.review-slide {
+    min-width: 350px;
+    max-width: 350px;
+    flex-shrink: 0;
+}
+
+.review-card {
+    height: 100%;
+}
+
+.review-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* ==========================
+   CARTEL ERROR RESEÑA
+========================== */
+
+.review-error {
+    display: none;
+
+    background: #c6a27d;
+    color: #3a2415;
+
+    padding: 14px;
+    border-radius: 14px;
+
+    text-align: center;
+    font-weight: bold;
+
+    margin-bottom: 18px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+>>>>>>> Stashed changes
