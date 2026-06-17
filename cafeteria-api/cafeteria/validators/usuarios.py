@@ -38,17 +38,17 @@ def validar_body_login(body):
     email = body.get("email")
     password = body.get("password")
 
-    if not email or not password:
+    if not email or not password: 
         return "Hacen falta campos obligatorios", 400
     
     for campo, valor in [("email", email), ("password", password)]:
         if not isinstance(valor, str) or not valor.strip():
             return f"El campo '{campo}' debe ser una cadena no vacía", 400
         
-    if not EMAIL_REGEX.match(email):
+    if not EMAIL_REGEX.match(email): #Necesario? ya se valida a la hora de crear.
         return "El email no es valido",400
     
-    if len(password) < 8:
+    if len(password) < 8: ##Necesario? ya se valida que no puedan crearse usuarios con contraseña menor a 8 caracteres.
         return "La contraseña debe tener al menos 8 caracteres", 400
     
     return None, None

@@ -3,16 +3,11 @@
 {% block title %}Kaifer &mdash; Reservas{% endblock %}
 
 {% block extra_js %}
-<script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }}"></script>
-<script>
-	$(function () {
-		$('#taskdatetime').datetimepicker();
-	});
-</script>
+<script src="{{ url_for('static', filename='js/reservas.js') }}"></script>
 {% endblock %}
 
 {% block header_banner %}
+
 <div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/fondo_reserva.jpg') }});" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
@@ -32,6 +27,20 @@
 {% block content %}
 
 
+<!-- sirve para mostrar al usuario el feedback de lo que esta haciendo, con mensajes de flask temporales, por ejempll cuando agregamos un plato en el admun
+ ademas se renderiza solo si hay un mensaje, sino no se renderiza. -->
+ 
+{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<div class="container" style="margin-top:15px;">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
+
+
 <div id="fh5co-reservation-form" class="fh5co-section">
 	<div class="container">
 		<div class="row">
@@ -48,33 +57,60 @@
 				<form action="{{ url_for('reservas_bp.reservas') }}" method="POST" id="form-wrap">
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="name">Id usuario</label>
-							<input type="number" class="form-control" id="name" name="id_usuario">
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-md-12">
 							<label for="many">¿Cuántas mesas?</label>
 							<select name="mesas" id="many" class="form-control custom_select">
-								<option value=1>1</option>
-								<option value=2>2</option>
-								<option value=3>3</option>
-								<option value=4>4</option>
-								<option value=5>5</option>
+								<option value=1>1 mesa</option>
+								<option value=2>2 mesas</option>
 							</select>
 						</div>
 					</div>
+
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="taskdatetime">¿Cuándo?</label>
-							<input type="text" name="fecha" id="taskdatetime" class="form-control"/>
+							<label for="res_date">¿Qué día?</label>
+							<input type="date" name="fecha_dia" id="res_date" class="form-control"/>
 						</div>
 					</div>
+
 					<div class="row form-group">
 						<div class="col-md-12">
-							<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Enviar reservación">
+							<label for="res_time">¿A qué hora?</label>
+							<select name="fecha_hora" id="res_time" class="form-control custom_select" required>
+								<optgroup label="Desayuno">
+									<option value="08:00">08:00 AM</option>
+									<option value="08:30">08:30 AM</option>
+									<option value="09:00">09:00 AM</option>
+									<option value="09:30">09:30 AM</option>
+									<option value="10:00">10:00 AM</option>
+									<option value="10:30">10:30 AM</option>
+									<option value="11:00">11:00 AM</option>
+								</optgroup>
+								<optgroup label="Almuerzo">
+									<option value="12:00">12:00 PM</option>
+									<option value="12:30">12:30 PM</option>
+									<option value="13:00">13:00 PM</option>
+									<option value="13:30">13:30 PM</option>
+									<option value="14:00">14:00 PM</option>
+								</optgroup>
+								<optgroup label="Merienda">
+									<option value="16:00">16:00 PM</option>
+									<option value="16:30">16:30 PM</option>
+									<option value="17:00">17:00 PM</option>
+									<option value="17:30">17:30 PM</option>
+									<option value="18:00">18:00 PM</option>
+									<option value="18:30">18:30 PM</option>
+									<option value="19:00">19:00 PM</option>
+								</optgroup>
+							</select>
 						</div>
 					</div>
+					
+					<div class="row form-group">
+							<div class="col-md-12">
+								<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Enviar reservación">
+							</div>
+						</div>
+
 				</form>
 			</div>
 		</div>

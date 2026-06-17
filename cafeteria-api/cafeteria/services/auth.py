@@ -14,7 +14,7 @@ def registrar_usuario(body: dict):
     if error:
         raise ValueError(error, codigo)
     
-    if obtener_usuario_por_email(body["email"]):
+    if obtener_usuario_por_email(body["email"]): #Necesario? dentro de crear usuario tambien se valida que el mail no exista.
         raise ValueError(construir_error_api(
         code='ERROR_CODE_EMAIL_YA_REGISTRADO',
         message='Email ya registrado',
