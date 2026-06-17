@@ -1886,6 +1886,10 @@ textarea {
     line-height: 1.6 !important;
 }
 
+.tabla-cafe thead th:not(:first-child) {
+    padding-left: 22px !important;
+}
+
 /* 
   FORMULARIO DE CONTACTO
 */

@@ -65,9 +65,9 @@
 							<li class="has-dropdown">
 								<a href="{{ url_for('gallery') }}">Galeria</a>
 							</li>
-							<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservation</a></li>
-							<li><a href="{{ url_for('about') }}">About</a></li>
-							<li><a href="{{ url_for('contact') }}">Contact</a></li>
+							<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservas</a></li>
+							<li><a href="{{ url_for('about') }}">Acerca de nosotros</a></li>
+							<li><a href="{{ url_for('contact') }}">Contacto</a></li>
 						{% if usuario_sesion %}
 							<li class="has-dropdown">
 								<a href="#">{{ usuario_sesion.nombre }}</a>
@@ -80,8 +80,8 @@
 								</ul>
 							</li>
 						{% else %}
-							<li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-							<li><a href="{{ url_for('auth.register') }}">Register</a></li>
+							<li><a href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
+							<li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
 						{% endif %}
 						</ul>
 					</div>
