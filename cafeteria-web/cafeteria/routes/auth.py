@@ -12,7 +12,7 @@ def login():
         password = request.form.get('password')
 
         if not email or not password:
-            flash('Completá todos los campos.', 'error')
+            flash('Completá todos los campos.', 'error') #Es necesario? validar body_login ya se encarga de esto.
             
             return redirect(url_for('auth.login'))
         

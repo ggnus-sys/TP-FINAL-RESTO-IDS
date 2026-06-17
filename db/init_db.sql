@@ -49,7 +49,7 @@ CREATE TABLE reservas (
 );
 
 INSERT INTO usuarios (nombre, apellido, contrasena, email, rol) VALUES
-('Gonzalo', 'Pereyra', '123', 'gg@gmail.com', 'cliente');
+('Gonzalo', 'Pereyra', '1234567891', 'gg@gmail.com', 'cliente');
 
 INSERT INTO menu (plato, precio, descripcion, restricciones_alimenticias) VALUES
 ('Milanesa con papas fritas', 500, 'Milanesa de carne vacuna acompañada de papas fritas crujientes.', 'vegetariano'),

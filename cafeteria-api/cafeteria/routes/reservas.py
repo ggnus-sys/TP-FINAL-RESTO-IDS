@@ -15,7 +15,7 @@ def obtener_reservas():
         reservas = listar_reservas()
 
         if not reservas:
-            return '', 204
+            return jsonify([]), 200
         
         return jsonify(reservas), 200
     
@@ -68,6 +68,7 @@ def eliminar_reserva(id):
 
 
 @reservas_bp.route('/reservas/<int:id>', methods=['PATCH'])
+
 def modificar_reserva(id):
     try:
         datos = request.get_json()

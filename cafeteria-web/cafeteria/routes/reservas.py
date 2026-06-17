@@ -6,30 +6,37 @@ from ..utils import requiere_login, usuario_actual
 import segno
 reservas_bp = Blueprint('reservas_bp', __name__)
 
-acc_username : str = 'Gonzalo'
-acc_mail : str = 'gonzalo.gnus@gmail.com'
 
 @reservas_bp.route('/reservas', methods=['GET','POST'])
 @requiere_login()
 def reservas():
     if request.method == 'POST':
-        id_usuario = usuario_actual()['id']
-        mesas = int(request.form.get("mesas"))
-        fecha = request.form.get("fecha")
+        usuario_logueado = usuario_actual()
 
+        id_usuario = usuario_logueado['id']
+        mesas = int(request.form.get("mesas"))
+        fecha_dia = request.form.get("fecha_dia")   
+        fecha_hora = request.form.get("fecha_hora")
         errores = []
 
         if not id_usuario:
             errores.append("Debe ingresar un ID valido para solicitar una reserva.")
+
+        if not fecha_dia or not fecha_hora:
+            errores.append("Debe seleccionar el dia y la hora de la reserva.")
+
 
         if errores:
             for error in errores:
                 flash(error, 'error')
             return redirect(url_for('reservas_bp.reservas'))
         
+
+        fecha_completa = fecha_dia + " " + fecha_hora
+
         body = { "id_usuario": id_usuario,
                 "mesas": mesas,
-                "fecha_reserva": fecha,
+                "fecha_reserva": fecha_completa,
                 "estado" : 'pendiente'}
         
         resultado : int = crear_reserva(body)
@@ -41,10 +48,10 @@ def reservas():
             enviar_qr_confirmacion_reserva(
                 usuario={
                     'id': id_usuario,
-                    'nombre': acc_username,
-                    'email': acc_mail
+                    'nombre': usuario_logueado['nombre'],
+                    'email': usuario_logueado['email']
                 },
-                expira_en = fecha,
+                expira_en = fecha_completa,
                 id_reserva=resultado
             )
         else:

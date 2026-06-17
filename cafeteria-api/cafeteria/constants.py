@@ -7,7 +7,7 @@ load_dotenv()
 BASE_URL = '/kaifer-api'
 
 # Formato de fecha esperado por la API
-FORMATO_FECHA = '%m/%d/%Y %I:%M %p'
+FORMATO_FECHA = '%Y-%m-%d %H:%M'
 
 #Validación mail
 EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
