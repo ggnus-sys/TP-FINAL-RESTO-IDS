@@ -7,8 +7,11 @@ logger = logging.getLogger(__name__)
 def crear_reserva(reserva):
     try:
         response = requests.post(f'{API_BASE_URL}/reservas', json=reserva)
+        
         if response.status_code == 201:
             return response.json().get("id")
+        
+
     
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")

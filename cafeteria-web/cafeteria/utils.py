@@ -60,8 +60,7 @@ def obtener_mesas_ocupadas_franja(fecha_str):
 
     if reservas:
         for reserva in reservas:
-
-            reserva_inicio = datetime.strptime(reserva['fecha_reserva'], "%Y-%m-%d %H:%M")
+            reserva_inicio = datetime.strptime(reserva['fecha_reserva'], "%a, %d %b %Y %H:%M:%S GMT")
             reserva_fin = reserva_inicio + DURACION_TURNO
             
 

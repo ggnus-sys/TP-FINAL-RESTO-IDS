@@ -33,6 +33,8 @@ def reservas():
 
         fecha_completa = fecha_dia + " " + fecha_hora
 
+        print(f"FECHA MIRA ACA SI ACA: {fecha_completa}",flush=True)
+
         mesas_ya_reservadas = obtener_mesas_ocupadas_franja(fecha_completa) 
 
         if mesas_ya_reservadas + mesas > CAPACIDAD_MAX_WEB:
@@ -51,7 +53,7 @@ def reservas():
         body = { "id_usuario": id_usuario,
                 "mesas": mesas,
                 "fecha_reserva": fecha_completa,
-                "estado" : 'pendiente'}
+                "estado_reserva" : 'pendiente'}
         
         resultado : int = crear_reserva(body)
 

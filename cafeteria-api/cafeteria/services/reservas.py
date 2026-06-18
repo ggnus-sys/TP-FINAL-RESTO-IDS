@@ -23,7 +23,7 @@ def listar_reservas(fecha_especifica = None):
         cursor = conn.cursor(dictionary=True)
        
         if (fecha_especifica):
-            cursor.execute("SELECT * FROM reservas WHERE DATE(fecha_reserva) = %s AND estado = 'pendiente'",(fecha_especifica,))
+            cursor.execute("SELECT * FROM reservas WHERE DATE(fecha_reserva) = %s AND estado_reserva = 'pendiente'",(fecha_especifica,))
         else:
             cursor.execute("SELECT * FROM reservas")
         

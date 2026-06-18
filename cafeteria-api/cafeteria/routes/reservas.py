@@ -8,7 +8,6 @@ reservas_bp = Blueprint('reservas_bp', __name__)
 
 #TODO: Chequeo rol admin
 @reservas_bp.route('/reservas', methods=['GET'])
-@requiere_auth()
 def obtener_reservas():
 
     try:
@@ -16,11 +15,10 @@ def obtener_reservas():
         fecha_especifica = request.args.get('fecha_especifica')
 
         if fecha_especifica:
-            reservas_dia = listar_reservas(fecha_especifica)
-            return jsonify(reservas_dia),200
+            reservas = listar_reservas(fecha_especifica)
 
-
-        reservas = listar_reservas()
+        else:
+            reservas = listar_reservas()
 
         if not reservas:
             return jsonify([]), 200
