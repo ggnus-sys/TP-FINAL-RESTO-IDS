@@ -19,11 +19,17 @@ def crear_reserva(reserva):
     return False
 
 
-def obtener_reservas():
+def obtener_reservas(fecha_especifica = None):
     reservas = []
 
     try:
-        response = requests.get(f'{API_BASE_URL}/reservas')
+        
+        if fecha_especifica:
+            response = requests.get(f'{API_BASE_URL}/reservas?fecha_especifica={fecha_especifica}')
+        
+        else:
+            response = requests.get(f'{API_BASE_URL}/reservas')
+
         if response.status_code == 200:
             reservas = response.json()
 
@@ -65,3 +71,4 @@ def cancelar_reserva(id_reserva):
         logger.error(f"Error al cancelar reserva: {e}")
 
     return False
+

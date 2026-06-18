@@ -101,11 +101,9 @@ def validar_formato_fecha(fecha: str, formato: str, nombre: str = 'fecha') -> da
             description=f"El valor '{fecha}' no cumple el formato esperado '{formato}'"
         ))
 
-def validar_fecha_futura(fecha_futura : datetime, fecha_pasada: datetime) -> datetime:
-    mismo_año : bool = fecha_futura.year == fecha_pasada.year
-    menor_mes : bool= fecha_futura.month < fecha_pasada.month
-    menor_dia : bool= fecha_futura.day < fecha_pasada.day
-    if mismo_año and menor_mes or (mismo_año and menor_mes and menor_dia):
+def validar_fecha_futura(fecha_futura : datetime) -> datetime:
+
+    if fecha_futura< datetime.now():
         logger.warning(f"Fecha invalida: '{fecha_futura}' es anterior a '{fecha_pasada}'")
 
         raise ValueError(construir_error_api(

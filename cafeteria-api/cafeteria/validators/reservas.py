@@ -17,15 +17,14 @@ def validar_body_reserva(body):
         validar_string_no_vacio(fecha_reserva, "fecha_reserva")
 
         fecha_reserva = validar_formato_fecha(fecha_reserva, FORMATO_FECHA, "fecha_reserva")
-        ##validar_fecha_futura(fecha_reserva, datetime.now())
-
-        #solo compruebo los tipos de id_usuario y mesas, el tipo de fecha salta al validar formato y el estado_reserva se comprueba su tipo al validar que el string no este vacio
         
+        validar_fecha_futura(fecha_reserva)
+
         validar_entero(id_usuario, "id_usuario")
         validar_entero(mesas, "mesas")
 
         validar_minimo(mesas, 1, "mesas")    
-        validar_maximo(mesas, 30, "mesas")
+        validar_maximo(mesas, 2, "mesas")
 
         validar_set(estado_reserva, ESTADOS_VALIDOS, "estado_reserva")
     except ValueError as e:
