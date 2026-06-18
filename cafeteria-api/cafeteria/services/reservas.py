@@ -14,14 +14,23 @@ def mensaje_reserva(reserva):
     }
 
 
-def listar_reservas():
+def listar_reservas(fecha_especifica = None, usuario_especifico = None):
     conn = None
     cursor = None
 
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM reservas")
+       
+        if fecha_especifica:
+            cursor.execute("SELECT * FROM reservas WHERE DATE(fecha_reserva) = %s AND estado_reserva = 'pendiente'",(fecha_especifica,))
+        
+        elif usuario_especifico:
+            cursor.execute("SELECT * FROM reservas WHERE id_usuario = %s AND estado_reserva = 'pendiente'", (usuario_especifico,))
+
+        else:
+            cursor.execute("SELECT * FROM reservas")
+        
         reservas = cursor.fetchall()
         return [mensaje_reserva(reserva) for reserva in reservas]
     
@@ -30,6 +39,8 @@ def listar_reservas():
             cursor.close()
         if conn:
             conn.close()
+            
+
 
 
 def crear_reserva(datos):

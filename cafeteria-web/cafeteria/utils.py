@@ -1,5 +1,8 @@
 from functools import wraps
 from flask import session, redirect, url_for, flash
+from .services.reservas import obtener_reservas
+from datetime import datetime, timedelta
+from .constants import DURACION_TURNO
 
 #la idea de utils es contener las funciones que guardan el JWT y los datos del usuario en una sesion
 
@@ -42,3 +45,32 @@ def requiere_login(rol=None):
             return funcion(*args, **kwargs)
         return wrapper
     return decorador
+
+def obtener_mesas_ocupadas_franja(fecha_str):
+
+    nueva_reserva_inicio = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M")
+    
+    nueva_reserva_fin = nueva_reserva_inicio + DURACION_TURNO
+    
+    fecha_dia = nueva_reserva_inicio.strftime("%Y-%m-%d")
+    
+    reservas = obtener_reservas(fecha_especifica=fecha_dia)
+
+    mesas_ocupadas = 0
+
+    if reservas:
+        for reserva in reservas:
+            reserva_inicio = datetime.strptime(reserva['fecha_reserva'], "%a, %d %b %Y %H:%M:%S GMT")
+            reserva_fin = reserva_inicio + DURACION_TURNO
+            
+
+            if nueva_reserva_inicio < reserva_fin and nueva_reserva_fin > reserva_inicio:
+                mesas_ocupadas += int(reserva['mesas'])
+                
+    return mesas_ocupadas
+
+
+def obtener_cantidad_reservas_logueado(id_usuario):
+    reservas_usuario = obtener_reservas(usuario_especifico=id_usuario)
+    return len(reservas_usuario)
+

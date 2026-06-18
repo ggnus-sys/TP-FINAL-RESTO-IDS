@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from ..services.reservas import crear_reserva, obtener_reservas, confirmar_reserva, cancelar_reserva
 from ..services.mailer import enviar_qr_confirmacion_reserva
-from ..constants import API_BASE_URL_HOST_MACHINE
-from ..utils import requiere_login, usuario_actual
+from ..constants import API_BASE_URL_HOST_MACHINE, CAPACIDAD_MAX_WEB, CAPACIDAD_MAX_RESERVAS_USUARIO
+from ..utils import requiere_login, usuario_actual, obtener_mesas_ocupadas_franja, obtener_cantidad_reservas_logueado
 import segno
 reservas_bp = Blueprint('reservas_bp', __name__)
 
@@ -25,7 +25,6 @@ def reservas():
         if not fecha_dia or not fecha_hora:
             errores.append("Debe seleccionar el dia y la hora de la reserva.")
 
-
         if errores:
             for error in errores:
                 flash(error, 'error')
@@ -34,10 +33,30 @@ def reservas():
 
         fecha_completa = fecha_dia + " " + fecha_hora
 
+        mesas_ya_reservadas = obtener_mesas_ocupadas_franja(fecha_completa) 
+
+        if mesas_ya_reservadas + mesas > CAPACIDAD_MAX_WEB:
+            mesas_libres = CAPACIDAD_MAX_WEB - mesas_ya_reservadas
+            if mesas_libres <= 0:
+                errores.append(f"Ya no quedan mesas disponibles para las {fecha_hora}.")
+            else:
+                errores.append(f"Solo quedan {mesas_libres} mesas disponibles para esa hora.")
+
+        reservas_usuario_logueado = obtener_cantidad_reservas_logueado(id_usuario)
+
+        if reservas_usuario_logueado >= CAPACIDAD_MAX_RESERVAS_USUARIO:
+            errores.append(f"No puedes tener más de 3 reservas pendientes simultaneamente.")
+
+        if errores:
+            for error in errores:
+                flash(error, 'error')
+            return redirect(url_for('reservas_bp.reservas'))
+        
+
         body = { "id_usuario": id_usuario,
                 "mesas": mesas,
                 "fecha_reserva": fecha_completa,
-                "estado" : 'pendiente'}
+                "estado_reserva" : 'pendiente'}
         
         resultado : int = crear_reserva(body)
 

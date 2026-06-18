@@ -11,7 +11,6 @@ usuarios_bp = Blueprint('usuarios_bp', __name__)
 
 #TODO: chequeo de admin
 @usuarios_bp.route('/usuarios', methods=['GET'])
-@requiere_auth()
 def get_usuarios():
 
     try:
