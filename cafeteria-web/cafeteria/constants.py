@@ -14,5 +14,8 @@ CALIF_MAX = 5
 #Capacidad maxima de mesas de la web
 CAPACIDAD_MAX_WEB = 15
 
+#CANTIDAD_MAX_RESERVAS_USUARIO
+CAPACIDAD_MAX_RESERVAS_USUARIO = 3
+
 #Tiempo maximo de un cliente dentro de la cafeteria
 DURACION_TURNO = timedelta(minutes=90)

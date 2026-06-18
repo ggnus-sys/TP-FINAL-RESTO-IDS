@@ -13,10 +13,14 @@ def obtener_reservas():
     try:
 
         fecha_especifica = request.args.get('fecha_especifica')
+        usuario_especifico = request.args.get('id_usuario')
 
         if fecha_especifica:
-            reservas = listar_reservas(fecha_especifica)
-
+            reservas = listar_reservas(fecha_especifica=fecha_especifica)
+        
+        elif usuario_especifico:
+            reservas = listar_reservas(usuario_especifico=usuario_especifico)
+            
         else:
             reservas = listar_reservas()
 
@@ -30,7 +34,6 @@ def obtener_reservas():
     
 
 @reservas_bp.route('/reservas', methods=['POST'])
-@requiere_auth()
 def anadir_reserva(): 
 
     datos = request.get_json()

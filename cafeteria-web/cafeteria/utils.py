@@ -54,7 +54,7 @@ def obtener_mesas_ocupadas_franja(fecha_str):
     
     fecha_dia = nueva_reserva_inicio.strftime("%Y-%m-%d")
     
-    reservas = obtener_reservas(fecha_dia)
+    reservas = obtener_reservas(fecha_especifica=fecha_dia)
 
     mesas_ocupadas = 0
 
@@ -68,3 +68,9 @@ def obtener_mesas_ocupadas_franja(fecha_str):
                 mesas_ocupadas += int(reserva['mesas'])
                 
     return mesas_ocupadas
+
+
+def obtener_cantidad_reservas_logueado(id_usuario):
+    reservas_usuario = obtener_reservas(usuario_especifico=id_usuario)
+    return len(reservas_usuario)
+

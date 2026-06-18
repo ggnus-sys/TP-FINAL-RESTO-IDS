@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from ..services.reservas import crear_reserva, obtener_reservas, confirmar_reserva, cancelar_reserva
 from ..services.mailer import enviar_qr_confirmacion_reserva
-from ..constants import API_BASE_URL_HOST_MACHINE, CAPACIDAD_MAX_WEB
-from ..utils import requiere_login, usuario_actual, obtener_mesas_ocupadas_franja
+from ..constants import API_BASE_URL_HOST_MACHINE, CAPACIDAD_MAX_WEB, CAPACIDAD_MAX_RESERVAS_USUARIO
+from ..utils import requiere_login, usuario_actual, obtener_mesas_ocupadas_franja, obtener_cantidad_reservas_logueado
 import segno
 reservas_bp = Blueprint('reservas_bp', __name__)
 
@@ -33,8 +33,6 @@ def reservas():
 
         fecha_completa = fecha_dia + " " + fecha_hora
 
-        print(f"FECHA MIRA ACA SI ACA: {fecha_completa}",flush=True)
-
         mesas_ya_reservadas = obtener_mesas_ocupadas_franja(fecha_completa) 
 
         if mesas_ya_reservadas + mesas > CAPACIDAD_MAX_WEB:
@@ -43,6 +41,11 @@ def reservas():
                 errores.append(f"Ya no quedan mesas disponibles para las {fecha_hora}.")
             else:
                 errores.append(f"Solo quedan {mesas_libres} mesas disponibles para esa hora.")
+
+        reservas_usuario_logueado = obtener_cantidad_reservas_logueado(id_usuario)
+
+        if reservas_usuario_logueado >= CAPACIDAD_MAX_RESERVAS_USUARIO:
+            errores.append(f"No puedes tener más de 3 reservas pendientes simultaneamente.")
 
         if errores:
             for error in errores:

@@ -22,13 +22,16 @@ def crear_reserva(reserva):
     return False
 
 
-def obtener_reservas(fecha_especifica = None):
+def obtener_reservas(fecha_especifica = None, usuario_especifico = None):
     reservas = []
 
     try:
         
         if fecha_especifica:
             response = requests.get(f'{API_BASE_URL}/reservas?fecha_especifica={fecha_especifica}')
+        
+        elif usuario_especifico:
+            response = requests.get(f'{API_BASE_URL}/reservas?id_usuario={usuario_especifico}')
         
         else:
             response = requests.get(f'{API_BASE_URL}/reservas')
