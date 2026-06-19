@@ -40,8 +40,7 @@ def enviar_qr_confirmacion_reserva(usuario: dict, expira_en: str, id_reserva: in
             'usuario': usuario,
             'id_reserva': id_reserva,
             'expira_en': expira_en,
-            'link': f"{API_BASE_URL_HOST_MACHINE}/reservas/{id_reserva}",
-            'link_confirmar': f"{API_BASE_URL_HOST_MACHINE}/confirmar-reserva?reserva_id={id_reserva}",
-            'link_cancelar': f"{API_BASE_URL_HOST_MACHINE}/cancelar-reserva?reserva_id={id_reserva}"
+            'link_confirmar': f"http://localhost:5001/confirmar-reserva?reserva_id={id_reserva}",
+            'link_cancelar': f"http://localhost:5001/cancelar-reserva?reserva_id={id_reserva}"
         },
     )

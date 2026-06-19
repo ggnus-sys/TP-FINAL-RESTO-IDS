@@ -10,7 +10,7 @@
     <p>Al confirmar, tu reserva quedará activa.</p>
 
     <div class="cancel-page__actions">
-        <form action="{{ url_for('reservas_bp.confirmar_reserva_view') }}?reserva_id={{ id_reserva }}" method="post">
+        <form action="{{ url_for('reservas_bp.confirmacion_reserva') }}?reserva_id={{ id_reserva }}" method="post">
             <button type="submit" class="btn btn-primary">Sí, confirmar reserva</button>
         </form>
         <a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-outline">Volver</a>

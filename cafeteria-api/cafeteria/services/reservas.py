@@ -124,7 +124,7 @@ def cambiar_estado_reserva(id,estado):
         resultado = cursor.fetchone()
         if resultado is None:
             return None, "La reserva no existe"
-        cursor.execute("UPDATE reservas SET estado = %s WHERE id = %s",(estado, id,))
+        cursor.execute("UPDATE reservas SET estado_reserva = %s WHERE id = %s",(estado, id,))
         conn.commit()
         return True,None
     finally:
