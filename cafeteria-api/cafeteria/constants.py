@@ -27,6 +27,12 @@ ESTADOS_VALIDOS = {'pendiente','confirmada','cancelada'}
 MIN_CALIFICACION = 1
 MAX_CALIFICACION = 5
 
+#Capacidad maxima de mesas de la web
+CAPACIDAD_MAX_WEB = 15
+
+#Cantidad maxima de reservas pendientes por usuario
+CANTIDAD_MAX_RESERVAS_USUARIO = 3
+
 # Configuracion de la base de datos MySQL (levantada via docker-compose)
 DB_HOST     = os.getenv('DB_HOST', 'mysql')
 DB_PORT     = int(os.getenv('DB_PORT', '3306'))
