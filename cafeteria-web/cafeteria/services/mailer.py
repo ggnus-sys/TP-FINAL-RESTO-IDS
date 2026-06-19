@@ -28,6 +28,7 @@ def _enviar(asunto: str, destinatario: str, template_base: str, contexto: dict) 
 
     logger.info(f"Email '{asunto}' enviado a {destinatario} (template: {template_base})")
 
+
 def enviar_qr_confirmacion_reserva(usuario: dict, expira_en: str, id_reserva: int) -> None:
     """Manda el email con el link para confirmar la reserva, que incluye el QR para acceder al menú."""
 
@@ -36,9 +37,11 @@ def enviar_qr_confirmacion_reserva(usuario: dict, expira_en: str, id_reserva: in
         destinatario=usuario['email'],
         template_base='qr-confirmacion-reserva',
         contexto={
-            'usuario':   usuario,
-            'id_reserva':    id_reserva,
+            'usuario': usuario,
+            'id_reserva': id_reserva,
             'expira_en': expira_en,
-            'link': f"{API_BASE_URL_HOST_MACHINE}/reservas/{id_reserva}"
+            'link': f"{API_BASE_URL_HOST_MACHINE}/reservas/{id_reserva}",
+            'link_confirmar': f"{API_BASE_URL_HOST_MACHINE}/confirmar-reserva?reserva_id={id_reserva}",
+            'link_cancelar': f"{API_BASE_URL_HOST_MACHINE}/cancelar-reserva?reserva_id={id_reserva}"
         },
     )
