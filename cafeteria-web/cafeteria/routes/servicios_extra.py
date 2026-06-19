@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from ..services.servicios_extra import modificar_servicio_extra, obtener_servicios_extra, agregar_servicio_extra, borrar_servicio_extra, obtener_servicio_extra
 from ..constants import CALIF_MIN, CALIF_MAX
-from ..utils import requiere_login
+from ..utils import requiere_login, token_actual
 
 servicios_extra_bp = Blueprint('servicios-extra', __name__)
 
@@ -31,7 +31,7 @@ def admin_servicios_extra():
                 flash(error, 'error')
             return redirect(url_for('servicios-extra.admin_servicios_extra'))
 
-        resultado = agregar_servicio_extra(servicio_extra, descripcion)
+        resultado = agregar_servicio_extra(servicio_extra, descripcion, token_actual())
         
         if resultado.get('ok'):
             flash('servicio extra agregado con exito.', 'success')

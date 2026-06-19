@@ -23,10 +23,11 @@ def obtener_resenas() -> list[dict]:
     return resenas
 
 
-def eliminar_resena(id: int) -> bool:
+def eliminar_resena(id: int, token: str) -> bool:
     """Consume el endpoint del backend para eliminar una resena."""
     try:
-        response = requests.delete(f'{API_BASE_URL}/resenas/{id}')
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.delete(f'{API_BASE_URL}/resenas/{id}', headers=headers)
         if response.status_code == 204:
             return True # devuelve true si se eliminó, puedo poner para que salga algún mensajito como gonza sino
         
@@ -40,10 +41,11 @@ def eliminar_resena(id: int) -> bool:
     
     return False
 
-def crear_resena(resena: dict) -> bool:
+def crear_resena(resena: dict, token: str) -> bool:
     """Consume el endpoint del backend para crear una resena."""
     try:
-        response = requests.post(f'{API_BASE_URL}/resenas', json=resena)
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.post(f'{API_BASE_URL}/resenas', json=resena, headers=headers)
         if response.status_code == 201:
             return True # devuelve true si se creó, pero también puedo cambiarlo a un mensajito
         

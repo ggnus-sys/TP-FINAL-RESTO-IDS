@@ -1,6 +1,6 @@
 from flask import Blueprint, Flask, render_template, request, jsonify, abort, flash, redirect, url_for
 from ..services.reviews import obtener_resenas, crear_resena, eliminar_resena
-from ..utils import requiere_login, usuario_actual
+from ..utils import requiere_login, usuario_actual, token_actual
 
 reviews_bp = Blueprint('reviews_bp', __name__)
 
@@ -35,7 +35,7 @@ def get_resenas():
             
             #acá se llega si no hay errores
             body = { "contenido": contenido,"estrellas": estrellas,"id_usuario": id_usuario}
-            resultado = crear_resena(body)
+            resultado = crear_resena(body, token_actual())
 
             if resultado:
                 flash("Reseña creada con exito.", 'success')
@@ -54,7 +54,7 @@ def get_resenas():
 @reviews_bp.route('/resenas/<int:id>', methods=['DELETE'])
 @requiere_login(rol='admin')
 def delete_resena(id):
-    resultado = eliminar_resena(id)
+    resultado = eliminar_resena(id, token_actual())
 
     if resultado:
         flash("Reseña eliminada con exito.", 'success')

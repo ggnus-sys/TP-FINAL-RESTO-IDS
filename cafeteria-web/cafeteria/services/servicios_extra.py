@@ -38,14 +38,15 @@ def obtener_servicio_extra(servicio_extra_id: int) -> dict:
         logger.error(f"Error al obtener servicio extra: {e}")
         return {}
 
-def agregar_servicio_extra(servicio_extra: str, descripcion: str) -> dict:
+def agregar_servicio_extra(servicio_extra: str, descripcion: str, token: str) -> dict:
     """Agrega un nuevo servicio extra al menú a través del endpoint del backend."""
     try:
+        headers = { "Authorization": f"Bearer {token}" }
         payload = {
             "servicio_extra": servicio_extra,
             "descripcion": descripcion,
         }
-        response = requests.post(f'{API_BASE_URL}/servicios_extra', json=payload)
+        response = requests.post(f'{API_BASE_URL}/servicios_extra', json=payload, headers=headers)
         return {
             "ok": response.status_code == 201,
         }
