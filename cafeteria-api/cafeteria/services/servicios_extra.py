@@ -3,7 +3,7 @@ from ..db import get_connection
 def formato_mensaje_get(servicio_extra):
     return {
         'id': servicio_extra['id'],
-        'servicio_extra': servicio_extra['nombre_servicio'],
+        'nombre_servicio': servicio_extra['nombre_servicio'],
         'descripcion': servicio_extra['descripcion'],
     }
 
@@ -75,19 +75,19 @@ def crear_servicio_extra(datos):
     conn = None
     cursor = None
 
-    servicio_extra = datos["servicio_extra"].strip()
+    nombre_servicio = datos["nombre_servicio"].strip()
     descripcion = datos["descripcion"].strip()
         
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary = True)
         
-        cursor.execute("SELECT id FROM servicios_extra WHERE nombre_servicio = %s", (servicio_extra,))
+        cursor.execute("SELECT id FROM servicios_extra WHERE nombre_servicio = %s", (nombre_servicio,))
 
         if cursor.fetchone():
-            raise ValueError(f"ya existe un servicio_extra con el nombre {servicio_extra}", 409)
+            raise ValueError(f"ya existe un servicio_extra con el nombre {nombre_servicio}", 409)
         
-        cursor.execute("INSERT INTO servicios_extra (nombre_servicio, descripcion) VALUES (%s,%s)", (servicio_extra, descripcion))
+        cursor.execute("INSERT INTO servicios_extra (nombre_servicio, descripcion) VALUES (%s,%s)", (nombre_servicio, descripcion))
         conn.commit()
     
     finally:

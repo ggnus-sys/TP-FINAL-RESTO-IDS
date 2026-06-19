@@ -17,13 +17,13 @@ def detalle_servicios_extra():
 @requiere_login(rol='admin')
 def admin_servicios_extra():
     if request.method == 'POST':
-        servicio_extra = request.form.get('servicio_extra')
+        nombre_servicio = request.form.get('nombre_servicio')
         descripcion = request.form.get('descripcion')
-        plate_image = request.files['service_image']
-        plate_image.save(f'static/images/servicios-extra/service_image_{servicio_extra}')
+        service_image = request.files['service_image']
+        service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}')
 
         errores = []
-        if not servicio_extra:
+        if not nombre_servicio:
             errores.append("El nombre del servicio extra es obligatorio.")
         
         if errores:
@@ -31,7 +31,7 @@ def admin_servicios_extra():
                 flash(error, 'error')
             return redirect(url_for('servicios-extra.admin_servicios_extra'))
 
-        resultado = agregar_servicio_extra(servicio_extra, descripcion, token_actual())
+        resultado = agregar_servicio_extra(nombre_servicio, descripcion, token_actual())
         
         if resultado.get('ok'):
             flash('servicio extra agregado con exito.', 'success')
@@ -62,14 +62,17 @@ def editar_servicio_extra(servicio_extra_id):
         servicio_extra = obtener_servicio_extra(servicio_extra_id)
         if not servicio_extra:
             abort(404, description=f'No se encontro el servicio extra con ID {servicio_extra_id}.')
-        return render_template('editForm.html', servicio_extra=servicio_extra)
+        return render_template('editForm-servicios-extra.html', servicio=servicio_extra)
 
     if request.method == 'POST':
-        servicio_extra_nombre = request.form.get('servicio_extra')
+        nombre_servicio = request.form.get('nombre_servicio')
         descripcion = request.form.get('descripcion')
+        service_image = request.files['service_image']
+        if service_image.filename != '':
+            service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}')
 
         errores = []
-        if not servicio_extra_nombre:
+        if not nombre_servicio:
             errores.append("El nombre del servicio extra es obligatorio.")
         
         if errores:
@@ -77,7 +80,7 @@ def editar_servicio_extra(servicio_extra_id):
                 flash(error, 'error')
             return redirect(url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio_extra_id))
 
-        resultado = modificar_servicio_extra(servicio_extra_id, servicio_extra_nombre, descripcion)
+        resultado = modificar_servicio_extra(servicio_extra_id, nombre_servicio, descripcion)
 
         if resultado.get('ok'):
             flash('servicio extra editado con exito.', 'success')

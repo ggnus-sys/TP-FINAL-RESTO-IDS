@@ -38,12 +38,12 @@ def obtener_servicio_extra(servicio_extra_id: int) -> dict:
         logger.error(f"Error al obtener servicio extra: {e}")
         return {}
 
-def agregar_servicio_extra(servicio_extra: str, descripcion: str, token: str) -> dict:
+def agregar_servicio_extra(nombre_servicio: str, descripcion: str, token: str) -> dict:
     """Agrega un nuevo servicio extra al menú a través del endpoint del backend."""
     try:
         headers = { "Authorization": f"Bearer {token}" }
         payload = {
-            "servicio_extra": servicio_extra,
+            "nombre_servicio": nombre_servicio,
             "descripcion": descripcion,
         }
         response = requests.post(f'{API_BASE_URL}/servicios_extra', json=payload, headers=headers)
@@ -83,11 +83,11 @@ def borrar_servicio_extra(servicio_extra_id: int) -> dict:
             "errores": [f"Error al eliminar servicio extra: {e}"]
         }
 
-def modificar_servicio_extra(servicio_extra_id: int, servicio_extra: str, descripcion: str) -> dict:
-    """Modifica un servicio_extra del menú a través del endpoint del backend."""
+def modificar_servicio_extra(servicio_extra_id: int, nombre_servicio: str, descripcion: str) -> dict:
+    """Modifica un servicio extra del menú a través del endpoint del backend."""
     try:
         payload = {
-            "servicio_extra": servicio_extra,
+            "nombre_servicio": nombre_servicio,
             "descripcion": descripcion,
         }
         response = requests.patch(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}', json=payload)

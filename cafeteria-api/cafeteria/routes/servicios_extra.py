@@ -10,7 +10,7 @@ def buscar_servicios_extra():
 
     id_servicio_extra_base = request.args.get('id') #me lo dan como string, lo convierto a integer 
     id_servicio_extra = None 
-    nombre_servicio_extra = request.args.get('servicio_extra')
+    nombre_servicio_extra = request.args.get('nombre_servicio')
    
 #verificaciones sin conexion a db
 
@@ -20,7 +20,7 @@ def buscar_servicios_extra():
         return jsonify({"errors": [{"code": str(codigo), "message": "Parámetro erróneo", "level": "error", "description": error}]}), codigo
 
     if nombre_servicio_extra is not None and nombre_servicio_extra.strip() == "": #por si buscaron por servicio_extra pero no ingresaron nada
-        return jsonify({"errors": [{"code": "400", "message": "Parámetro erróneo", "level": "error", "description": "El parámetro 'servicio_extra' no puede estar vacío."}]}), 400
+        return jsonify({"errors": [{"code": "400", "message": "Parámetro erróneo", "level": "error", "description": "El parámetro 'nombre_servicio' no puede estar vacío."}]}), 400
     
     try: 
         resultado = listar_servicios_extra(id_servicio_extra, nombre_servicio_extra)
@@ -29,16 +29,16 @@ def buscar_servicios_extra():
 
             descripcion_error = []
             if nombre_servicio_extra:
-                descripcion_error.append(f"servicio_extra '{nombre_servicio_extra}'")
+                descripcion_error.append(f"nombre_servicio '{nombre_servicio_extra}'")
         
             if id_servicio_extra:
                 descripcion_error.append(f"id '{id_servicio_extra}'")
             return jsonify({
                 "errors": [{
                     "code": "404",
-                    "message": "servicio_extra no encontrado",
+                    "message": "servicio extra no encontrado",
                     "level": "error",
-                    "description": f"No hay registros del servicios_extra para: {', '.join(descripcion_error)}." #error personalizado segun que filtros se usaron
+                    "description": f"No hay registros de servicios extra para: {', '.join(descripcion_error)}." #error personalizado segun que filtros se usaron
                 }]
             }), 404
 

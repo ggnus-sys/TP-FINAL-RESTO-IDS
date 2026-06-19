@@ -64,13 +64,16 @@ def editar_plato(plato_id):
         plato = obtener_plato(plato_id)
         if not plato:
             abort(404, description=f'No se encontro el plato con ID {plato_id}.')
-        return render_template('editForm.html', plato=plato)
+        return render_template('editForm-menu.html', plato=plato)
 
     if request.method == 'POST':
         plato_nombre = request.form.get('plato')
         precio = int(request.form.get('precio'))
         descripcion = request.form.get('descripcion')
         restricciones = request.form.get('restricciones_alimenticias')
+        plate_image = request.files['plate_image']
+        if plate_image.filename != '':
+            plate_image.save(f'static/images/platos/plate_image_{plato_nombre}')
 
         errores = []
         if not plato_nombre:
