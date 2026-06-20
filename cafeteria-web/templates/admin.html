@@ -31,7 +31,7 @@
 
 <div class="fh5co-section">
 	<button class="btn-open-popup" onclick="togglePopup(1)">
-      Open Popup Form
+      Nuevo Plato
 	</button>
 	<div class="container">
 		<div class="row">
@@ -56,6 +56,7 @@
 							<input type="text" name="descripcion" class="form-control" placeholder="Descripción">
 						</div>
 					</div>
+
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Restricciones alimenticias</label>
@@ -77,7 +78,7 @@
 					</form>
 					<button class="btn-close-popup" 
                 	onclick="togglePopup(1)">
-              		Close
+              		Cerrar
               		</button>
 				</div>
 				
@@ -104,7 +105,7 @@
 					<tbody class="list list-font-color">
 					{% for plato in menu %}
 						<tr class="list-font-color">
-							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
 							<td>{{ plato.plato }}</td>
 							<td>${{ plato.precio }}</td>
 							<td>{{ plato.descripcion }}</td>
@@ -128,7 +129,7 @@
 
 <div class="fh5co-section">
 	<button class="btn-open-popup" onclick="togglePopup(2)">
-      Open Popup Form
+      Nuevo Servicio
 	</button>
 	<div class="container">
 		<div class="row">
@@ -187,7 +188,7 @@
 					<tbody class="list">
 					{% for servicio in servicios_extra %}
 						<tr>
-							<td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.servicio_extra) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							<td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.servicio_extra + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
 							<td>{{ servicio.servicio_extra }}</td>
 							<td>{{ servicio.descripcion }}</td>
 							<td>
@@ -204,3 +205,4 @@
 </div>
 
 {% endblock %}
+
