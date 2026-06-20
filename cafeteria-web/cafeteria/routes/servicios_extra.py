@@ -20,7 +20,7 @@ def admin_servicios_extra():
         nombre_servicio = request.form.get('nombre_servicio')
         descripcion = request.form.get('descripcion')
         service_image = request.files['service_image']
-        service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}')
+        
 
         errores = []
         if not nombre_servicio:
@@ -35,6 +35,7 @@ def admin_servicios_extra():
         
         if resultado.get('ok'):
             flash('servicio extra agregado con exito.', 'success')
+            service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}.jpeg')
         else:
             for e in resultado.get('errores', ['Error al agregar el servicio_extra.']):
                 flash(e, 'error')
@@ -68,8 +69,7 @@ def editar_servicio_extra(servicio_extra_id):
         nombre_servicio = request.form.get('nombre_servicio')
         descripcion = request.form.get('descripcion')
         service_image = request.files['service_image']
-        if service_image.filename != '':
-            service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}')
+        
 
         errores = []
         if not nombre_servicio:
@@ -84,6 +84,8 @@ def editar_servicio_extra(servicio_extra_id):
 
         if resultado.get('ok'):
             flash('servicio extra editado con exito.', 'success')
+            if service_image.filename != '':
+                service_image.save(f'static/images/servicios-extra/service_image_{nombre_servicio}.jpeg')
         else:
             for e in resultado.get('errores', ['Error al editar el servicio extra.']):
                 flash(e, 'error')

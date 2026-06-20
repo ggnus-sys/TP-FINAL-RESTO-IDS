@@ -20,7 +20,7 @@ def admin_menu():
         descripcion = request.form.get('descripcion')
         restricciones = request.form.get('restricciones_alimenticias')
         plate_image = request.files['plate_image']
-        plate_image.save(f'static/images/platos/plate_image_{plato}')
+       
 
         errores = []
         if not plato:
@@ -31,12 +31,14 @@ def admin_menu():
             for error in errores:
                 flash(error, 'error')
             return redirect(url_for('menu.admin_menu'))
+        
 
         resultado = agregar_plato(plato, precio, descripcion, restricciones, token_actual())
         # agregué token actual para que la función ahora tenga el token y pueda armar 'headers'
         
         if resultado.get('ok'):
             flash('Plato agregado con exito.', 'success')
+            plate_image.save(f'static/images/platos/plate_image_{plato}.jpeg')
         else:
             for e in resultado.get('errores', ['Error al agregar el plato.']):
                 flash(e, 'error')
@@ -72,8 +74,7 @@ def editar_plato(plato_id):
         descripcion = request.form.get('descripcion')
         restricciones = request.form.get('restricciones_alimenticias')
         plate_image = request.files['plate_image']
-        if plate_image.filename != '':
-            plate_image.save(f'static/images/platos/plate_image_{plato_nombre}')
+        
 
         errores = []
         if not plato_nombre:
@@ -89,6 +90,8 @@ def editar_plato(plato_id):
 
         if resultado.get('ok'):
             flash('Plato editado con exito.', 'success')
+            if plate_image.filename != '':
+                plate_image.save(f'static/images/platos/plate_image_{plato_nombre}.jpeg')
         else:
             for e in resultado.get('errores', ['Error al editar el plato.']):
                 flash(e, 'error')

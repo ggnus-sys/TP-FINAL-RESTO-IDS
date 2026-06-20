@@ -21,7 +21,15 @@
 
 {% block content %}
 
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<div class="container" style="margin-top:15px;">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
 
 <script>
         function togglePopup(id) {
@@ -66,8 +74,8 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" required/>
+							<label>Imagen de representación(jpeg)</label>
+							<input type="file" name="plate_image" class="form-control" accept="image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -152,8 +160,8 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="service_image" class="form-control" accept="image/png, image/jpeg" required/>
+							<label>Imagen de representación(jpeg)</label>
+							<input type="file" name="service_image" class="form-control" accept="image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">

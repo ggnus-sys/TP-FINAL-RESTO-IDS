@@ -35,10 +35,11 @@ def validar_body_post_menu(cuerpo):
         return "El nombre del plato, su descripción y la restricción alimenticia (si abarca alguna) deben ser de tipo string. El precio debe ser de tipo integer y mayor a 0",400
 
     restriccion_limpia = restriccion.replace(" ", "")
-    restricciones_ingresadas = restriccion_limpia.split(",")
-    for r in restricciones_ingresadas:
-        if r not in RESTRICCIONES_VALIDAS:
-            return f"La restricción '{r}' no es válida.", 400
+    if restriccion_limpia != "":
+        restricciones_ingresadas = restriccion_limpia.split(",")
+        for r in restricciones_ingresadas:
+            if r not in RESTRICCIONES_VALIDAS:
+                return f"La restricción '{r}' no es válida.", 400
 
     return None, None
 
