@@ -11,7 +11,6 @@ reservas_bp = Blueprint('reservas_bp', __name__)
 def obtener_reservas():
 
     try:
-
         fecha_especifica = request.args.get('fecha_especifica')
         usuario_especifico = request.args.get('id_usuario')
 

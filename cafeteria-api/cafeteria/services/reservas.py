@@ -1,5 +1,5 @@
 from ..db import get_connection
-from..constants import FORMATO_FECHA, CANTIDAD_MAX_RESERVAS_USUARIO
+from..constants import FORMATO_FECHA, CANTIDAD_MAX_RESERVAS_USUARIO, HORAS_PERMITIDAS_RESERVA, MINUTOS_PERMITIDOS_RESERVA
 from ..utils import construir_error_api
 from datetime import datetime
 
@@ -141,3 +141,31 @@ def verificar_reservas_usuario(id_usuario):
     if cantidad_reservas >= CANTIDAD_MAX_RESERVAS_USUARIO:
         raise ValueError
         
+
+def validar_horario(fecha_datetime):
+    hora_reserva = fecha_datetime.hour
+
+    if hora_reserva not in HORAS_PERMITIDAS_RESERVA:
+        raise ValueError(construir_error_api(
+            code=f'invalid.time.hour',
+            message=f"Horario de reserva invalido",
+            description='La hora de la reserva es invalida con respecto a los horarios de la cafeteria.'
+        ))
+
+    minutos_reserva = fecha_datetime.minute
+
+    if minutos_reserva not in MINUTOS_PERMITIDOS_RESERVA:
+        raise ValueError(construir_error_api(
+            code=f'invalid.time.minutes',
+            message=f"Horario de reserva invalido",
+            description='Las reservas pueden realizarse solo en intervalos de 30 minutos.'
+        ))
+    
+    segundos_reserva = fecha_datetime.second
+
+    if segundos_reserva != 0:
+        raise ValueError(construir_error_api(
+            code=f'invalid.time.seconds',
+            message=f"Horario de reserva invalido",
+            description='Las reservas deben ser en minutos exactos, sin segundos.'
+        ))

@@ -33,6 +33,12 @@ CAPACIDAD_MAX_WEB = 15
 #Cantidad maxima de reservas pendientes por usuario
 CANTIDAD_MAX_RESERVAS_USUARIO = 3
 
+#Horas de reserva permitidas
+HORAS_PERMITIDAS_RESERVA = [8,9,10,11,12,13,14,16,17,18,19]
+
+#Minutos de reserva permitidos
+MINUTOS_PERMITIDOS_RESERVA = [0,30]
+
 # Configuracion de la base de datos MySQL (levantada via docker-compose)
 DB_HOST     = os.getenv('DB_HOST', 'mysql')
 DB_PORT     = int(os.getenv('DB_PORT', '3306'))
