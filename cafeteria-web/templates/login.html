@@ -10,8 +10,8 @@
 			<div class="col-md-12 text-center">
 				<div class="display-t js-fullheight">
 					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-						<h1>Bienvenido <em>de nuevo</em></h1>
-						<h2>Iniciá sesión para continuar</h2>
+						<h1>Tu mesa <em>está lista</em></h1>
+						<h2>Nos alegra tenerte de vuelta</h2>
 					</div>
 				</div>
 			</div>
@@ -26,10 +26,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-				<div class="fh5co-heading text-center">
-					<h2>Log In</h2>
+				<div class="text-center fh5co-heading ">
+					<h2>Iniciar sesión</h2>
 				</div>
-				<form action="{{ url_for('auth.login') }}" method="POST">
+				<form action="{{ url_for('auth.login') }}" method="POST" class="form-login-custom">
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label for="email">Email</label>

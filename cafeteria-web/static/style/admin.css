@@ -182,3 +182,63 @@
             padding: 8px;
             text-align: left;
         }
+
+/* 
+   CENTRALIZAR EL POPUP DE NUEVO PLATO
+*/
+
+/* El contenedor principal*/
+.overlay-container {
+    position: fixed ;
+    top: 0 ;
+    left: 0 ;
+    width: 100vw ;
+    height: 100vh ;
+    background: rgba(0, 0, 0, 0.6) ; /* Oscurece el fondo un 60% */
+    z-index: 9999 ; /* Lo pone por encima de todo */
+    
+    display: none; 
+}
+
+.overlay-container.show {
+    display: block ;
+}
+
+/* Ventana flotante centrada */
+.overlay-container .blocker {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important; /* Centrado */
+
+    /* Color y estilo */
+    background-color: #1e1916 ; 
+    border: 2px solid #c49b63 ;   
+    border-radius: 12px ;         
+    padding: 30px ;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7) ; 
+}
+
+/* Ajustes adicionales para los botones */
+.overlay-container .form-container label {
+    color: #c49b63 ; /* Forzamos las etiquetas a dorado */
+    font-weight: 600;
+}
+
+/* Botón de cerrar */
+.btn-close-popup {
+    background: transparent ;
+    border: 1px solid rgba(255, 255, 255, 0.3) ;
+    color: #ffffff ;
+    padding: 8px 16px ;
+    border-radius: 6px ;
+    margin-top: 15px ;
+    width: 100% ; 
+    transition: all 0.3s;
+}
+
+.btn-close-popup:hover {
+    background: #d9534f ; 
+    color: white ;
+    border-color: #d9534f ;
+}
