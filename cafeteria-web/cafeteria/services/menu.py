@@ -38,7 +38,7 @@ def obtener_plato(plato_id: int) -> dict:
         logger.error(f"Error al obtener plato: {e}")
         return {}
 
-def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str) -> dict:
+def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str, token: str) -> dict:
     """Agrega un nuevo plato al menú a través del endpoint del backend."""
     try:
         payload = {
@@ -47,7 +47,10 @@ def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str)
             "descripcion": descripcion,
             "restricciones_alimenticias": restricciones
         }
-        response = requests.post(f'{API_BASE_URL}/menu', json=payload)
+        # por la falta de headers no funcionaba el agregar plato
+        # ya con esto la api reconoce el token y deja que el plato se agregue 
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.post(f'{API_BASE_URL}/menu', json=payload, headers=headers) 
         return {
             "ok": response.status_code == 201,
         }
@@ -64,10 +67,11 @@ def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str)
             "errores": [f"Error al agregar plato: {e}"]
         }
     
-def borrar_plato(plato_id: int) -> dict:
+def borrar_plato(plato_id: int, token: str) -> dict:
     """Elimina un plato del menú a través del endpoint del backend."""
     try:
-        response = requests.delete(f'{API_BASE_URL}/menu/{plato_id}')
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.delete(f'{API_BASE_URL}/menu/{plato_id}', headers=headers)
         return {
             "ok": response.status_code == 200,
         }
@@ -84,7 +88,7 @@ def borrar_plato(plato_id: int) -> dict:
             "errores": [f"Error al eliminar plato: {e}"]
         }
 
-def modificar_plato(plato_id: int, plato: str, precio: int, descripcion: str, restricciones: str) -> dict:
+def modificar_plato(plato_id: int, plato: str, precio: int, descripcion: str, restricciones: str, token: str) -> dict:
     """Modifica un plato del menú a través del endpoint del backend."""
     try:
         payload = {
@@ -93,7 +97,8 @@ def modificar_plato(plato_id: int, plato: str, precio: int, descripcion: str, re
             "descripcion": descripcion,
             "restricciones_alimenticias": restricciones
         }
-        response = requests.patch(f'{API_BASE_URL}/menu/{plato_id}', json=payload)
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.patch(f'{API_BASE_URL}/menu/{plato_id}', json=payload, headers=headers)
         return {
             "ok": response.status_code == 200,
         }

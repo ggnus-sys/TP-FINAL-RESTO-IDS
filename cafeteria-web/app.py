@@ -70,6 +70,7 @@ def page_not_found(error):
     ), 404
 
 @app.route('/admin', methods=['GET'])
+@requiere_login(rol="admin")
 def admin():
     servicios_extra = obtener_servicios_extra()
     menu = obtener_menu()

@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from ..utils import validar_entero, validar_fecha_futura, validar_formato_fecha, validar_maximo, validar_minimo, validar_set, validar_string_no_vacio
 from ..constants import FORMATO_FECHA, ESTADOS_VALIDOS
+from ..services.reservas import verificar_reservas_usuario
 
 def validar_body_reserva(body):
     if body is None:
@@ -20,8 +21,8 @@ def validar_body_reserva(body):
         
         validar_fecha_futura(fecha_reserva)
 
-        validar_entero(id_usuario, "id_usuario")
-        validar_entero(mesas, "mesas")
+        id_usuario = validar_entero(id_usuario, "id_usuario")
+        mesas = validar_entero(mesas, "mesas")
 
         validar_minimo(mesas, 1, "mesas")    
         validar_maximo(mesas, 2, "mesas")

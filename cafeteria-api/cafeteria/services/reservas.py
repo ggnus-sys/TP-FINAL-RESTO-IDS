@@ -1,5 +1,6 @@
 from ..db import get_connection
-from..constants import FORMATO_FECHA
+from..constants import FORMATO_FECHA, CANTIDAD_MAX_RESERVAS_USUARIO
+from ..utils import construir_error_api
 from datetime import datetime
 
 
@@ -49,9 +50,19 @@ def crear_reserva(datos):
     fecha_reserva = datos['fecha_reserva'].strip()
     estado_reserva = datos.get('estado_reserva','pendiente')
 
+
+    try:
+        verificar_reservas_usuario(id_usuario)
+
+    except ValueError:
+        raise ValueError("Un usuario no puede tener más de 3 reservas pendientes simultaneamente.", 409)
+
+
     dat = datetime.strptime(fecha_reserva,FORMATO_FECHA)
 
     fecha_mysql = dat.strftime("%Y-%m-%d %H:%M:%S")
+
+
 
     conn = None
     cursor = None
@@ -60,7 +71,7 @@ def crear_reserva(datos):
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         
-        cursor.execute("SELECT * FROM usuarios WHERE id = %s", (id_usuario,))
+        cursor.execute("SELECT 1 FROM usuarios WHERE id = %s", (id_usuario,))
         if not cursor.fetchone():
             raise ValueError("No existe ningun usuario con ese id",400)
         
@@ -113,7 +124,7 @@ def cambiar_estado_reserva(id,estado):
         resultado = cursor.fetchone()
         if resultado is None:
             return None, "La reserva no existe"
-        cursor.execute("UPDATE reservas SET estado = %s WHERE id = %s",(estado, id,))
+        cursor.execute("UPDATE reservas SET estado_reserva = %s WHERE id = %s",(estado, id,))
         conn.commit()
         return True,None
     finally:
@@ -121,3 +132,12 @@ def cambiar_estado_reserva(id,estado):
             cursor.close()
         if conn:
             conn.close()
+
+
+def verificar_reservas_usuario(id_usuario):
+    reservas_usuario = listar_reservas(usuario_especifico=id_usuario)
+    cantidad_reservas = len(reservas_usuario)
+
+    if cantidad_reservas >= CANTIDAD_MAX_RESERVAS_USUARIO:
+        raise ValueError
+        

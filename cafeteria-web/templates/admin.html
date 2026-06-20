@@ -22,6 +22,7 @@
 {% block content %}
 
 
+
 <script>
         function togglePopup(id) {
             const overlay = document.getElementById('popupOverlay' + id);
@@ -41,19 +42,19 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Nombre del plato</label>
-							<input type="text" name="plato" class="form-control" placeholder="Nombre del plato">
+							<input type="text" name="plato" class="form-control" placeholder="Nombre del plato" required>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Precio</label>
-							<input type="number" name="precio" class="form-control" placeholder="Precio" min="0" step="0.01">
+							<input type="number" name="precio" class="form-control" placeholder="Precio" min="0" step="0.01" required>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Descripción</label>
-							<input type="text" name="descripcion" class="form-control" placeholder="Descripción">
+							<input type="text" name="descripcion" class="form-control" placeholder="Descripción" required>
 						</div>
 					</div>
 
@@ -66,7 +67,7 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" />
+							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -90,7 +91,7 @@
 			<div class="col-md-12 fh5co-heading animate-box">
 				<h2>Menú actual</h2>
 			</div>
-			<div class="col-md-12">
+			<div class="scrollable-table">
 				<table class="table table-striped" id="menu-table">
 					<thead>
 						<tr>
@@ -127,6 +128,7 @@
 
 
 
+
 <div class="fh5co-section">
 	<button class="btn-open-popup" onclick="togglePopup(2)">
       Nuevo Servicio
@@ -139,7 +141,7 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Nombre del servicio</label>
-							<input type="text" name="servicio_extra" class="form-control" placeholder="Nombre del servicio">
+							<input type="text" name="nombre_servicio" class="form-control" placeholder="Nombre del servicio" required>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -151,7 +153,7 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="service_image" class="form-control" accept="image/png, image/jpeg" />
+							<input type="file" name="service_image" class="form-control" accept="image/png, image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -175,8 +177,8 @@
 			<div class="col-md-12 fh5co-heading animate-box">
 				<h2>Servicios extra</h2>
 			</div>
-			<div class="col-md-12">
-				<table class="table table-striped" id="menu-table">
+			<div class="scrollable-table">
+				<table class="table table-striped" id="service-table">
 					<thead>
 						<tr>
 							<th>Imagen</th>
@@ -188,9 +190,9 @@
 					<tbody class="list">
 					{% for servicio in servicios_extra %}
 						<tr>
-							<td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.servicio_extra + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
-							<td>{{ servicio.servicio_extra }}</td>
-							<td>{{ servicio.descripcion }}</td>
+                           <td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.nombre_servicio + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							   <td>{{ servicio.nombre_servicio }}</td>
+							   <td>{{ servicio.descripcion }}</td>
 							<td>
 								<a href="{{ url_for('servicios-extra.delete_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
 								<a href="{{ url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-warning btn-sm">Editar</a>

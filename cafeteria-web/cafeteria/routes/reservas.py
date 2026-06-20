@@ -24,26 +24,23 @@ def reservas():
 
     return render_template('reservation.html')
 
-
-
-@reservas_bp.route('/confirmar-reserva', methods=['GET'])
-@requiere_login()
+@reservas_bp.route('/confirmar-reserva', methods=['GET', 'POST'])
 def confirmacion_reserva():
     id_reserva = request.args.get('reserva_id', type=int)
     if not id_reserva:
         flash('Reserva inválida', 'error')
         return redirect(url_for('reservas_bp.reservas'))
 
-    if confirmar_reserva(id_reserva):
-        flash('Reserva confirmada con éxito', 'success')
-    else:
-        flash('Error al confirmar la reserva', 'error')
+    if request.method == 'POST':
+        if confirmar_reserva(id_reserva):
+            flash('Reserva confirmada con éxito', 'success')
+        else:
+            flash('Error al confirmar la reserva', 'error')
+        return render_template('confirm_reservation.html', id_reserva=id_reserva)
 
-    return redirect(url_for('reservas_bp.reservas'))
-
+    return render_template('confirm_reservation.html', id_reserva=id_reserva)
 
 @reservas_bp.route('/cancelar-reserva', methods=['GET', 'POST'])
-@requiere_login()
 def cancelacion_reserva():
     id_reserva = request.args.get('reserva_id', type=int)
     if not id_reserva:
@@ -55,6 +52,6 @@ def cancelacion_reserva():
             flash('Reserva cancelada con éxito', 'success')
         else:
             flash('Error al cancelar la reserva', 'error')
-        return redirect(url_for('reservas_bp.reservas'))
+        return render_template('cancel_reservation.html', id_reserva=id_reserva)
 
     return render_template('cancel_reservation.html', id_reserva=id_reserva)

@@ -77,7 +77,6 @@ def eliminar_reserva(id):
 
 
 @reservas_bp.route('/reservas/<int:id>', methods=['PATCH'])
-
 def modificar_reserva(id):
     try:
         datos = request.get_json()
@@ -90,4 +89,5 @@ def modificar_reserva(id):
             return jsonify({"errors": [{"code": "404", "message": mensaje}]}), 404
         return "", 204
     except Exception as e:
+        print(str(e),flush=True)
         return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
