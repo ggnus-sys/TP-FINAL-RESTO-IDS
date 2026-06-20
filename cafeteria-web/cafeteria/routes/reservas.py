@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
-from ..services.reservas import registrar_nueva_reserva, confirmar_reserva, cancelar_reserva
+from ..services.reservas import registrar_nueva_reserva, confirmar_reserva, cancelar_reserva, obtener_reservas
 from ..utils import requiere_login, usuario_actual, validar_string_no_vacio
 
 reservas_bp = Blueprint('reservas_bp', __name__)
@@ -55,3 +55,4 @@ def cancelacion_reserva():
         return render_template('cancel_reservation.html', id_reserva=id_reserva)
 
     return render_template('cancel_reservation.html', id_reserva=id_reserva)
+

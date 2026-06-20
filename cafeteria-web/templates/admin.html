@@ -206,5 +206,60 @@
 	</div>
 </div>
 
+
+
+<div class="fh5co-section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12 fh5co-heading animate-box">
+                <h2>Listado Global de Reservas</h2>
+            </div>
+            
+            <div class="scrollable-table">
+                <table class="table table-striped" id="reservas-table">
+                    <thead>
+                        <tr>
+                            <th>Código/ID</th>
+                            <th>ID Usuario</th> <th>Mesas Solicitadas</th>
+                            <th>Fecha y Hora</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                    {% for reserva in reservas %}
+                        <tr>
+                            <td>#{{ reserva.id }}</td>
+                            
+                            <td><strong>{{ reserva.id_usuario }}</strong></td>
+                            
+                            <td>{{ reserva.mesas }} {{ 'mesa' if reserva.mesas == 1 else 'mesas' }}</td>
+                            
+                            <td>{{ reserva.fecha_reserva }}</td>
+                            
+                            <td>
+                                {% if reserva.estado_reserva == 'pendiente' %}
+                                    <span class="label label-warning" style="background-color: #f0ad4e; padding: 4px 8px; color: white; border-radius: 4px;">Pendiente</span>
+                                {% elif reserva.estado_reserva == 'confirmada' %}
+                                    <span class="label label-success" style="background-color: #5cb85c; padding: 4px 8px; color: white; border-radius: 4px;">Confirmada</span>
+                                {% else %}
+                                    <span class="label label-danger" style="background-color: #d9534f; padding: 4px 8px; color: white; border-radius: 4px;">Cancelada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 {% endblock %}
+
+
 
