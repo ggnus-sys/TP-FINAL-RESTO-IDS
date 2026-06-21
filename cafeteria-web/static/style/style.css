@@ -2260,3 +2260,41 @@ textarea {
 
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
 }
+
+star-rating {
+    font-size: 35px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.star {
+    color: rgba(255,255,255);
+    transition: 0.2s;
+}
+
+.star:hover {
+    color: #f5b301;
+}
+
+.star.active {
+    color: #f5b301;
+}
+
+/* ==========================
+   FONDO RESENIAS
+========================== */
+
+.review-container {
+    background: rgba(40, 40, 40, 0.75);
+    backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.007);
+    border-radius: 20px;
+    padding: 40px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+#fh5co-featured-testimony {
+    background: rgba(25,25,25,.85) !important;
+}

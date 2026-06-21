@@ -10,8 +10,10 @@ reviews_bp = Blueprint('reviews_bp', __name__)
 def listar():
     try:
         resultado = listar_resenas()
+        print("RESEÑAS ENCONTRADAS:", resultado)
         if not resultado: #si no existe ninguna reseña devuelve error
-            return jsonify({"errors": [{"code": "404", "Message": "No hay reseñas", "level": "Error", "Description": "reseñas no encontradas"}]}), 404
+            return jsonify([]), 200
+            #return jsonify({"errors": [{"code": "404", "Message": "No hay reseñas", "level": "Error", "Description": "reseñas no encontradas"}]}), 404
         return jsonify(resultado), 200
       
     except Exception as e:   #a cualquier error no esperado le suelta este mensaje  

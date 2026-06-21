@@ -1870,7 +1870,7 @@ textarea {
 }
 
 /* =========================
-   MODAL RESEÑAS
+   MODAL RESENIAS
 ========================= */
 
 .review-modal {
@@ -1956,7 +1956,7 @@ textarea {
 }
 
 /* =========================
-   SLIDER RESEÑAS
+   SLIDER RESENIAS
 ========================= */
 
 .reviews-slider {
@@ -1994,24 +1994,23 @@ textarea {
 }
 
 /* ==========================
-   CARTEL ERROR RESEÑA
+   CARTEL ERROR RESENIAS
 ========================== */
 
 .review-error {
     display: none;
-
     background: #c6a27d;
     color: #3a2415;
-
     padding: 14px;
     border-radius: 14px;
-
     text-align: center;
     font-weight: bold;
-
     margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15); 
+  }
 
-    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+.star-rating {
+    font-size: 35px;
+    cursor: pointer;
+    margin-top: 10px;
 }
-
-

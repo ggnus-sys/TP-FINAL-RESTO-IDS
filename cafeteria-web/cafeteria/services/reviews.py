@@ -10,7 +10,9 @@ def obtener_resenas() -> list[dict]:
 
     try:
         response = requests.get(f'{API_BASE_URL}/resenas')
-        print(response)
+        print("URL:", f'{API_BASE_URL}/resenas')
+        print("STATUS:", response.status_code)
+        print("BODY:", response.text)
         if response.status_code == 200:
             resenas = response.json()
 
@@ -41,9 +43,15 @@ def eliminar_resena(id: int) -> bool:
     return False
 
 def crear_resena(resena: dict) -> bool:
-    """Consume el endpoint del backend para crear una resena."""
     try:
-        response = requests.post(f'{API_BASE_URL}/resenas', json=resena)
+        response = requests.post(
+            f'{API_BASE_URL}/resenas',
+            json=resena
+        )
+
+        print("STATUS:", response.status_code)
+        print("BODY:", response.text)
+
         if response.status_code == 201:
             return True # devuelve true si se creó, pero también puedo cambiarlo a un mensajito
         

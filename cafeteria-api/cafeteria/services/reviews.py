@@ -6,7 +6,19 @@ def listar_resenas():
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM resenas")
+        cursor.execute("""
+                       SELECT
+                       r.id,
+                       r.contenido,
+                       r.estrellas,
+                       u.nombre,
+                       u.apellido
+                       FROM resenas r
+                       INNER JOIN usuarios u
+                       ON r.id_usuario = u.id
+                       ORDER BY r.id DESC
+                       """)
+                
         return cursor.fetchall()
     finally:
         if cursor: cursor.close()

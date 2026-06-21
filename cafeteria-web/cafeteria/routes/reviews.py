@@ -16,8 +16,10 @@ def get_resenas():
         else:
             #desgloso datos recibidos del formulario
             contenido = request.form.get("contenido")
-            estrellas = int(request.form.get("estrellas"))
+            estrellas = request.form.get("estrellas")
             id_usuario = usuario_actual()['id']
+            if estrellas: 
+                estrellas = int(estrellas)
 
             # validar los datos individualmente
             errores = []
@@ -46,8 +48,7 @@ def get_resenas():
 
 
     resenas = obtener_resenas()  # funcion para obtener las reseñas desde la base de datos
-    
-    return render_template('reviews.html', resenas=resenas)
+    return render_template('reviews.html', resenas=resenas, usuario=usuario_actual())
 
 
     
