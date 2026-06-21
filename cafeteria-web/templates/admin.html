@@ -20,17 +20,6 @@
 {% endblock %}
 
 {% block content %}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-		<div class="container" style="margin-top:15px;">
-			{% for category, message in messages %}
-				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
-			{% endfor %}
-		</div>
-	{% endif %}
-{% endwith %}
-
 <script>
         function togglePopup(id) {
             const overlay = document.getElementById('popupOverlay' + id);

@@ -26,7 +26,7 @@ def login_api(email, password):
 
 
     except Exception as e:
-        return {'ok': False, 'errores': [f'No se pudo conectar con la API: {e}']}
+        return {'ok': False, 'errores': ['Algo salió mal de nuestro lado. Por favor intentá de nuevo en unos minutos.']}
     
 
 def register_api (nombre, apellido, email, password):
@@ -48,6 +48,6 @@ def register_api (nombre, apellido, email, password):
             return {'ok': False, 'errores': mensajes}
 
     except Exception as e:
-        return {'ok': False, 'errores': [f'No se pudo conectar con la API: {e}']}
+        return {'ok': False, 'errores': ['Algo salió mal de nuestro lado. Por favor intentá de nuevo en unos minutos.']}
     
 
