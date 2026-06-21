@@ -173,7 +173,19 @@
 	<!-- Main -->
 	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
+	<script src="{{ url_for('static', filename='js/reservations2.js') }}"></script>
+
+
 	{% block extra_js %}{% endblock %}
+
+	{# ── Toast notifitations, notificaciones flash de flask ── #}
+	<div id="flash-data" style="display:none;"
+		data-messages='{{ get_flashed_messages(with_categories=true) | tojson }}'>
+	</div>
+
+	<div id="toast-container"></div>
+
+	<script src="{{ url_for('static', filename='js/Toast.js') }}"></script>
 
 	</body>
 </html>
