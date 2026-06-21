@@ -1782,7 +1782,7 @@ h1, h2, h3, h4, h5, h6, figure {
   font-size: 20px;
   font-weight: 300;
   font-family: "Satisfy", cursive;
-  color: #fff;
+  color: #1d1d1d1d;
 }
 .form-control:active, .form-control:focus {
   outline: none;
@@ -2444,6 +2444,10 @@ textarea {
     margin-bottom: 30px !important;
 }
 
+
+/* 
+  PARTE DE RESENIAS 
+*/
 star-rating {
     font-size: 35px;
     cursor: pointer;
@@ -2468,16 +2472,93 @@ star-rating {
 ========================== */
 
 .review-container {
-    background: rgba(40, 40, 40, 0.75);
-    backdrop-filter: blur(8px);
-
-    border: 1px solid rgba(255, 255, 255, 0.007);
-    border-radius: 20px;
-    padding: 40px;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+  background: rgba(40, 40, 40, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.007);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3);
 }
 
 #fh5co-featured-testimony {
-    background: rgba(25,25,25,.85) !important;
+  background: rgba(25,25,25,.85) !important;
+}
+
+.review-form-box input::placeholder,
+.review-form-box textarea::placeholder{
+    color: rgba(0,0,0,0.7);
+}
+
+.review-form-box input,
+.review-form-box textarea{
+    background: #1d1d1d !important;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.review-form-box input:focus,
+.review-form-box textarea:focus{
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 8px rgba(255,255,255,0.4);
+    outline: none;
+}
+
+.review-error {
+  display: none;
+  background: #8b5e3c;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.review-form-box{
+  color: #1d1d1d;
+  background: transparent;
+  padding: 35px;
+  margin-bottom: 60px;
+}
+
+.review-card{
+    border: 1px solid rgba(255,255,255,0.8);
+    background: transparent;
+    border-radius: 12px;
+
+    padding: 20px;
+    margin-bottom: 20px;
+
+    display: inline-block;
+    width: 100%;
+    height: auto !important;
+    min-height: unset !important;
+}
+
+.review-card p{
+    font-size: 24px;
+    line-height: 1.5;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.review-card .author{
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 0;
+}
+
+.review-card cite{
+    font-style: normal;
+}
+
+.review-container .row{
+    display: block;
+}
+
+.review-container .row{
+  display: flex;
+  flex-wrap: wrap;
 }

@@ -31,26 +31,25 @@
 		</div>
 		<div class="row">
 			{% for resena in resenas %}
-			<div class="col-md-6 animate-box">
-				<blockquote>
-					<p>&ldquo;{{ resena.contenido }}&rdquo;</p>
-					<p class="author">
-						<cite>
-							{{ resena.nombre }} {{ resena.apellido }}
-							<br>
-							{% for i in range(resena.estrellas) %} &#9733;
-							{% endfor %}
-							{% for i in range(5 - resena.estrellas) %} &#9734;
-							{% endfor %}
-						</cite>
-					</p>
-				</blockquote>
+			<div class="col-md-4 animate-box">
+				<div class="review-card">
+					<p> &ldquo;{{ resena.contenido }}&rdquo; </p>
+						<p class="author">
+							<cite>
+								{{ resena.nombre }} {{ resena.apellido }}
+								<br>
+								{% for i in range(resena.estrellas) %} &#9733;
+								{% endfor %}
+								{% for i in range(5 - resena.estrellas) %} &#9734;
+								{% endfor %}
+							</cite>
+						</p>
+					</div>
+				</div>
+				{% endfor %}
 			</div>
-			{% endfor %}
-		</div>
-
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2 review-form-box">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 review-form-box">
 				{% if usuario %}
 				<div id="reviewError"
 					style="display:none;
@@ -117,33 +116,28 @@
 	</div>
 </div>
 
+<div id="reviewError" class="review-error">
+    Completá todos los campos y seleccioná una cantidad de estrellas.
+</div>
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
 
     const stars = document.querySelectorAll('.star');
     const input = document.getElementById('estrellas');
-
     stars.forEach(star => {
-
         star.addEventListener('click', function() {
-
             const value = this.dataset.value;
-
             input.value = value;
-
             stars.forEach(s => {
-
                 if (parseInt(s.dataset.value) <= value) {
                     s.classList.add('active');
                 } else {
                     s.classList.remove('active');
                 }
-
             });
-
         });
-
     });
 
     const form = document.querySelector('form');

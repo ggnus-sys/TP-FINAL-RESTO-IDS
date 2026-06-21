@@ -335,6 +335,8 @@
 
 }());
 
+
+
 // ============================
 // MODAL RESEÑAS
 // ============================
@@ -456,4 +458,31 @@ document.getElementById("submitReview").addEventListener("click", function () {
 
     // cerrar modal
     document.getElementById("reviewModal").style.display = "none";
+});
+
+// REVIEW COMPLETAR CAMPOS
+
+const form = document.querySelector('form');
+
+form.addEventListener('submit', function(e) {
+
+    const contenido = document.getElementById('contenido').value.trim();
+    const estrellas = document.getElementById('estrellas').value;
+
+    const reviewError = document.getElementById('reviewError');
+
+    if (!contenido || !estrellas) {
+
+        e.preventDefault();
+
+        reviewError.style.display = 'block';
+
+        setTimeout(() => {
+            reviewError.style.display = 'none';
+        }, 5000);
+
+        return;
+    }
+
+    reviewError.style.display = 'none';
 });
