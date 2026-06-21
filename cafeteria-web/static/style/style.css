@@ -2060,11 +2060,11 @@ textarea {
 }
 
 .reviews-subtitle {
-    color: #ffffff;
+    color: #040404;
 }
 
 .review-card {
-    background: #1a1a1a;
+    background: #ffffff;
     padding: 30px;
     border-radius: 16px;
     transition: 0.3s ease;
@@ -2259,6 +2259,189 @@ textarea {
     margin-bottom: 18px;
 
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+/* 
+  FORMULARIO DE LOGIN
+*/
+
+/* Contenedor del formulario */
+.form-login-custom {
+    background: rgba(255, 255, 255, 0.03) !important;
+    padding: 40px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Títulos de los campos */
+.form-login-custom .form-group label {
+    color: #c49b63 !important; 
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+}
+
+/* Cajas de texto */
+.form-login-custom .form-control {
+    border-radius: 6px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Área de mensaje  */
+.form-login-custom textarea.form-control {
+    resize: none !important;
+}
+
+/* Contenedor del botón */
+.form-login-custom .btn-container-custom {
+    margin-bottom: 0 !important;
+    margin-top: 15px !important;
+}
+
+/* Botón de enviar  */
+.form-login-custom .btn {
+    padding: 12px 35px !important;
+    border-radius: 30px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+
+#fh5co-section .fh5co-heading {
+    margin-bottom: 30px !important;
+}
+
+/* 
+  FORMULARIO DE REGISTER
+*/
+
+/* Contenedor del formulario */
+.form-register-custom {
+    background: rgba(255, 255, 255, 0.03) !important;
+    padding: 60px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Títulos de los campos */
+.form-register-custom .form-group label {
+    color: #c49b63 !important; 
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+    white-space: nowrap !important;
+}
+
+/* Cajas de texto */
+.form-register-custom .form-control {
+    border-radius: 6px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Área de mensaje  */
+.form-register-custom textarea.form-control {
+    resize: none !important;
+}
+
+/* Contenedor del botón */
+.form-register-custom .btn-container-custom {
+    margin-bottom: 0 !important;
+    margin-top: 15px !important;
+}
+
+/* Botón de enviar  */
+.form-register-custom .btn {
+    padding: 12px 35px !important;
+    border-radius: 30px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+
+#fh5co-section .fh5co-heading {
+    margin-bottom: 30px !important;
+}
+
+/* 
+  FORMULARIO DE RESERVAS
+*/
+
+/* Contenedor del formulario */
+.form-reservations-custom {
+    background: rgba(255, 255, 255, 0.03) !important;
+    padding: 60px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Títulos de los campos */
+.form-reservations-custom .form-group label {
+    color: #c49b63 !important; 
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+    white-space: nowrap !important;
+}
+
+/* Cajas de texto */
+.form-reservations-custom .form-control {
+    border-radius: 6px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Área de mensaje  */
+.form-reservations-custom textarea.form-control {
+    resize: none !important;
+}
+
+/* Contenedor del botón */
+.form-reservations-custom .btn-container-custom {
+    margin-bottom: 0 !important;
+    margin-top: 15px !important;
+}
+
+/* Botón de enviar  */
+.form-reservations-custom .btn {
+    padding: 12px 35px !important;
+    border-radius: 30px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Estilo para las opciones */
+.form-reservations-custom select.custom_select option {
+    background-color: #2c2520 !important; 
+    color: #ffffff !important;             /* Color del texto */
+    font-family: sans-serif !important;    
+    padding: 10px !important;
+}
+
+/* Estilo para categorías D. A. M. de la hora */
+.form-reservations-custom select.custom_select optgroup {
+    background-color: #1e1916 !important; /* Fondo para los títulos */
+    color: #c49b63 !important;           
+    font-weight: 700 !important;
+    font-style: normal !important;         /* Tipo de letra */
+    letter-spacing: 1px;
+}
+
+#fh5co-section .fh5co-heading {
+    margin-bottom: 30px !important;
 }
 
 star-rating {

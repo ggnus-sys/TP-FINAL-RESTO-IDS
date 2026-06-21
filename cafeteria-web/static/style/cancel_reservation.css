@@ -1,0 +1,20 @@
+.cancel-page {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.cancel-page h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.cancel-page p {
+    margin-bottom: 30px;
+}
+
+.cancel-page__actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}

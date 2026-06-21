@@ -1,5 +1,6 @@
 from calendar import weekday
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from re import sub
 import logging
 import bcrypt
@@ -75,12 +76,9 @@ def validar_minimo(valor: int, minimo: int, nombre: str) -> int:
 
 
 def validar_entero(numero, nombre: str = 'numero') -> int:
-    valor = str(numero)
-    valor_sin_letras = sub('[a-zA-Z]+', '', valor)
-
     try:
-        return int(valor_sin_letras)
-    except ValueError:
+        return int(numero)
+    except (ValueError, TypeError):
         logger.warning(f"Valor numerico invalido: '{numero}' no puede convertirse a entero")
 
         raise ValueError(construir_error_api(
@@ -101,17 +99,22 @@ def validar_formato_fecha(fecha: str, formato: str, nombre: str = 'fecha') -> da
             description=f"El valor '{fecha}' no cumple el formato esperado '{formato}'"
         ))
 
-def validar_fecha_futura(fecha_futura : datetime) -> datetime:
+def validar_fecha_futura(fecha_futura: datetime):
 
-    if fecha_futura< datetime.now():
-        logger.warning(f"Fecha invalida: '{fecha_futura}' es anterior a '{fecha_pasada}'")
+    zona_arg = ZoneInfo("America/Argentina/Buenos_Aires")
+    hora_actual_arg = datetime.now(zona_arg)
+
+    if fecha_futura.tzinfo is None:
+        fecha_futura = fecha_futura.replace(tzinfo=zona_arg)
+
+    if fecha_futura < hora_actual_arg:
+        logger.warning(f"Fecha invalida: '{fecha_futura}' es anterior a '{hora_actual_arg}'")
 
         raise ValueError(construir_error_api(
             code='invalid.fecha',
             message="Fecha invalida",
-            description=f"La fecha '{fecha_futura}' no puede ser anterior a '{fecha_pasada}'"
+            description=f"La fecha '{fecha_futura.strftime('%Y-%m-%d %H:%M')}' no puede ser anterior a la actual."
         ))
-    return fecha_futura
 
 def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
     if valor not in conjunto_validos:

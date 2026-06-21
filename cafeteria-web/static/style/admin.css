@@ -1,96 +1,153 @@
 .btn-open-popup {
     padding: 12px 24px;
-    font-size: 18px;
-    background-color: green;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background-color: transparent;
+    color: #C8922A;
+    border: 1px solid #C8922A;
+    border-radius: 0;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+    margin: 20px 0 20px 15px;
+    display: inline-block;
+
 }
 
 .btn-open-popup:hover {
-    background-color: #4caf50;
+    background-color: #C8922A;
+    color: #0D0D0D;
 }
 
 .overlay-container {
     display: none;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 40%;
-    height: 40%;
-    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    background:rgba(0, 0, 0, 0.85);;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
     opacity: 0;
     transition: opacity 0.3s ease;
-    position: fixed;
-    min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
+}
+.overlay-container.show {
+    display: flex;
+    opacity: 1;
 }
 
 .blocker {
-    display:block
+    background: #1a1a1a;
+    border: 1px solid #C8922A;
+    padding: 40px;
+    width: 480px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeInUp 0.4s ease-out forwards;
 }
 
-.popup-box {
-    background: #fff;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    width: 320px;
-    text-align: center;
-    opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInUp 0.5s ease-out forwards;
-}
 
 .form-container {
     display: flex;
     flex-direction: column;
 }
 
-.form-label {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #444;
-    text-align: left;
-}
+.form-container label {
+    color: #E8D5A3;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
 
-.form-input {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+}
+.form-container .form-control {
+    background: #0D0D0D;
+    border: 1px solid #C8922A;
+    border-radius: 0;
+    color: #E8D5A3;
+    padding: 10px 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    margin-bottom: 8px;
     width: 100%;
     box-sizing: border-box;
 }
 
+.form-container .form-control:focus {
+    outline: none;
+    border-color: #E8D5A3;
+    background: #111;
+    box-shadow: none;
+}
+.form-container .form-control::placeholder {
+    color: #666;
+}
+
+
 .btn-submit,
-.btn-close-popup {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
+.form-container .btn-primary {
+    background: transparent;
+    border: 1px solid #C8922A;
+    color: #C8922A;
+    border-radius: 0;
+    padding: 12px 28px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', serif;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+.form-container .btn-primary:hover {
+    background: #C8922A;
+    color: #0D0D0D;
 }
 
-.btn-submit {
-    background-color: green;
-    color: #fff;
-}
 
 .btn-close-popup {
+    display: block;
+    width: 100%;
     margin-top: 12px;
-    background-color: #e74c3c;
-    color: #fff;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #555;
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
 }
 
-.btn-submit:hover,
 .btn-close-popup:hover {
-    background-color: #4caf50;
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+.list-font-color td,
+.list-font-color th {
+    color: #E8D5A3;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(200, 146, 42, 0.05);
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+.table thead th {
+    color: #C8922A;
+    border-bottom: 1px solid #C8922A;
+    letter-spacing: 2px;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 /* Keyframes for fadeInUp animation */
@@ -110,4 +167,78 @@
 .overlay-container.show {
     display: flex;
     opacity: 1;
+}
+
+.scrollable-table {
+            width: 100%;
+            height: 500px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+/* 
+   CENTRALIZAR EL POPUP DE NUEVO PLATO
+*/
+
+/* El contenedor principal*/
+.overlay-container {
+    position: fixed ;
+    top: 0 ;
+    left: 0 ;
+    width: 100vw ;
+    height: 100vh ;
+    background: rgba(0, 0, 0, 0.6) ; /* Oscurece el fondo un 60% */
+    z-index: 9999 ; /* Lo pone por encima de todo */
+    
+    display: none; 
+}
+
+.overlay-container.show {
+    display: block ;
+}
+
+/* Ventana flotante centrada */
+.overlay-container .blocker {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important; /* Centrado */
+
+    /* Color y estilo */
+    background-color: #1e1916 ; 
+    border: 2px solid #c49b63 ;   
+    border-radius: 12px ;         
+    padding: 30px ;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7) ; 
+}
+
+/* Ajustes adicionales para los botones */
+.overlay-container .form-container label {
+    color: #c49b63 ; /* Forzamos las etiquetas a dorado */
+    font-weight: 600;
+}
+
+/* Botón de cerrar */
+.btn-close-popup {
+    background: transparent ;
+    border: 1px solid rgba(255, 255, 255, 0.3) ;
+    color: #ffffff ;
+    padding: 8px 16px ;
+    border-radius: 6px ;
+    margin-top: 15px ;
+    width: 100% ; 
+    transition: all 0.3s;
+}
+
+.btn-close-popup:hover {
+    background: #d9534f ; 
+    color: white ;
+    border-color: #d9534f ;
 }

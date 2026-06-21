@@ -16,14 +16,14 @@ def validar_body_post_servicios_extra(cuerpo):
     if cuerpo is None:
         return "El body no cumple con el formato JSON", 400
 
-    servicio_extra = cuerpo.get("servicio_extra")
+    nombre_servicio = cuerpo.get("nombre_servicio")
     descripcion = cuerpo.get("descripcion")
 
-    if servicio_extra is None or descripcion is None:
+    if nombre_servicio is None or descripcion is None:
         return "Faltan campos por asignar",400
 
-    if (not isinstance(servicio_extra,str)) or (not isinstance(descripcion,str)):
-        return "El nombre del servicio_extra y su descripción deben ser de tipo string",400
+    if (not isinstance(nombre_servicio,str)) or (not isinstance(descripcion,str)):
+        return "El nombre del servicio extra y su descripción deben ser de tipo string",400
 
     return None, None
 
@@ -33,7 +33,7 @@ def validar_body_patch_servicios_extra(cuerpo):
         return "El body no cumple con el formato JSON",400
 
     tipos_datos_validos = {
-        "servicio_extra": str,
+        "nombre_servicio": str,
         "descripcion": str,
     }
 

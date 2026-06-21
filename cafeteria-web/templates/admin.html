@@ -21,6 +21,15 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<div class="container" style="margin-top:15px;">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
 
 <script>
         function togglePopup(id) {
@@ -31,7 +40,7 @@
 
 <div class="fh5co-section">
 	<button class="btn-open-popup" onclick="togglePopup(1)">
-      Open Popup Form
+      Nuevo Plato
 	</button>
 	<div class="container">
 		<div class="row">
@@ -41,21 +50,22 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Nombre del plato</label>
-							<input type="text" name="plato" class="form-control" placeholder="Nombre del plato">
+							<input type="text" name="plato" class="form-control" placeholder="Nombre del plato" required>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Precio</label>
-							<input type="number" name="precio" class="form-control" placeholder="Precio" min="0" step="0.01">
+							<input type="number" name="precio" class="form-control" placeholder="Precio" min="0" step="0.01" required>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Descripción</label>
-							<input type="text" name="descripcion" class="form-control" placeholder="Descripción">
+							<input type="text" name="descripcion" class="form-control" placeholder="Descripción" required>
 						</div>
 					</div>
+
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Restricciones alimenticias</label>
@@ -64,8 +74,8 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="plate_image" class="form-control" accept="image/png, image/jpeg" />
+							<label>Imagen de representación(jpeg)</label>
+							<input type="file" name="plate_image" class="form-control" accept="image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -77,7 +87,7 @@
 					</form>
 					<button class="btn-close-popup" 
                 	onclick="togglePopup(1)">
-              		Close
+              		Cerrar
               		</button>
 				</div>
 				
@@ -89,7 +99,7 @@
 			<div class="col-md-12 fh5co-heading animate-box">
 				<h2>Menú actual</h2>
 			</div>
-			<div class="col-md-12">
+			<div class="scrollable-table">
 				<table class="table table-striped" id="menu-table">
 					<thead>
 						<tr>
@@ -104,7 +114,7 @@
 					<tbody class="list list-font-color">
 					{% for plato in menu %}
 						<tr class="list-font-color">
-							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							<td><img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
 							<td>{{ plato.plato }}</td>
 							<td>${{ plato.precio }}</td>
 							<td>{{ plato.descripcion }}</td>
@@ -126,9 +136,10 @@
 
 
 
+
 <div class="fh5co-section">
 	<button class="btn-open-popup" onclick="togglePopup(2)">
-      Open Popup Form
+      Nuevo Servicio
 	</button>
 	<div class="container">
 		<div class="row">
@@ -138,7 +149,7 @@
 					<div class="row form-group">
 						<div class="col-md-12">
 							<label>Nombre del servicio</label>
-							<input type="text" name="servicio_extra" class="form-control" placeholder="Nombre del servicio">
+							<input type="text" name="nombre_servicio" class="form-control" placeholder="Nombre del servicio" required>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -149,8 +160,8 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label>Imagen de representación(png o jpeg)</label>
-							<input type="file" name="service_image" class="form-control" accept="image/png, image/jpeg" />
+							<label>Imagen de representación(jpeg)</label>
+							<input type="file" name="service_image" class="form-control" accept="image/jpeg" required/>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -162,7 +173,7 @@
 				</form>
 				<button class="btn-close-popup" 
 				onclick="togglePopup(2)">
-				Close
+				Cerrar
 				</button>
 				</div>
 				
@@ -174,8 +185,8 @@
 			<div class="col-md-12 fh5co-heading animate-box">
 				<h2>Servicios extra</h2>
 			</div>
-			<div class="col-md-12">
-				<table class="table table-striped" id="menu-table">
+			<div class="scrollable-table">
+				<table class="table table-striped" id="service-table">
 					<thead>
 						<tr>
 							<th>Imagen</th>
@@ -187,9 +198,9 @@
 					<tbody class="list">
 					{% for servicio in servicios_extra %}
 						<tr>
-							<td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.servicio_extra) }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
-							<td>{{ servicio.servicio_extra }}</td>
-							<td>{{ servicio.descripcion }}</td>
+                           <td><img src="{{ url_for('static', filename='images/servicios-extra/service_image_' + servicio.nombre_servicio + '.jpeg') }}" alt="No se pudo cargar imagen" class="img-responsive" width="100" height="100"></td>
+							   <td>{{ servicio.nombre_servicio }}</td>
+							   <td>{{ servicio.descripcion }}</td>
 							<td>
 								<a href="{{ url_for('servicios-extra.delete_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
 								<a href="{{ url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio.id) }}" class="btn btn-warning btn-sm">Editar</a>
@@ -203,4 +214,60 @@
 	</div>
 </div>
 
+
+
+<div class="fh5co-section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12 fh5co-heading animate-box">
+                <h2>Listado Global de Reservas</h2>
+            </div>
+            
+            <div class="scrollable-table">
+                <table class="table table-striped" id="reservas-table">
+                    <thead>
+                        <tr>
+                            <th>Código/ID</th>
+                            <th>ID Usuario</th> <th>Mesas Solicitadas</th>
+                            <th>Fecha y Hora</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                    {% for reserva in reservas %}
+                        <tr>
+                            <td>#{{ reserva.id }}</td>
+                            
+                            <td><strong>{{ reserva.id_usuario }}</strong></td>
+                            
+                            <td>{{ reserva.mesas }} {{ 'mesa' if reserva.mesas == 1 else 'mesas' }}</td>
+                            
+                            <td>{{ reserva.fecha_reserva }}</td>
+                            
+                            <td>
+                                {% if reserva.estado_reserva == 'pendiente' %}
+                                    <span class="label label-warning" style="background-color: #f0ad4e; padding: 4px 8px; color: white; border-radius: 4px;">Pendiente</span>
+                                {% elif reserva.estado_reserva == 'confirmada' %}
+                                    <span class="label label-success" style="background-color: #5cb85c; padding: 4px 8px; color: white; border-radius: 4px;">Confirmada</span>
+                                {% else %}
+                                    <span class="label label-danger" style="background-color: #d9534f; padding: 4px 8px; color: white; border-radius: 4px;">Cancelada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 {% endblock %}
+
+
+

@@ -15,7 +15,7 @@
 			<div class="col-md-12 text-center">
 				<div class="display-t js-fullheight">
 					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-						<h1>Reservá una mesa</h1>
+						<h1>Asegura tu lugar</h1>
 					</div>
 				</div>
 			</div>
@@ -45,19 +45,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 fh5co-heading animate-box">
-				<h2>Reservación</h2>
-				<div class="row">
-					<div class="col-md-8">
-						<p>Dejá tus datos en la parte inferior</p>
-					</div>
-				</div>
+				<h2>Planifica tu visita</h2>
 			</div>
 			
 			<div class="col-md-8 col-md-push-2 col-sm-8 col-sm-push-2">
-				<form action="{{ url_for('reservas_bp.reservas') }}" method="POST" id="form-wrap">
+				<form action="{{ url_for('reservas_bp.reservas') }}" method="POST" id="form-wrap" class="form-reservations-custom">
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="many">¿Cuántas mesas?</label>
+							<label for="many">Cantidad de mesas</label>
 							<select name="mesas" id="many" class="form-control custom_select">
 								<option value=1>1 mesa</option>
 								<option value=2>2 mesas</option>
@@ -67,14 +62,14 @@
 
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="res_date">¿Qué día?</label>
+							<label for="res_date">Fecha de la reserva</label>
 							<input type="date" name="fecha_dia" id="res_date" class="form-control"/>
 						</div>
 					</div>
 
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="res_time">¿A qué hora?</label>
+							<label for="res_time">Hora de la reserva</label>
 							<select name="fecha_hora" id="res_time" class="form-control custom_select" required>
 								<optgroup label="Desayuno">
 									<option value="08:00">08:00 AM</option>
@@ -107,7 +102,7 @@
 					
 					<div class="row form-group">
 							<div class="col-md-12">
-								<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Enviar reservación">
+								<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Confirmar reserva">
 							</div>
 						</div>
 
