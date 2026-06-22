@@ -166,7 +166,7 @@ def decodificar_jwt(token: str):
     
 
 #esto va para los decoradores, todo aquel que le contenga asegura que, si no sos usuario, te tire un 401(no autenticado)
-def requiere_auth():
+def requiere_auth(rol=None):
     """
     Decorador que valida el JWT del header Authorization e inyecta
     el payload en request.usuario_actual.
@@ -192,6 +192,14 @@ def requiere_auth():
             except ValueError as e:
                 return jsonify(e.args[0]), e.args[1] if len(e.args) > 1 else 401
             
+            if rol is not None and payload.get('rol') != rol:
+
+                return jsonify(construir_error_api(
+                    code='auth.insufficient_permissions',
+                    message='Permisos insuficientes',
+                    description='No tenes permiso para acceder a este recurso'
+                )), 403
+
             request.usuario_actual = payload
             return funcion(*args, **kwargs)
         return wrapper

@@ -48,9 +48,9 @@ def crear():
         return jsonify({"errors": [{"code": "500", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
 
 
-#TODO: chequeo de admi
+
 @reviews_bp.route('/resenas/<int:id_resena>', methods=['DELETE'])
-@requiere_auth()
+@requiere_auth(rol='admin')
 def eliminar(id_resena):
     try:
         resultado = eliminar_resena(id_resena)
