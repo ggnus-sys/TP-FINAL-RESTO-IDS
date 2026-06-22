@@ -217,7 +217,7 @@
                 <table class="table table-striped" id="reservas-table">
                     <thead>
                         <tr>
-                            <th>Código/ID</th>
+                            <th>ID</th>
                             <th>ID Usuario</th> <th>Mesas Solicitadas</th>
                             <th>Fecha y Hora</th>
                             <th>Estado</th>
@@ -243,6 +243,48 @@
                                     <span class="label label-danger">Cancelada</span>
                                 {% endif %}
                             </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="fh5co-section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12 fh5co-heading animate-box">
+                <h2>Listado de reseñas</h2>
+            </div>
+            
+            <div class="scrollable-table">
+                <table class="table table-striped" id="resenas-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Usuario</th>
+                            <th>Contenido</th>
+                            <th>Estrellas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                    {% for resena in resenas %}
+                        <tr>
+                            <td>#{{ resena.id }}</td>
+                            
+                            <td><strong>{{ resena.id_usuario }}</strong></td>
+                            
+                            <td>{{ resena.contenido }}</td>
+                            
+                            <td>{{ resena.estrellas }}</td>
+
+							<td>
+								<a href="{{ url_for('reviews_bp.delete_resena', id=resena.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+							</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -52,7 +52,7 @@ def get_resenas():
 
 
     
-@reviews_bp.route('/resenas/<int:id>', methods=['DELETE'])
+@reviews_bp.route('/resenas/<int:id>', methods=['GET'])
 @requiere_login(rol='admin')
 def delete_resena(id):
     resultado = eliminar_resena(id, token_actual())
@@ -62,4 +62,4 @@ def delete_resena(id):
     else:
         flash('Error al eliminar reseña.' , 'error')
         
-    return redirect(url_for('reviews_bp.get_resenas'))
+    return redirect(url_for('admin'))

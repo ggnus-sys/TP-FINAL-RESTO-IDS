@@ -12,7 +12,8 @@ def listar_resenas():
                        r.contenido,
                        r.estrellas,
                        u.nombre,
-                       u.apellido
+                       u.apellido,
+                       u.id AS id_usuario
                        FROM resenas r
                        INNER JOIN usuarios u
                        ON r.id_usuario = u.id
