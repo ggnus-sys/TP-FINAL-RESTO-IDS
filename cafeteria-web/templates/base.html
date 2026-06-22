@@ -73,6 +73,9 @@
 							<li class="has-dropdown">
 								<a href="#">{{ usuario_sesion.nombre }}</a>
 								<ul class="dropdown">
+									{% if usuario_sesion.rol == 'admin' %}
+									<li><a href="{{ url_for('menu.admin_menu') }}">Panel Administrador</a></li>
+									{% endif %}
 									<li>
 										<form action="{{ url_for('auth.logout') }}" method="POST" style="margin:0;">
 											<button type="submit" style="background:none;border:none;cursor:pointer;padding:8px 15px;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;">Cerrar sesión</button>
