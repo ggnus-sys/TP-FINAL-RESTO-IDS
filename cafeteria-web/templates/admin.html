@@ -236,11 +236,11 @@
                             
                             <td>
                                 {% if reserva.estado_reserva == 'pendiente' %}
-                                    <span class="label label-warning" style="background-color: #f0ad4e; padding: 4px 8px; color: white; border-radius: 4px;">Pendiente</span>
+                                    <span class="label label-warning" >Pendiente</span>
                                 {% elif reserva.estado_reserva == 'confirmada' %}
-                                    <span class="label label-success" style="background-color: #5cb85c; padding: 4px 8px; color: white; border-radius: 4px;">Confirmada</span>
+                                    <span class="label label-success">Confirmada</span>
                                 {% else %}
-                                    <span class="label label-danger" style="background-color: #d9534f; padding: 4px 8px; color: white; border-radius: 4px;">Cancelada</span>
+                                    <span class="label label-danger">Cancelada</span>
                                 {% endif %}
                             </td>
                         </tr>
