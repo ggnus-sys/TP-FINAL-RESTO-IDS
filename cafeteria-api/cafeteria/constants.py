@@ -1,4 +1,5 @@
 import os, re
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -38,6 +39,9 @@ HORAS_PERMITIDAS_RESERVA = [8,9,10,11,12,13,14,16,17,18,19]
 
 #Minutos de reserva permitidos
 MINUTOS_PERMITIDOS_RESERVA = [0,30]
+
+#Tiempo maximo de un cliente dentro de la cafeteria
+DURACION_TURNO = timedelta(minutes=90)
 
 # Configuracion de la base de datos MySQL (levantada via docker-compose)
 DB_HOST     = os.getenv('DB_HOST', 'mysql')

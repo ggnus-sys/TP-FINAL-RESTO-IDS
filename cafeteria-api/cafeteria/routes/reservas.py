@@ -13,15 +13,9 @@ def obtener_reservas():
     try:
         fecha_especifica = request.args.get('fecha_especifica')
         usuario_especifico = request.args.get('id_usuario')
+        estado = request.args.get('estado')
 
-        if fecha_especifica:
-            reservas = listar_reservas(fecha_especifica=fecha_especifica)
-        
-        elif usuario_especifico:
-            reservas = listar_reservas(usuario_especifico=usuario_especifico)
-            
-        else:
-            reservas = listar_reservas()
+        reservas = listar_reservas(fecha_especifica=fecha_especifica, usuario_especifico=usuario_especifico, estado=estado)
 
         if not reservas:
             return jsonify([]), 200
