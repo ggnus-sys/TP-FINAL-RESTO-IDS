@@ -11,13 +11,11 @@ def get_resenas():
         if not usuario_actual():
             flash('Iniciá sesión para dejar una reseña.', 'error')
             return redirect(url_for('auth.login'))
-
         contenido = request.form.get("contenido")
         estrellas = request.form.get("estrellas")
         id_usuario = usuario_actual()['id']
         if estrellas:
             estrellas = int(estrellas)
-        # Validaciones
         errores = []
         if not contenido:
             errores.append("El contenido de la reseña es obligatorio.")
@@ -29,7 +27,10 @@ def get_resenas():
             for error in errores:
                 flash(error, 'error')
             return redirect(url_for('reviews_bp.get_resenas'))
-        body = { "contenido": contenido, "estrellas": estrellas, "id_usuario": id_usuario
+        body = {
+            "contenido": contenido,
+            "estrellas": estrellas,
+            "id_usuario": id_usuario
         }
 
         resultado = crear_resena(body, token_actual())
@@ -38,11 +39,7 @@ def get_resenas():
         else:
             flash("Error al crear reseña.", 'error')
         return redirect(url_for('reviews_bp.get_resenas'))
-
-
-    resenas = obtener_resenas()  # funcion para obtener las reseñas desde la base de datos
-    return render_template('reviews.html', resenas=resenas, usuario=usuario_actual())
- # GET (y recarga luego del POST)    
+    # GET
     resenas = obtener_resenas()
     cantidad = len(resenas)
     if cantidad > 0:
@@ -50,7 +47,7 @@ def get_resenas():
     else:
         promedio = 0
     return render_template(
-        'reviews.html', resenas = resenas, usuario = usuario_actual(), promedio = promedio, cantidad = cantidad)
+        'reviews.html', resenas=resenas, usuario=usuario_actual(), promedio=promedio, cantidad=cantidad)
 
 
     
