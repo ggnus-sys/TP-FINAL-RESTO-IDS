@@ -180,7 +180,7 @@ def requiere_auth(rol=None):
                 return jsonify(construir_error_api(
                 code='auth.token.missing',
                 message='Token de autenticacion faltante',
-                description='Debe enviarse el header Authorization con el formato "Bearer <token>"'), 401)
+                description='Debe enviarse el header Authorization con el formato "Bearer <token>"')), 401
             
 
             token = header[len('Bearer '):].strip()
