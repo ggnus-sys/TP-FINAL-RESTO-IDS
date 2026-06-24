@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>{% block title %}Kaifer &mdash; Cafetería{% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by freehtml5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="freehtml5.co" />
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,600i,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/animate.css') }}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/icomoon.css') }}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/bootstrap.css') }}">
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/flexslider.css') }}">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+
+	{% block extra_css %}{% endblock %}
+
+	<!-- Modernizr JS -->
+	<script src="{{ url_for('static', filename='js/modernizr-2.6.2.min.js') }}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+	<![endif]-->
+
+	{% block head %}{% endblock %}
+	</head>
+	<body>
+		
+	<div class="fh5co-loader"></div>
+	
+	<div id="page">
+
+	<header role="banner">
+		<nav class="fh5co-nav" role="navigation">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-center logo-wrap">
+						<div id="fh5co-logo"><a href="{{ url_for('index') }}">Kaifer<span>.</span></a></div>
+					</div>
+					<div class="col-xs-12 text-center menu-1 menu-wrap">
+						<ul>
+							<li><a href="{{ url_for('index') }}">Inicio</a></li>
+							<li><a href="{{ url_for('menu.detalle_menu') }}">Menu</a></li>
+							<li class="has-dropdown">
+								<a href="{{ url_for('gallery') }}">Galeria</a>
+							</li>
+							<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservas</a></li>
+							<li><a href="{{ url_for('reviews_bp.get_resenas') }}">Reseñas</a></li>
+							<li><a href="{{ url_for('about') }}">Acerca de nosotros</a></li>
+							<li><a href="{{ url_for('contact') }}">Contacto</a></li>
+							<li><a href="{{ url_for('servicios-extra.detalle_servicios_extra') }}">servicios extras</a></li>
+						{% if usuario_sesion %}
+							<li class="has-dropdown">
+								<a href="#">{{ usuario_sesion.nombre }}</a>
+								<ul class="dropdown">
+									{% if usuario_sesion.rol == 'admin' %}
+									<li><a href="{{ url_for('menu.admin_menu') }}">Panel Administrador</a></li>
+									{% endif %}
+									<li>
+										<form action="{{ url_for('auth.logout') }}" method="POST" style="margin:0;">
+											<button type="submit" style="background:none;border:none;cursor:pointer;padding:8px 15px;width:100%;text-align:left;font-family:inherit;font-size:inherit;color:inherit;">Cerrar sesión</button>
+										</form>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li><a href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
+							<li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>
+						{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		{% block header_banner %}{% endblock %}
+	</header>
+
+	<main>
+		{% block content %}
+		{% endblock %}
+	</main>
+
+	<footer id="fh5co-footer" role="contentinfo" class="fh5co-section">
+		<div class="container">
+			<div class="row row-pb-md">
+				<div class="col-md-4 fh5co-widget">
+					<h4>Kaifer</h4>
+					<p>Experiencia única en cada sorbo.</p>
+				</div>
+				<div class="col-md-2 col-md-push-1 fh5co-widget">
+					<h4>Links</h4>
+					<ul class="fh5co-footer-links">
+						<li><a href="{{ url_for('index') }}">Inicio</a></li>
+						<li><a href="{{ url_for('about') }}">Acerca de Nosotros</a></li>
+						<li><a href="{{ url_for('menu.detalle_menu') }}">Menu</a></li>
+						<li><a href="{{ url_for('gallery') }}">Galeria</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-2 col-md-push-1 fh5co-widget">
+					<h4>Páginas</h4>
+					<ul class="fh5co-footer-links">
+						<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservas</a></li>
+						<li><a href="{{ url_for('reviews_bp.get_resenas') }}">Reseñas</a></li>
+						<li><a href="{{ url_for('contact') }}">Contacto</a></li>
+						<li><a href="{{ url_for('servicios-extra.detalle_servicios_extra') }}">Servicios Extra</a></li>					</ul>
+				</div>
+
+				<div class="col-md-4 col-md-push-1 fh5co-widget">
+					<h4>Contacto</h4>
+					<ul class="fh5co-footer-links">
+						<li>Av Libertador 3892 <br> Palermo, CABA</li>
+						<li><a href="tel://1234567920">+ 541112345678</a></li>
+						<li><a href="mailto:info@yoursite.com">kaifer@kaifer.com</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2025 Kaifer Cafetería. Todos los derechos reservados.</small> 
+					</p>
+					<p>
+						<ul class="fh5co-social-icons">
+							<li><a href="#"><i class="icon-twitter2"></i></a></li>
+							<li><a href="#"><i class="icon-facebook2"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin2"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble2"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	</div>{# fin #page #}
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up22"></i></a>
+	</div>
+
+	<!-- jQuery -->
+	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<!-- jQuery Easing -->
+	<script src="{{ url_for('static', filename='js/jquery.easing.1.3.js') }}"></script>
+	<!-- Bootstrap -->
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<!-- Waypoints -->
+	<script src="{{ url_for('static', filename='js/jquery.waypoints.min.js') }}"></script>
+	<!-- Stellar -->
+	<script src="{{ url_for('static', filename='js/jquery.stellar.min.js') }}"></script>
+	<!-- Flexslider -->
+	<script src="{{ url_for('static', filename='js/jquery.flexslider-min.js') }}"></script>
+	<!-- Main -->
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+	<script src="{{ url_for('static', filename='js/reservations2.js') }}"></script>
+
+
+	{% block extra_js %}{% endblock %}
+
+	{# ── Toast notifitations, notificaciones flash de flask ── #}
+	<div id="flash-data" style="display:none;"
+		data-messages='{{ get_flashed_messages(with_categories=true) | tojson }}'>
+	</div>
+
+	<div id="toast-container"></div>
+
+	<script src="{{ url_for('static', filename='js/Toast.js') }}"></script>
+
+	</body>
+</html>

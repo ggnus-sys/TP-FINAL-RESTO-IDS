@@ -1,12 +1,17 @@
 from calendar import weekday
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from re import sub
 import logging
+import bcrypt
 from .constants import (
     ERROR_CODE_INVALID_MIN_VALUE,
     ERROR_CODE_INVALID_MAX_VALUE,
 )
-
+import jwt
+from functools import wraps
+from flask import request, jsonify
+from .constants import JWT_SECRET, JWT_ALGORITHM, JWT_EXP_HORAS
 
 
 logger = logging.getLogger(__name__)
@@ -71,12 +76,9 @@ def validar_minimo(valor: int, minimo: int, nombre: str) -> int:
 
 
 def validar_entero(numero, nombre: str = 'numero') -> int:
-    valor = str(numero)
-    valor_sin_letras = sub('[a-zA-Z]+', '', valor)
-
     try:
-        return int(valor_sin_letras)
-    except ValueError:
+        return int(numero)
+    except (ValueError, TypeError):
         logger.warning(f"Valor numerico invalido: '{numero}' no puede convertirse a entero")
 
         raise ValueError(construir_error_api(
@@ -97,19 +99,22 @@ def validar_formato_fecha(fecha: str, formato: str, nombre: str = 'fecha') -> da
             description=f"El valor '{fecha}' no cumple el formato esperado '{formato}'"
         ))
 
-def validar_fecha_futura(fecha_futura : datetime, fecha_pasada: datetime) -> datetime:
-    mismo_año : bool = fecha_futura.year == fecha_pasada.year
-    menor_mes : bool= fecha_futura.month < fecha_pasada.month
-    menor_dia : bool= fecha_futura.day < fecha_pasada.day
-    if mismo_año and menor_mes or (mismo_año and menor_mes and menor_dia):
-        logger.warning(f"Fecha invalida: '{fecha_futura}' es anterior a '{fecha_pasada}'")
+def validar_fecha_futura(fecha_futura: datetime):
+
+    zona_arg = ZoneInfo("America/Argentina/Buenos_Aires")
+    hora_actual_arg = datetime.now(zona_arg)
+
+    if fecha_futura.tzinfo is None:
+        fecha_futura = fecha_futura.replace(tzinfo=zona_arg)
+
+    if fecha_futura < hora_actual_arg:
+        logger.warning(f"Fecha invalida: '{fecha_futura}' es anterior a '{hora_actual_arg}'")
 
         raise ValueError(construir_error_api(
             code='invalid.fecha',
             message="Fecha invalida",
-            description=f"La fecha '{fecha_futura}' no puede ser anterior a '{fecha_pasada}'"
+            description=f"La fecha '{fecha_futura.strftime('%Y-%m-%d %H:%M')}' no puede ser anterior a la actual."
         ))
-    return fecha_futura
 
 def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
     if valor not in conjunto_validos:
@@ -121,3 +126,80 @@ def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
             description=f"El valor '{valor}' no es válido para '{nombre}'. Valores permitidos: {conjunto_validos}"
         ))
     return valor
+
+
+
+
+
+# ---------------------CONFIGURACION JWT -------------
+
+def generar_jwt(usuario_id: int, rol: str):
+    """Genera un JWT firmado con id de usuario, rol y expira tras 24h"""
+    ahora = datetime.now(timezone.utc)
+    payload = {
+        'sub': str(usuario_id),
+        'rol': rol,
+        'iat': ahora,
+        'exp': ahora + timedelta(hours=JWT_EXP_HORAS)
+    }
+
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+
+def decodificar_jwt(token: str):
+    """decodifica un token y devuelve el payload en caso de ser valido, sino lanza excepcion"""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise ValueError(construir_error_api(
+            code='auth.token.expired',
+            message='Token expirado',
+            description='El token de autenticacion expiro. Volve a iniciar sesion.'), 401)
+    except jwt.InvalidTokenError:
+        raise ValueError(construir_error_api(
+            code='auth.token.invalid',
+            message='Token invalido',
+            description='El token de autenticacion no es valido.'
+        ), 401)
+    
+
+
+def requiere_auth(rol=None):
+    """
+    Decorador que valida el JWT del header Authorization e inyecta
+    el payload en request.usuario_actual.
+    """
+    def decorador(funcion):
+        @wraps(funcion)
+        def wrapper(*args, **kwargs):
+            #podría ser función
+            header = request.headers.get('Authorization', '')
+            
+            if not header.startswith('Bearer '):
+                return jsonify(construir_error_api(
+                code='auth.token.missing',
+                message='Token de autenticacion faltante',
+                description='Debe enviarse el header Authorization con el formato "Bearer <token>"'), 401)
+            
+
+            token = header[len('Bearer '):].strip()
+            
+            try:
+                payload = decodificar_jwt(token)
+            
+            except ValueError as e:
+                return jsonify(e.args[0]), e.args[1] if len(e.args) > 1 else 401
+            
+            if rol is not None and payload.get('rol') != rol:
+
+                return jsonify(construir_error_api(
+                    code='auth.insufficient_permissions',
+                    message='Permisos insuficientes',
+                    description='No tenes permiso para acceder a este recurso'
+                )), 403
+
+            request.usuario_actual = payload
+            return funcion(*args, **kwargs)
+        return wrapper
+    return decorador

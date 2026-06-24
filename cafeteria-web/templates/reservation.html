@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Reservas{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/reservas.js') }}"></script>
+{% endblock %}
+
+{% block header_banner %}
+
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/fondo_reserva.jpg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Asegura tu lugar</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fh5co-reservation-form" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h2>Planifica tu visita</h2>
+			</div>
+			
+			<div class="col-md-8 col-md-push-2 col-sm-8 col-sm-push-2">
+				<form action="{{ url_for('reservas_bp.reservas') }}" method="POST" id="form-wrap" class="form-reservations-custom">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="many">Cantidad de mesas</label>
+							<select name="mesas" id="many" class="form-control custom_select">
+								<option value=1>1 mesa</option>
+								<option value=2>2 mesas</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="res_date">Fecha de la reserva</label>
+							<input type="date" name="fecha_dia" id="res_date" class="form-control"/>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="res_time">Hora de la reserva</label>
+							<select name="fecha_hora" id="res_time" class="form-control custom_select" required>
+								<optgroup label="Desayuno">
+									<option value="08:00">08:00 AM</option>
+									<option value="08:30">08:30 AM</option>
+									<option value="09:00">09:00 AM</option>
+									<option value="09:30">09:30 AM</option>
+									<option value="10:00">10:00 AM</option>
+									<option value="10:30">10:30 AM</option>
+									<option value="11:00">11:00 AM</option>
+								</optgroup>
+								<optgroup label="Almuerzo">
+									<option value="12:00">12:00 PM</option>
+									<option value="12:30">12:30 PM</option>
+									<option value="13:00">13:00 PM</option>
+									<option value="13:30">13:30 PM</option>
+									<option value="14:00">14:00 PM</option>
+								</optgroup>
+								<optgroup label="Merienda">
+									<option value="16:00">16:00 PM</option>
+									<option value="16:30">16:30 PM</option>
+									<option value="17:00">17:00 PM</option>
+									<option value="17:30">17:30 PM</option>
+									<option value="18:00">18:00 PM</option>
+									<option value="18:30">18:30 PM</option>
+									<option value="19:00">19:00 PM</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					
+					<div class="row form-group">
+							<div class="col-md-12">
+								<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Confirmar reserva">
+							</div>
+						</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

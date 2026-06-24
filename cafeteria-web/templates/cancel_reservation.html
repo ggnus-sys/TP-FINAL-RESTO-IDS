@@ -1,0 +1,25 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cancelar Reserva - Kaifer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style/cancel_reservation.css') }}">
+</head>
+<body>
+<section class="cancel-page">
+    <h1 class="cancel-page__logo">Kaifer<span>.</span></h1>
+    <h2>¿Cancelar la reserva #{{ id_reserva }}?</h2>
+    <p>Esta acción no se puede deshacer.</p>
+ 
+    <div class="cancel-page__actions">
+        <form action="{{ url_for('reservas_bp.cancelacion_reserva') }}?reserva_id={{ id_reserva }}" method="post">
+            <button type="submit" class="cancel-page__btn cancel-page__btn--danger">Sí, cancelar reserva</button>
+        </form>
+        <a href="{{ url_for('reservas_bp.reservas') }}" class="cancel-page__btn cancel-page__btn--outline">Volver</a>
+    </div>
+</section>
+</body>
+</html>
+ 

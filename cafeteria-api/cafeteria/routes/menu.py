@@ -1,8 +1,10 @@
 from flask import Flask,jsonify,request, Blueprint
 from ..services.menu import formato_mensaje_get, listar_platos ,modificar_plato ,crear_plato, eliminar_plato
 from ..validators.menu import validar_params_get_menu, validar_body_post_menu, validar_body_patch_menu
+from ..utils import requiere_auth
 
 menu_bp = Blueprint('menu_bp', __name__)
+
 
 @menu_bp.route('/menu', methods=['GET'])
 def buscar_platos_menu():
@@ -60,7 +62,9 @@ def buscar_platos_menu():
             }]
         }), 500
 
+
 @menu_bp.route('/menu', methods=['POST'])
+@requiere_auth(rol='admin')
 def agregar_platos_menu():
 
     datos = (request.json)
@@ -75,7 +79,7 @@ def agregar_platos_menu():
                 "description": error
             }]
         }), codigo
-
+    
     try:
         crear_plato(datos)
         return "",201
@@ -95,7 +99,35 @@ def agregar_platos_menu():
             }), 500
 
 
+@menu_bp.route('/menu/<int:id>', methods=['GET'])
+def obtener_plato_menu(id):
+    try:
+        resultado = listar_platos(id_plato=id, nombre_plato=None, restricciones=[]) #como quiero buscar por id, los otros filtros los dejo vacios para que no afecten la consulta
+        if not resultado:
+            return jsonify({
+                "errors": [{
+                    "code": "404",
+                    "message": "Plato no encontrado",
+                    "level": "error",
+                    "description": f"No hay registros del menu para el id '{id}'."
+                }]
+            }), 404
+
+        return jsonify(resultado[0]), 200 
+
+    except Exception as error_interno:
+        return jsonify({
+            "errors": [{
+                "code": "500", 
+                "message": "Error interno del servidor", 
+                "level": "error", 
+                "description": str(error_interno)
+            }]
+        }), 500
+
+
 @menu_bp.route('/menu/<int:id>', methods=['PATCH'])
+@requiere_auth(rol='admin')
 def modificar_platos_menu(id):
 
     RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
@@ -134,8 +166,10 @@ def modificar_platos_menu(id):
                 "description": str(error_interno)
             }]
         }), 500
-    
+
+
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
+@requiere_auth(rol='admin')
 def borrar_plato_menu(id):
 
     if id == 0:

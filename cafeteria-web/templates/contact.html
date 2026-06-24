@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Contacto{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_1.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Ponte en contacto</h1>
+						<h2>Estamos para escucharte</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fh5co-contact" class="fh5co-section animate-box">
+	<div class="container">
+		<div class="row animate-box">
+			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				<h2>No seas tímido, hablemos.</h2>
+				<p>¿Buscás un café intenso para arrancar el día o algo más suave para la tarde? Te ayudo a elegir.</p>
+			</div>
+		</div>
+		
+        <div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<form action="{{ url_for('contact') }}" method="POST" id="form-wrap" class="form-contacto-custom">
+					
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="name">Tu Nombre</label>
+							<input type="text" class="form-control" id="name" name="nombre">
+						</div>
+					</div>
+					
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="email">Tu Email</label>
+							<input type="email" class="form-control" id="email" name="email">
+						</div>
+					</div>
+					
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label for="message">Tu Mensaje</label>
+							<textarea name="mensaje" id="message" cols="30" rows="6" class="form-control"></textarea>
+						</div>
+					</div>
+					
+					<div class="row form-group btn-container-custom">
+						<div class="col-md-12 text-center">
+							<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Enviar Mensaje">
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

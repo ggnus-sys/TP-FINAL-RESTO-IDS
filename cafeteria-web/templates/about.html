@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; About{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header"
+     class="fh5co-cover js-fullheight"
+     style="background-image: url('{{ url_for('static', filename='images/cafe_7.jpeg') }}');"
+     data-stellar-background-ratio="0.5">	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Sobre <em>Nosotros</em></h1>
+						<h2>Conocé nuestra historia</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fh5co-about" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 animate-box">
+				<div class="section-heading">
+					<h2>Inicios de Kaifer</h2>
+					<p>Nuestra historia comenzó con la visión de fusionar la sofisticación porteña de la Avenida Libertador con el arte del café de especialidad. Desde nuestros inicios, nos propusimos crear un refugio exclusivo donde la calidad inigualable y la atención al detalle transformaran cada visita en un momento extraordinario.</p>
+					<p>En cada rincón de nuestra cafetería, honramos el compromiso con la excelencia que nos define. Seleccionamos cuidadosamente granos de origen único y empleamos técnicas de vanguardia para garantizar una experiencia sensorial incomparable en cada taza.</p>
+				</div>
+			</div>
+			<div class="col-md-6 img-wrap animate-box" data-animate-effect="fadeInLeft">
+				<img src="{{ url_for('static', filename='images/acerca_1.jpg') }}" alt="Kaifer Cafetería">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-timeline">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-md-offset-0">
+				<ul class="timeline animate-box">
+					<li class="timeline-heading text-center animate-box">
+						<div><h3>Nuestro desarrollo</h3></div>
+					</li>
+					<li class="animate-box timeline-unverted">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Fundación de Kaifer</h3>
+							</div>
+							<div class="timeline-body">
+								<p>En noviembre de 2010, dos apasionados por el café fundaron Kaifer con la visión de crear un espacio único donde la calidad y el servicio se fusionaran para ofrecer una experiencia inigualable.</p>
+							</div>
+						</div>
+					</li>
+					<li class="timeline-inverted animate-box">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Proceso de Inauguración</h3>
+							</div>
+							<div class="timeline-body">
+								<p>El proceso de inauguración fue cuidadosamente planificado para garantizar la excelencia en cada detalle.</p>
+							</div>
+						</div>
+					</li>
+					<li class="animate-box timeline-unverted">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Crecimiento</h3>
+							</div>
+							<div class="timeline-body">
+								<p>Kaifer cuenta actualmente con 30 empleados entre cocineros y personal de servicio.</p>
+							</div>
+						</div>
+					</li>
+					<br>
+					<li class="timeline-heading text-center animate-box">
+						<div><h3>Más sobre nosotros</h3></div>
+					</li>
+					<li class="timeline-inverted animate-box">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Constante innovación</h3>
+							</div>
+							<div class="timeline-body">
+								<p><strong>Kaifer</strong> se compromete constantemente con la innovación para ofrecer siempre lo mejor a sus clientes.</p>
+							</div>
+						</div>
+					</li>
+					<li class="animate-box timeline-unverted">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Apoyo a la comunidad</h3>
+							</div>
+							<div class="timeline-body">
+								<p>Kaifer se esfuerza por apoyar a la comunidad a través de diversas iniciativas y programas sociales.</p>
+							</div>
+						</div>
+					</li>
+					<li class="timeline-inverted animate-box">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Vías de ampliación</h3>
+							</div>
+							<div class="timeline-body">
+								<p>Estamos en búsqueda de nuevas oportunidades de expansión para seguir satisfaciendo a nuestros clientes.</p>
+							</div>
+						</div>
+					</li>
+					<li class="animate-box timeline-unverted">
+						<div class="timeline-badge"><i class="icon-genius"></i></div>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h3 class="timeline-title">Cercanía al cliente</h3>
+							</div>
+							<div class="timeline-body">
+								<p>Cada cliente es un mundo único que merece ser escuchado y atendido de la mejor manera.</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-featured-testimony" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading">
+				<h2>Testimonio</h2>
+			</div>
+			<div class="col-md-5 animate-box img-to-responsive">
+				<img src="{{ url_for('static', filename='images/cafe_acerca_1.jpg') }}" alt="">
+			</div>
+			<div class="col-md-7 animate-box">
+				<blockquote>
+					<p>&ldquo;La simplicidad de un ingrediente es un lujo.&rdquo;</p>
+					<p class="author"><cite>&mdash; Francis Mallmann</cite></p>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="fh5co-started" class="fh5co-section animate-box" style="background-image: url({{ url_for('static', filename='images/cafe_1_1_1.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row animate-box">
+			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				<h2>Reservá tu mesa</h2>
+				<p>No esperes más para disfrutar de nuestra deliciosa comida y agradable experiencia.</p>
+				<p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">Reservar ahora</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

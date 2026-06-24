@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS reservas (
     id_usuario INT NOT NULL,   
     mesas INT NOT NULL CHECK (mesas BETWEEN 1 AND 30), -- maximo supuesto de 30 por el moemnto
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_reserva DATE NOT NULL,
+    fecha_reserva DATETIME NOT NULL,
     estado_reserva ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL DEFAULT 'pendiente',
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );

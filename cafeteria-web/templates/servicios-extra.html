@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+ 
+{% block title %}Kaifer &mdash; Servicios Extra{% endblock %}
+ 
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/cafe_portada_3.jpeg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="display-t js-fullheight">
+					<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+						<h1>Vea <em>nuestros</em> servicios adicionales</h1>
+						<h2>Pensando en el cliente primero, siempre, todos los dias, todas las semanas, todo el tiempo</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+ 
+{% block content %}
+ 
+<div id="fh5co-featured-servicios_extra" class="fh5co-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 fh5co-heading animate-box">
+				<h7>Servicios</h7>
+			</div>
+ 
+			{% for servicio in servicios_extra %}
+			<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
+				<div class="fh5co-item animate-box">
+					<img src="{{ url_for('static', filename='images/servicios/plate_image_' + servicio['id']|string) }}" class="img-responsive" alt="No se pudo cargar imagen">
+					<h3>{{ servicio.nombre_servicio }}</h3>
+					<p>{{ servicio.descripcion }}</p>
+				</div>
+			</div>
+			{% endfor %}
+ 
+		</div>
+	</div>
+</div>
+ 
+<div id="fh5co-started" class="fh5co-section animate-box" style="background-image: url({{ url_for('static', filename='images/fondo_reserva.jpg') }});" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row animate-box">
+			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				<h2>Book a Table</h2>
+				<p>¿Querés reservar una mesa? Hacelo de manera rápida y sencilla.</p>
+				<p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">Book Now</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+{% endblock %}

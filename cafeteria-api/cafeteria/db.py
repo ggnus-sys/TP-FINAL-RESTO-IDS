@@ -31,3 +31,14 @@ def ejecutar_consulta(sql: str, parametros: dict = None) -> list[dict]:
         resultado = conexion.execute(text(sql), parametros or {})
 
         return [fila_a_dict(fila) for fila in resultado]
+    
+
+def obtener_usuario_por_email(email: str):
+    """obtiene un usuario por su email, o None si no existe."""
+    sql = "SELECT * FROM usuarios WHERE email = :email"
+    usuarios = ejecutar_consulta(sql, {"email": email})
+
+    if usuarios:
+        return usuarios[0]
+    else:
+        return None

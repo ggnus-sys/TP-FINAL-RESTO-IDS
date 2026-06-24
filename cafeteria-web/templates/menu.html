@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Kaifer &mdash; Menu{% endblock %}
+
+{% block header_banner %}
+<div id="fh5co-header" class="fh5co-cover js-fullheight" 
+     style="background-image: url('{{ url_for('static', filename='images/cafe_portada_3.jpeg') }}');" 
+     data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="display-t js-fullheight">
+          <div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+            <h1>Mirá <em>Nuestro</em> Menú</h1>
+            <h2>Sabores auténticos, café recién preparado</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="fh5co-featured-menu" class="fh5co-section">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-12 fh5co-heading animate-box">
+        <h2>Nuestro Delicioso Menú</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Sabores auténticos, café recién preparado y una selección artesanal creada para compartir, relajarse y disfrutar.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 animate-box" style="text-align:center; margin-bottom: 40px;">
+        <p style="color:#C8922A; letter-spacing:4px; font-size:13px; margin:0;"></p>
+      </div>
+
+      {% for plato in menu %}
+      <div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap">
+        <div class="fh5co-item animate-box">
+          <img src="{{ url_for('static', filename='images/platos/plate_image_' + plato.plato + '.jpeg') }}" class="img-responsive" alt="No se pudo cargar imagen">
+          <h3>{{ plato.plato }}</h3>
+          <span class="fh5co-price">${{ plato.precio }}</span>
+          <p>{{ plato.descripcion }}</p>
+          {% if plato.restricciones_alimenticias %}
+          <p><small><strong>Restricciones:</strong> {{ plato.restricciones_alimenticias }}</small></p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+<div id="fh5co-featured-testimony" class="fh5co-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 fh5co-heading animate-box">
+        <h2>Nuestra Filosofía</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Creemos que cada taza cuenta una historia. Seleccionamos granos de calidad, ingredientes frescos y dedicamos tiempo a cada preparación para que cada visita sea un momento para disfrutar, conversar y desconectar de la rutina.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 animate-box img-to-responsive">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" 
+             style="max-height:400px; width:100%;">
+      </div>
+      <div class="col-md-7 animate-box">
+        <blockquote>
+          <p>&ldquo;Cada taza cuenta una historia, cada visita crea un recuerdo.&rdquo;</p>
+          <p class="author"><cite>&mdash; Kaifer Café</cite></p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="fh5co-started" class="fh5co-section animate-box" 
+     style="background-image: url('{{ url_for('static', filename='images/fondo_reserva.jpg') }}');" 
+     data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row animate-box">
+      <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+        <h2>☕ Te Esperamos</h2>
+        <p>Disfruta de café de especialidad, desayunos preparados al momento y un ambiente pensado para compartir, trabajar o simplemente relajarte.</p>
+        <p><a href="{{ url_for('reservas_bp.reservas') }}" class="btn btn-primary btn-outline">VISÍTANOS</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

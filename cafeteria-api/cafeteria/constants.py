@@ -1,4 +1,5 @@
 import os, re
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -7,10 +8,15 @@ load_dotenv()
 BASE_URL = '/kaifer-api'
 
 # Formato de fecha esperado por la API
-FORMATO_FECHA = '%Y-%m-%d'
+FORMATO_FECHA = '%Y-%m-%d %H:%M'
 
 #Validación mail
 EMAIL_REGEX = re.compile(r'^[^@]+@[^@]+\.[^@]+$')
+
+#Configuración JWT
+JWT_SECRET = os.getenv('JWT_SECRET', 'secretito-kaifer')
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_HORAS = 24 
 
 #Roles de usuario
 ROLES_VALIDOS = ("admin","cliente")
@@ -21,6 +27,21 @@ ESTADOS_VALIDOS = {'pendiente','confirmada','cancelada'}
 # Reglas de dominio
 MIN_CALIFICACION = 1
 MAX_CALIFICACION = 5
+
+#Capacidad maxima de mesas de la web
+CAPACIDAD_MAX_WEB = 15
+
+#Cantidad maxima de reservas pendientes por usuario
+CANTIDAD_MAX_RESERVAS_USUARIO = 3
+
+#Horas de reserva permitidas
+HORAS_PERMITIDAS_RESERVA = [8,9,10,11,12,13,14,16,17,18,19]
+
+#Minutos de reserva permitidos
+MINUTOS_PERMITIDOS_RESERVA = [0,30]
+
+#Tiempo maximo de un cliente dentro de la cafeteria
+DURACION_TURNO = timedelta(minutes=90)
 
 # Configuracion de la base de datos MySQL (levantada via docker-compose)
 DB_HOST     = os.getenv('DB_HOST', 'mysql')
