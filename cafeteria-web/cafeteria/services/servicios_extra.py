@@ -95,7 +95,7 @@ def modificar_servicio_extra(servicio_extra_id: int, nombre_servicio: str, descr
         headers = {'Authorization': f'Bearer {token}'}
         response = requests.patch(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}', json=payload, headers=headers)
         return {
-            "ok": response.status_code == 200,
+            "ok": response.status_code == 204,
         }
 
     except requests.exceptions.ConnectionError:

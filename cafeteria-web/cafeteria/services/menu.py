@@ -99,7 +99,7 @@ def modificar_plato(plato_id: int, plato: str, precio: int, descripcion: str, re
         headers = { "Authorization": f"Bearer {token}" }
         response = requests.patch(f'{API_BASE_URL}/menu/{plato_id}', json=payload, headers=headers)
         return {
-            "ok": response.status_code == 200,
+            "ok": response.status_code == 204,
         }
 
     except requests.exceptions.ConnectionError:

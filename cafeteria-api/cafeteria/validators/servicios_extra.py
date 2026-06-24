@@ -32,19 +32,13 @@ def validar_body_patch_servicios_extra(cuerpo):
     if cuerpo is None:
         return "El body no cumple con el formato JSON",400
 
-    tipos_datos_validos = {
-        "nombre_servicio": str,
-        "descripcion": str,
-    }
+    nombre_servicio = cuerpo.get("nombre_servicio")
+    descripcion = cuerpo.get("descripcion")
 
-    for campo, valor in cuerpo.items(): #en vez de hacer campo.get, de cada campo, lo separo con un for
-        
-        #verifico que se respete la sintaxis del campo (su nombre) como el tipo de dato y su valor
+    if nombre_servicio is None or descripcion is None:
+        return "Faltan campos por asignar",400
 
-        if campo not in tipos_datos_validos:
-            return f"El campo {campo} no es válido", 400
-        
-        if not isinstance(valor, tipos_datos_validos[campo]): 
-            return f"El campo {campo} debe ser de tipo {tipos_datos_validos[campo].__name__}", 400 #tipos_datos_validos[campo] por si solo devuelve <class 'int'>, con __name__ devuelve int a secas
-       
+    if (not isinstance(nombre_servicio,str)) or (not isinstance(descripcion,str)):
+        return "El nombre del servicio extra y su descripción deben ser de tipo string",400
+
     return None, None
