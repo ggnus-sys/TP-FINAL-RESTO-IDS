@@ -7,8 +7,8 @@ from ..constants import FORMATO_FECHA, ESTADOS_VALIDOS
 
 reservas_bp = Blueprint('reservas_bp', __name__)
 
-#TODO: Chequeo rol admin
 @reservas_bp.route('/reservas', methods=['GET'])
+@requiere_auth()
 def obtener_reservas():
 
     try:
@@ -37,6 +37,7 @@ def obtener_reservas():
         return jsonify({"errors": [{"code": "internal.server.error", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
         
 @reservas_bp.route('/reservas', methods=['POST'])
+@requiere_auth()
 def anadir_reserva(): 
 
     datos = request.get_json()

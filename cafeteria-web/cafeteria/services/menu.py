@@ -47,8 +47,7 @@ def agregar_plato(plato: str, precio: int, descripcion: str, restricciones: str,
             "descripcion": descripcion,
             "restricciones_alimenticias": restricciones
         }
-        # por la falta de headers no funcionaba el agregar plato
-        # ya con esto la api reconoce el token y deja que el plato se agregue 
+        
         headers = { "Authorization": f"Bearer {token}" }
         response = requests.post(f'{API_BASE_URL}/menu', json=payload, headers=headers) 
         return {

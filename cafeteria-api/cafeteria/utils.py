@@ -133,7 +133,6 @@ def validar_set(valor, conjunto_validos: set, nombre: str = 'valor'):
 
 # ---------------------CONFIGURACION JWT -------------
 
-#esta funcion se encarga de generar un token especifico JWT en el momento de loguear un usuario
 def generar_jwt(usuario_id: int, rol: str):
     """Genera un JWT firmado con id de usuario, rol y expira tras 24h"""
     ahora = datetime.now(timezone.utc)
@@ -146,7 +145,7 @@ def generar_jwt(usuario_id: int, rol: str):
 
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
-#esta funcion se encarga de decodificar un token y verificar que sea valido (mantenga su firma) o haya expirado
+
 def decodificar_jwt(token: str):
     """decodifica un token y devuelve el payload en caso de ser valido, sino lanza excepcion"""
     try:
@@ -165,7 +164,7 @@ def decodificar_jwt(token: str):
         ), 401)
     
 
-#esto va para los decoradores, todo aquel que le contenga asegura que, si no sos usuario, te tire un 401(no autenticado)
+
 def requiere_auth(rol=None):
     """
     Decorador que valida el JWT del header Authorization e inyecta

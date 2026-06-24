@@ -7,8 +7,19 @@ from ..utils import requiere_auth
 
 usuarios_bp = Blueprint('usuarios_bp', __name__)
 
-#asi queda todo bastante más limpito, salvo por los mensajes de error
+"""
+INDICACIONES PARA EL CHEQUEO DE FUNCIONAMIENTO USANDO EL TOKEN A MANO:
 
+1. RECIBIR EL TOKEN DESDE LA RESPUESTA DEL POST DE LOGIN USANDO UNA CUENTA ADMIN
+    (http://localhost:5000/kaifer-api/login)
+
+2. TANTO PARA HACER GET Ó DELETE, ES NECESARIO:
+
+    IR A "Authorization" --> CAMBIAR 'Auth Type' A 'Bearer Token' --> PEGAR EL TOKEN
+
+Rutas:
+(http://localhost:5000/kaifer-api/usuarios),(DELETE http://localhost:5000/kaifer-api/usuarios/id)
+"""
 
 @usuarios_bp.route('/usuarios', methods=['GET'])
 @requiere_auth(rol='admin') #esto no es del todo necesario, solo buena práctica. No existe manejo de usuarios

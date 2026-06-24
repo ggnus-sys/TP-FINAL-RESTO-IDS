@@ -3,9 +3,13 @@ from ..constants import API_BASE_URL
 
 
 
+"""
+services/auth.py tiene las funciones que hacen los requests para la comunicación con la API.
 
-#services/auth.py tiene las funciones que hacen los requests para la comunicación con la API
-#el proposito de esto es facilitar el proceso de los datos y solo tener que leer el "ok" para verificar que las cosas se hicieron bien
+El proposito de esto es facilitar el proceso de los datos y solo tener que leer el "ok" para 
+verificar que las cosas se hicieron bien
+
+"""
 
  
 def login_api(email, password):

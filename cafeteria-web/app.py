@@ -11,7 +11,7 @@ from cafeteria.services.servicios_extra import obtener_servicios_extra
 from cafeteria.services.reservas import obtener_reservas
 from cafeteria.services.reviews import obtener_resenas
 from cafeteria.services.menu import obtener_menu
-from cafeteria.utils import requiere_login, usuario_actual
+from cafeteria.utils import requiere_login, usuario_actual, token_actual
 from flask_mail import Mail
 
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(name)s - %(message)s')
@@ -35,11 +35,16 @@ app.register_blueprint(menu_bp)
 app.register_blueprint(reviews_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(servicios_extra_bp)
-#app.register_blueprint(usuarios_bp)
-app.secret_key = os.getenv('SECRET_KEY', 'clave-kaifer') #cambié la clave anterior por una fija para que no se deslogueen los usuarios ya hechos cada vez que reiniciemos
-#tengo entendido que tanto acá como JWT_SECRET (en la api), lo ideal es que la clave se obtenga del env
-#con .getenv al no encontrar nada toma por default 'clave-kaifer' (mismo en en JWT_SECRET)
-#aunque la buena práctica sería que no esté hardcodeada acá xd
+
+app.secret_key = os.getenv('SECRET_KEY', 'clave-kaifer') 
+
+"""
+Tanto acá como JWT_SECRET (en la api), lo ideal es que la clave se obtenga del env
+con .getenv al no encontrar nada toma por default 'clave-kaifer' (mismo en en JWT_SECRET).
+
+En función de seguridad, eso sería lo ideal. Sin embargo así también funciona.
+"""
+
 
 
 @app.context_processor
@@ -76,7 +81,7 @@ def page_not_found(error):
 def admin():
     servicios_extra = obtener_servicios_extra()
     menu = obtener_menu()
-    reservas = obtener_reservas()
+    reservas = obtener_reservas(token_actual())
     resenas = obtener_resenas()
     if not servicios_extra or not menu:
         abort(404, description=f'No se encontro el servicios_extra.')

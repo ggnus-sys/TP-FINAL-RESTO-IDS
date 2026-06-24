@@ -7,9 +7,10 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-def crear_reserva(reserva):
+def crear_reserva(reserva, token):
     try:
-        response = requests.post(f'{API_BASE_URL}/reservas', json=reserva)
+        headers = { "Authorization": f"Bearer {token}" }
+        response = requests.post(f'{API_BASE_URL}/reservas', json=reserva, headers = headers)
         
         if response.status_code == 201:
             return response.json().get("id"), None
@@ -32,11 +33,12 @@ def crear_reserva(reserva):
     return False, None
 
 
-def obtener_reservas(fecha_especifica = None, usuario_especifico = None, estado = None):
+def obtener_reservas(token, fecha_especifica = None, usuario_especifico = None, estado = None):
     reservas = []
 
     try:
         
+        headers = { "Authorization": f"Bearer {token}" }
         filtros = {
             'fecha_especifica': fecha_especifica,
             'id_usuario': usuario_especifico,
@@ -46,7 +48,7 @@ def obtener_reservas(fecha_especifica = None, usuario_especifico = None, estado 
         filtros_no_nulos = {k: v for k, v in filtros.items() if v is not None}
         
         
-        response = requests.get(f'{API_BASE_URL}/reservas', params=filtros_no_nulos)
+        response = requests.get(f'{API_BASE_URL}/reservas', params=filtros_no_nulos, headers = headers)
         
         if response.status_code == 200:
             reservas = response.json()
@@ -104,7 +106,7 @@ def procesar_notificacion_reserva(id_reserva, usuario, fecha_completa):
     )
 
 
-def registrar_nueva_reserva(usuario_logueado, mesas, fecha_dia, fecha_hora):
+def registrar_nueva_reserva(usuario_logueado, mesas, fecha_dia, fecha_hora, token):
     
     if not fecha_dia or not fecha_hora or not fecha_dia.strip() or not fecha_hora.strip():
         return ["El campo dia y hora no pueden estar vacíos"], "error"
@@ -119,7 +121,7 @@ def registrar_nueva_reserva(usuario_logueado, mesas, fecha_dia, fecha_hora):
             "estado_reserva" : 'pendiente'
     }
         
-    id_reserva, error = crear_reserva(body)
+    id_reserva, error = crear_reserva(body, token)
 
     if id_reserva:
 

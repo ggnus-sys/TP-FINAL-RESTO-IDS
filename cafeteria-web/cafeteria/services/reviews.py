@@ -31,7 +31,7 @@ def eliminar_resena(id: int, token: str) -> bool:
         headers = { "Authorization": f"Bearer {token}" }
         response = requests.delete(f'{API_BASE_URL}/resenas/{id}', headers=headers)
         if response.status_code == 204:
-            return True # devuelve true si se eliminó, puedo poner para que salga algún mensajito como gonza sino
+            return True
         
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
@@ -49,7 +49,7 @@ def crear_resena(resena: dict, token: str) -> bool:
         headers = { "Authorization": f"Bearer {token}" }
         response = requests.post(f'{API_BASE_URL}/resenas', json=resena, headers=headers)
         if response.status_code == 201:
-            return True # devuelve true si se creó, pero también puedo cambiarlo a un mensajito
+            return True 
         
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
