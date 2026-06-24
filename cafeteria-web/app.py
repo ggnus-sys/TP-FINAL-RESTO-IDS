@@ -4,6 +4,7 @@ from flask import Flask, render_template, send_file, request, abort
 from cafeteria.routes.reservas import reservas_bp
 from cafeteria.routes.menu import menu_bp
 from cafeteria.routes.reviews import reviews_bp
+from cafeteria.services.reviews import obtener_resenas
 from cafeteria.routes.auth import auth_bp
 from cafeteria.services.mailer import enviar_qr_confirmacion_reserva
 from cafeteria.routes.servicios_extra import servicios_extra_bp
@@ -47,7 +48,8 @@ def inject_usuario():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    resenas = obtener_resenas() or []
+    return render_template('index.html', resenas=resenas)
 
 
 @app.route('/about')
