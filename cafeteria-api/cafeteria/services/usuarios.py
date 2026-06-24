@@ -15,14 +15,12 @@ def construir_usuario_dto(usuario: dict) -> dict:
 
 
 def listar_usuarios():
-    #chequear... no debería pasar nada 
     conn = None
     cursor = None
 
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
-        #esto tal vez podría modularizarse (leo usa db)
         cursor.execute("SELECT * FROM usuarios")
         usuarios = cursor.fetchall()
         return [construir_usuario_dto(usuario) for usuario in usuarios]
@@ -75,7 +73,6 @@ def eliminar_usuario(id):
 
         cursor.execute("SELECT id FROM usuarios WHERE id = %s", (id,))
 
-        #chequeo existencia
         if not cursor.fetchone():
             raise ValueError(f"No existe un usuario con id {id}", 404)
 

@@ -1,4 +1,5 @@
 import logging
+import token
 import requests
 from ..constants import API_BASE_URL
 
@@ -63,12 +64,13 @@ def agregar_servicio_extra(nombre_servicio: str, descripcion: str, token: str) -
             "errores": [f"Error al agregar servicio extra: {e}"]
         }
     
-def borrar_servicio_extra(servicio_extra_id: int) -> dict:
+def borrar_servicio_extra(servicio_extra_id: int, token: str) -> dict:
     """Elimina un servicio_extra del menú a través del endpoint del backend."""
     try:
-        response = requests.delete(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}')
+        headers = {'Authorization': f'Bearer {token}'}
+        response = requests.delete(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}', headers=headers)
         return {
-            "ok": response.status_code == 200,
+            "ok": response.status_code == 204,
         }
 
     except requests.exceptions.ConnectionError:
@@ -83,14 +85,15 @@ def borrar_servicio_extra(servicio_extra_id: int) -> dict:
             "errores": [f"Error al eliminar servicio extra: {e}"]
         }
 
-def modificar_servicio_extra(servicio_extra_id: int, nombre_servicio: str, descripcion: str) -> dict:
+def modificar_servicio_extra(servicio_extra_id: int, nombre_servicio: str, descripcion: str, token: str) -> dict:
     """Modifica un servicio extra del menú a través del endpoint del backend."""
     try:
         payload = {
             "nombre_servicio": nombre_servicio,
             "descripcion": descripcion,
         }
-        response = requests.patch(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}', json=payload)
+        headers = {'Authorization': f'Bearer {token}'}
+        response = requests.patch(f'{API_BASE_URL}/servicios_extra/{servicio_extra_id}', json=payload, headers=headers)
         return {
             "ok": response.status_code == 200,
         }

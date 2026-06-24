@@ -3,9 +3,13 @@ from ..constants import API_BASE_URL
 
 
 
+"""
+services/auth.py tiene las funciones que hacen los requests para la comunicación con la API.
 
-#services/auth.py tiene las funciones que hacen los requests para la comunicación con la API
-#el proposito de esto es facilitar el proceso de los datos y solo tener que leer el "ok" para verificar que las cosas se hicieron bien
+El proposito de esto es facilitar el proceso de los datos y solo tener que leer el "ok" para 
+verificar que las cosas se hicieron bien
+
+"""
 
  
 def login_api(email, password):
@@ -26,7 +30,7 @@ def login_api(email, password):
 
 
     except Exception as e:
-        return {'ok': False, 'errores': [f'No se pudo conectar con la API: {e}']}
+        return {'ok': False, 'errores': ['Algo salió mal de nuestro lado. Por favor intentá de nuevo en unos minutos.']}
     
 
 def register_api (nombre, apellido, email, password):
@@ -48,6 +52,6 @@ def register_api (nombre, apellido, email, password):
             return {'ok': False, 'errores': mensajes}
 
     except Exception as e:
-        return {'ok': False, 'errores': [f'No se pudo conectar con la API: {e}']}
+        return {'ok': False, 'errores': ['Algo salió mal de nuestro lado. Por favor intentá de nuevo en unos minutos.']}
     
 

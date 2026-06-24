@@ -20,17 +20,6 @@
 {% endblock %}
 
 {% block content %}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
-		<div class="container" style="margin-top:15px;">
-			{% for category, message in messages %}
-				<div class="alert alert-{{ 'danger' if category == 'error' else 'success' }}">{{ message }}</div>
-			{% endfor %}
-		</div>
-	{% endif %}
-{% endwith %}
-
 <script>
         function togglePopup(id) {
             const overlay = document.getElementById('popupOverlay' + id);
@@ -221,14 +210,14 @@
         
         <div class="row">
             <div class="col-md-12 fh5co-heading animate-box">
-                <h2>Listado Global de Reservas</h2>
+                <h2>Listado de reservas</h2>
             </div>
             
             <div class="scrollable-table">
                 <table class="table table-striped" id="reservas-table">
                     <thead>
                         <tr>
-                            <th>Código/ID</th>
+                            <th>ID</th>
                             <th>ID Usuario</th> <th>Mesas Solicitadas</th>
                             <th>Fecha y Hora</th>
                             <th>Estado</th>
@@ -247,13 +236,55 @@
                             
                             <td>
                                 {% if reserva.estado_reserva == 'pendiente' %}
-                                    <span class="label label-warning" style="background-color: #f0ad4e; padding: 4px 8px; color: white; border-radius: 4px;">Pendiente</span>
+                                    <span class="label label-warning" >Pendiente</span>
                                 {% elif reserva.estado_reserva == 'confirmada' %}
-                                    <span class="label label-success" style="background-color: #5cb85c; padding: 4px 8px; color: white; border-radius: 4px;">Confirmada</span>
+                                    <span class="label label-success">Confirmada</span>
                                 {% else %}
-                                    <span class="label label-danger" style="background-color: #d9534f; padding: 4px 8px; color: white; border-radius: 4px;">Cancelada</span>
+                                    <span class="label label-danger">Cancelada</span>
                                 {% endif %}
                             </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="fh5co-section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12 fh5co-heading animate-box">
+                <h2>Listado de reseñas</h2>
+            </div>
+            
+            <div class="scrollable-table">
+                <table class="table table-striped" id="resenas-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID Usuario</th>
+                            <th>Contenido</th>
+                            <th>Estrellas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                    {% for resena in resenas %}
+                        <tr>
+                            <td>#{{ resena.id }}</td>
+                            
+                            <td><strong>{{ resena.id_usuario }}</strong></td>
+                            
+                            <td>{{ resena.contenido }}</td>
+                            
+                            <td>{{ resena.estrellas }}</td>
+
+							<td>
+								<a href="{{ url_for('reviews_bp.delete_resena', id=resena.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+							</td>
                         </tr>
                     {% endfor %}
                     </tbody>

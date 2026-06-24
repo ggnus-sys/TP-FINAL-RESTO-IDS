@@ -5,7 +5,7 @@ from ..services.auth import registrar_usuario, login_usuario
 auth_bp = Blueprint('auth_bp', __name__)
 
 
-#TODO:grandisima funcion de leo, en el trello me voy a poner para hacer algo parecido en usuarios y dejarlo más limpito
+
 
 # ------------------- wrapper manejo errores-----------------------------
 def _ejecutar(funcion, status_ok=200):

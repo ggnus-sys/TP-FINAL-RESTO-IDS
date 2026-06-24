@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from ..services.reservas import registrar_nueva_reserva, confirmar_reserva, cancelar_reserva, obtener_reservas
-from ..utils import requiere_login, usuario_actual, validar_string_no_vacio
+from ..utils import requiere_login, usuario_actual, validar_string_no_vacio, token_actual
+
 
 reservas_bp = Blueprint('reservas_bp', __name__)
 
@@ -15,7 +16,7 @@ def reservas():
         fecha_dia = request.form.get("fecha_dia")   
         fecha_hora = request.form.get("fecha_hora")
         
-        mensajes, categoria = registrar_nueva_reserva(usuario_logueado, mesas, fecha_dia, fecha_hora)
+        mensajes, categoria = registrar_nueva_reserva(usuario_logueado, mesas, fecha_dia, fecha_hora, token_actual())
         
         for mensaje in mensajes:
             flash(mensaje, categoria)

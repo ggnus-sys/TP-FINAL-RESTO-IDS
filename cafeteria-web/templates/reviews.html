@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}Kaifer &mdash; Reseñas{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/reviews.js') }}"></script>
+{% endblock %}
 
 {% block header_banner %}
 <div id="fh5co-header" class="fh5co-cover js-fullheight" style="background-image: url({{ url_for('static', filename='images/fondo_resenias.png') }});" data-stellar-background-ratio="0.5">

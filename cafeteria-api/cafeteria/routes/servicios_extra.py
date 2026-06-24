@@ -57,9 +57,9 @@ def buscar_servicios_extra():
         }), 500
 
     
-#TODO: chequeo de rol admin
+
 @servicios_extra_bp.route('/servicios_extra', methods=['POST'])
-@requiere_auth()
+@requiere_auth(rol = 'admin')
 def agregar_servicios_extra():
 
     datos = (request.json)
@@ -121,6 +121,7 @@ def obtener_servicio_extra(id):
 
 
 @servicios_extra_bp.route('/servicios_extra/<int:id>', methods=['PATCH'])
+@requiere_auth(rol = 'admin')
 def modificar_servicios_extra(id):
     
     conn = None
@@ -159,6 +160,7 @@ def modificar_servicios_extra(id):
         }), 500
     
 @servicios_extra_bp.route('/servicios_extra/<int:id>', methods=['DELETE'])
+@requiere_auth(rol = 'admin')
 def borrar_servicio_extra(id):
 
     if id == 0:

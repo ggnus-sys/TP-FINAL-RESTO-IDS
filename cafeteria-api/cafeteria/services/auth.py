@@ -1,5 +1,3 @@
-# la idea de auth es mantener la lógica detras del manejo de endpoints que van a estar en routes
-# TODO: despueés borrar este mensaje, es para explicar la idea nomas
 from ..db import obtener_usuario_por_email
 from ..validators.usuarios import validar_body_usuario, validar_body_login
 from ..utils import generar_jwt, verificar_password, construir_error_api

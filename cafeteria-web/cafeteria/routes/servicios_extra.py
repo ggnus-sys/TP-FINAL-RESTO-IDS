@@ -47,8 +47,9 @@ def admin_servicios_extra():
     return redirect(url_for('admin'))
 
 @servicios_extra_bp.route('/servicios-extra/delete/<int:servicio_extra_id>', methods=['GET'])
+@requiere_login(rol='admin')
 def delete_servicio_extra(servicio_extra_id):
-    resultado = borrar_servicio_extra(servicio_extra_id)
+    resultado = borrar_servicio_extra(servicio_extra_id, token_actual())
     if resultado.get('ok'):
         flash('servicio extra eliminado con éxito.', 'success')
     else:
@@ -58,6 +59,7 @@ def delete_servicio_extra(servicio_extra_id):
     return redirect(url_for('servicios-extra.admin_servicios_extra'))
 
 @servicios_extra_bp.route('/servicios-extra/edit/<int:servicio_extra_id>', methods=['GET', 'POST'])
+@requiere_login(rol='admin')
 def editar_servicio_extra(servicio_extra_id):
     if request.method == 'GET':
         servicio_extra = obtener_servicio_extra(servicio_extra_id)
@@ -80,7 +82,7 @@ def editar_servicio_extra(servicio_extra_id):
                 flash(error, 'error')
             return redirect(url_for('servicios-extra.editar_servicio_extra', servicio_extra_id=servicio_extra_id))
 
-        resultado = modificar_servicio_extra(servicio_extra_id, nombre_servicio, descripcion)
+        resultado = modificar_servicio_extra(servicio_extra_id, nombre_servicio, descripcion, token_actual())
 
         if resultado.get('ok'):
             flash('servicio extra editado con exito.', 'success')

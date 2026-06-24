@@ -62,9 +62,9 @@ def buscar_platos_menu():
             }]
         }), 500
 
-#TODO: chequeo de rol admin
+
 @menu_bp.route('/menu', methods=['POST'])
-@requiere_auth()
+@requiere_auth(rol='admin')
 def agregar_platos_menu():
 
     datos = (request.json)
@@ -126,9 +126,8 @@ def obtener_plato_menu(id):
         }), 500
 
 
-#TODO: chequeo de rol admin
 @menu_bp.route('/menu/<int:id>', methods=['PATCH'])
-@requiere_auth()
+@requiere_auth(rol='admin')
 def modificar_platos_menu(id):
 
     RESTRICCIONES_VALIDAS = ['vegetariano', 'vegano', 'sin_lactosa', 'sin_gluten']
@@ -168,9 +167,9 @@ def modificar_platos_menu(id):
             }]
         }), 500
 
-#TODO: chequeo admin
+
 @menu_bp.route('/menu/<int:id>', methods=['DELETE'])
-@requiere_auth()
+@requiere_auth(rol='admin')
 def borrar_plato_menu(id):
 
     if id == 0:
