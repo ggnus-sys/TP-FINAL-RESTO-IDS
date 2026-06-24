@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from ..services.reservas import listar_reservas, crear_reserva, quitar_reserva, cambiar_estado_reserva
 from ..validators.reservas import validar_body_reserva, validar_body_estado
-from ..utils import requiere_auth
+from ..utils import validar_entero, validar_formato_fecha, requiere_auth, validar_set
+from ..constants import FORMATO_FECHA, ESTADOS_VALIDOS
 
 
 reservas_bp = Blueprint('reservas_bp', __name__)
@@ -15,6 +16,13 @@ def obtener_reservas():
         usuario_especifico = request.args.get('id_usuario')
         estado = request.args.get('estado')
 
+        if usuario_especifico:
+            validar_entero(usuario_especifico, 'id_usuario')
+        if fecha_especifica:
+            validar_formato_fecha(fecha_especifica, FORMATO_FECHA)
+        if estado:
+            validar_set(estado, ESTADOS_VALIDOS, "estado_reserva")
+        
         reservas = listar_reservas(fecha_especifica=fecha_especifica, usuario_especifico=usuario_especifico, estado=estado)
 
         if not reservas:
@@ -22,10 +30,12 @@ def obtener_reservas():
         
         return jsonify(reservas), 200
     
-    except Exception as e:
-        return jsonify({"errors": [{"code": "500", "message": "Error interno", "level": "error", "description": str(e)}]}), 500
-    
+    except ValueError as e:
+        return jsonify(e.args[0]), 400
 
+    except Exception as e:
+        return jsonify({"errors": [{"code": "internal.server.error", "message": "Error interno del servidor", "level": "error", "description": str(e)}]}), 500
+        
 @reservas_bp.route('/reservas', methods=['POST'])
 def anadir_reserva(): 
 
