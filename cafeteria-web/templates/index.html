@@ -85,47 +85,43 @@
 	</div>
 </div>
 
-<!-- RESEÑAS -->
-<div id="fh5co-testimony" class="fh5co-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-				<h2>Lo que dicen nuestros clientes</h2>
-				<p class="reviews-subtitle">Más que un café, una experiencia.</p>
-			</div>
+<!-- APARTADO RESENIAS -->
+<div class="row text-center fh5co-heading row-pb-md animate-box">
+    <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+        <h2>Lo que dicen nuestros clientes</h2>
+		<div class="reviews-home-text">
+			<p>
+				<strong>¡Tu opinión nos importa!</strong><br>
+				Contanos cómo fue tu visita a Kaifer y ayudanos a seguir creciendo.
+				También podés leer las opiniones de otros clientes y conocer sus experiencias.<br>
+				¡Cada opinión cuenta!.
+			</p>
 		</div>
-	</div>
-</div>
-
-<!-- BOTÓN ABAJO -->
-<div class="review-button-container">
-    <button id="openReviewModal" class="btn btn-primary btn-outline">
-        Ver reseñas
-    </button>
-</div>
-			<!-- MODAL RESEÑA -->
-<div id="reviewModal" class="review-modal">
-    <div class="review-modal-content">
-        <span class="close-modal">&times;</span>
-        <h2> Dejar una reseña </h2>
-
-        <!-- CARTEL ERROR -->
-        <div id="reviewError" class="review-error">
-            Completá todos los campos y seleccioná una cantidad de estrellas.
-        </div>
-        <input type="text" id="reviewName" placeholder="Tu nombre">
-        <textarea id="reviewText" placeholder="Escribí tu experiencia..."></textarea>
-        <div class="star-rating">
-            <span class="star" data-value="1">★</span>
-            <span class="star" data-value="2">★</span>
-            <span class="star" data-value="3">★</span>
-            <span class="star" data-value="4">★</span>
-            <span class="star" data-value="5">★</span>
-        </div>
-        <button id="submitReview" class="btn btn-primary">
-            Enviar reseña
-        </button>
+		<div class="reviews-slider">
+			{% for resena in resenas[:3] %}
+			<div class="home-review-card">
+				<p> "{{ resena.contenido }}" </p>
+				<span> {{ resena.nombre }} {{ resena.apellido }} </span>
+				<div class="home-stars">
+					{% for i in range(resena.estrellas) %}
+						★
+					{% endfor %}
+					{% for i in range(5 - resena.estrellas) %}
+						☆
+					{% endfor %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
     </div>
+</div>
+
+<!-- BOTON VER RESENIAS -->
+<div class="review-button-ver container">
+    <a href="{{ url_for('reviews_bp.get_resenas') }}"
+       class="btn btn-primary btn-outline">
+        Ver más reseñas
+    </a>
 </div>
 
 {% endblock %}

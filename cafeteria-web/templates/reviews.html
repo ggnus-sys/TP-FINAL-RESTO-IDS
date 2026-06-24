@@ -24,7 +24,6 @@
 {% endblock %}
 
 {% block content %}
-
 <div id="fh5co-featured-testimony" class="fh5co-section">
 	<div class="container review-container">
 		<div class="row">
@@ -32,6 +31,19 @@
 				<h2>Dejá tu reseña</h2>
 			</div>
 		</div>
+		<div class="review-average">
+			<h3>Calificación promedio</h3>
+			<div class="average-stars">
+				{% for i in range(promedio|round|int) %}
+					★
+				{% endfor %}
+				{% for i in range(5 - (promedio|round|int)) %}
+					☆
+				{% endfor %}
+			</div>
+		<p>{{ "%.1f"|format(promedio) }} / 5</p>
+		<span> Basado en {{ cantidad }} reseñas </span>
+	</div>
 		<div class="row">
 			{% for resena in resenas %}
 			<div class="col-md-4 animate-box">
@@ -50,14 +62,12 @@
 					</div>
 				</div>
 				{% endfor %}
+
 			</div>
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 review-form-box">
 				{% if usuario %}
-				<div id="reviewError"
-					style="display:none;
-					color:red;
-					margin-bottom:15px;">
+				<div id="reviewError" class="review-error">
 					Completá todos los campos y seleccioná una cantidad de estrellas.
 				</div>
 				<form action="{{ url_for('reviews_bp.get_resenas') }}" method="post">
@@ -96,7 +106,7 @@
 						</div>
 						</div>
 					</div>
-					<div class="row form-group">
+					<div class="row form-group text-center">
 						<div class="col-md-12">
 							<input type="submit" class="btn btn-primary btn-outline btn-lg" value="Enviar reseña">
 						</div>
@@ -104,7 +114,7 @@
 
 					{% else %}
 					<div class="alert alert-warning">
-						Debés iniciar sesión para dejar una reseña.
+						Inicia sesión para dejar una reseña.
 						<br><br>
 						<a href="{{ url_for('auth.login') }}"
 						class="btn btn-primary">
@@ -119,44 +129,5 @@
 	</div>
 </div>
 
-<div id="reviewError" class="review-error">
-    Completá todos los campos y seleccioná una cantidad de estrellas.
-</div>
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    const stars = document.querySelectorAll('.star');
-    const input = document.getElementById('estrellas');
-    stars.forEach(star => {
-        star.addEventListener('click', function() {
-            const value = this.dataset.value;
-            input.value = value;
-            stars.forEach(s => {
-                if (parseInt(s.dataset.value) <= value) {
-                    s.classList.add('active');
-                } else {
-                    s.classList.remove('active');
-                }
-            });
-        });
-    });
-
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
-        const contenido = document.getElementById('contenido').value.trim();
-        const estrellas = document.getElementById('estrellas').value;
-        if (!contenido || !estrellas) {
-			e.preventDefault();
-            document.getElementById('reviewError')
-			.style.display = 'block';
-        }
-
-    });
-
-});
-
-</script>
 {% endblock %}
 
