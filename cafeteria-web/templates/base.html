@@ -69,6 +69,7 @@
 							<li><a href="{{ url_for('reviews_bp.get_resenas') }}">Reseñas</a></li>
 							<li><a href="{{ url_for('about') }}">Acerca de nosotros</a></li>
 							<li><a href="{{ url_for('contact') }}">Contacto</a></li>
+							<li><a href="{{ url_for('servicios-extra.detalle_servicios_extra') }}">servicios extras</a></li>
 						{% if usuario_sesion %}
 							<li class="has-dropdown">
 								<a href="#">{{ usuario_sesion.nombre }}</a>
@@ -124,7 +125,7 @@
 						<li><a href="{{ url_for('reservas_bp.reservas') }}">Reservas</a></li>
 						<li><a href="{{ url_for('reviews_bp.get_resenas') }}">Reseñas</a></li>
 						<li><a href="{{ url_for('contact') }}">Contacto</a></li>
-					</ul>
+						<li><a href="{{ url_for('servicios-extra.detalle_servicios_extra') }}">Servicios Extra</a></li>					</ul>
 				</div>
 
 				<div class="col-md-4 col-md-push-1 fh5co-widget">
